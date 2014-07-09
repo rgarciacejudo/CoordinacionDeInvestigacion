@@ -32,16 +32,17 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-    public $components = array('Auth' => array(
-            'loginRedirect' => array(
-                'controller' => 'posts',
-                'action' => 'index'
-            ),
-            'logoutRedirect' => array(
-                'controller' => 'pages',
-                'action' => 'display',
-                'home'
-            )
+    public $components = array(
+        'Session',
+        'Auth' => array(
+            'loginAction' => array('controller' => 'account', 'action' => 'login'),
+            'loginRedirect' => array('controller' => 'home', 'action' => 'index'),
+            'logoutRedirect' => array('controller' => 'home', 'action' => 'index', 'home'),
+            'authError' => 'Debes iniciar sesión para ingresar a esta función.',
+            'loginError' => 'Usuario o contraseña inválidos.'
     ));
 
+    public function beforeFilter(){
+        $this->Auth->allow('login', 'display');
+    }  
 }

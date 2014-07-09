@@ -1,73 +1,44 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 5/07/2014, 06:17:47 PM
-    Author     : rgarcia
-*/
+.transparent{
+	background: transparent;
+}
 
-/* Tags */
-/*body{
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif    
+.custom-side-bar{
+	background: #BBA935;
+	border-radius: 0px 3px 3px 0px;
+	border: none;
+}
+
+/*.row{
+	max-width: 80rem;
 }*/
 
-header{
-    padding: 1em 0;
-    background: #FAFAFA;
+figure{
+	margin: 0;
 }
 
 footer{
-    padding: 1em 0;
-    background: #F5F5F5;
-    color: gray;
+	background: #103B1B;
 }
 
-footer a,
-footer p,
-footer span{
-    font-size: 12px;
-}
-
-form{
-    padding: 15px;
-}
-
-/* Generic classes */
-.center-text{
-    text-align: center;
-}
-.center-block{
-    margin: 0 auto;
-}
-
-.absolute{
-    position: absolute;
-}
-
-.relative{
-    position: relative;
-}
-
-.right-0{
-    right: 0;
-}
-
-/* Custom styles */
-.title-header{
-    padding-left: 0.2em;
-    color: #666;
-}
-
-.topic-footer{
-    border-bottom: 2px solid #aaa;
-}
-
-.copyright-footer{
-    border-top: 1px solid #aaa;
-    padding-top: 10px;
-    width: 100%;
-    text-align: center;
-    display: block;
-}
+.footer-nav{
+	margin: 0;
+	text-align: center;
+	padding: 1em;
+	font-size: 11px;
+	color: white; }	
+	.footer-nav li{
+		list-style: none;
+		margin: 1em; }
+		.footer-nav li label{
+			font-size: 12px;
+			cursor: default;
+			list-style: none;
+			color: white;
+			padding-bottom: 0.5em;
+			margin-bottom: 1em; }
+		.footer-nav li a{
+			color: white; }
+			.footer-nav li a:hover{
+				color: #968411; }
+	.footer-nav p{
+		font-size: 11px; }

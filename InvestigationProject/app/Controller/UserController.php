@@ -4,7 +4,7 @@
  * Control para la administración de cuentas
  */
 
-class AccountController extends Controller {
+class UserController extends Controller {
 
     /**
      * Función principal para el inicio de sesión
@@ -17,6 +17,10 @@ class AccountController extends Controller {
             }
             //TODO: Lógica de inicio de sesión
         }
+    }
+    
+    public function register(){
+        $this->set('page_name', 'Registrar usuario');
     }
 
 }

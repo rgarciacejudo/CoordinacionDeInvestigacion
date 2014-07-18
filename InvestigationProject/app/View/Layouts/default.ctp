@@ -82,11 +82,11 @@
                             </li>
                             <li class="divider" style="margin: 0 0.5em;">                                
                             </li>
-                            <li <?php echo ($this->params['controller'] == 'account' ? 
+                            <li <?php echo ($this->params['controller'] == 'user' ? 
                                     'class = "active"' : ''); ?>>
                                 <?php
                                 echo $this->Html->link('Iniciar sesión', array(
-                                    'controller' => 'account',
+                                    'controller' => 'user',
                                     'action' => 'login'
                                     )
                                 );

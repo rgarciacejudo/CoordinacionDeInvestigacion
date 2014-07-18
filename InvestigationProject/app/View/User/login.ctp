@@ -7,7 +7,8 @@
                 <?php
                 echo $this->Form->input('username', array(
                     'label' => false,
-                    'placeholder' => 'Usuario'
+                    'placeholder' => 'usuario',
+                    'class' => 'radius'
                 ));
                 ?>
             </label>
@@ -19,7 +20,8 @@
                 <?php
                 echo $this->Form->input('password', array(
                     'label' => false,
-                    'placeholder' => 'Contraseña'
+                    'placeholder' => 'contraseña',
+                    'class' => 'radius'
                 ));
                 ?>
             </label>
@@ -45,12 +47,8 @@
     $(document).ready(function() {
         $('#LoginLoginForm').validate({
             rules: {
-                'data[Login][username]': {required: true},
+                'data[Login][username]': {required: true, email: true},
                 'data[Login][password]': {required: true}
-            },
-            messages: {
-                'data[Login][username]': "El usuario es requerido",
-                'data[Login][password]': "La contraseña es requerida"
             }
         });
     });

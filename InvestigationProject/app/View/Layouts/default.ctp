@@ -10,7 +10,7 @@
     <?php echo $this->Html->css(array('foundation', 'normalize', 'style')); ?>
     <?php echo $this->Html->script(array('vendor/modernizr', 'vendor/jquery', 'vendor/fastclick', 'foundation.min')); ?>
 </head>
-<body>	
+<body>
     <header class="row">
         <figure>
             <?php echo $this->Html->image('logo_principal.png', array(
@@ -24,7 +24,7 @@
                     <h1><?php
                     echo $this->Html->link('Coordinación de Investigación', array(
                         'controller' => 'home',
-                        'action' => 'index'
+                        'action' => 'display'
                         ));
                         ?></h1>
                     </li>
@@ -34,65 +34,41 @@
 
                 <section class="top-bar-section">
                     <ul class="left">
-                        <li <?php echo $this->params['controller'] == 'home' ? 
-                            'class = "active"' : ''; ?>>
-                            <?php echo $this->Html->link('Inicio', array(
-                                'controller' => 'home', 
-                                'action' => 'index')) ;?>
-                            </li>
+                         <li <?php echo $this->params['controller'] == 'home' ? 
+                        'class = "active"' : ''; ?>>
+                        <?php echo $this->Html->link('Inicio', array(
+                            'controller' => 'home', 
+                            'action' => 'display')) ;?>
+                        </li>
+                        <?php if ($this->Session->read('Auth.User.id') == null) { ?>                       
                             <li <?php echo ($this->params['controller'] == 'section' ? 
                                     'class = "active"' : ''); ?>>
                                 <?php
                                 echo $this->Html->link('Secciones', array(
                                     'controller' => 'section',
-                                    'action' => 'index'
+                                    'action' => 'display'
                                     )
                                 );?>
-                            </li>
-                            <li <?php echo ($this->params['controller'] == 'project' ? 
-                                    'class = "active"' : ''); ?>>
-                                <?php
-                                echo $this->Html->link('Proyectos', array(
-                                    'controller' => 'project',
-                                    'action' => 'index'
-                                    )
-                                );?>
-                            </li>
-                            <li <?php echo ($this->params['controller'] == 'network' ? 
-                                    'class = "active"' : ''); ?>>
-                                <?php
-                                echo $this->Html->link('Redes Colaborativas', array(
-                                    'controller' => 'network',
-                                    'action' => 'index'
-                                    )
-                                );?>
-                            </li>
-                            <li <?php echo ($this->params['controller'] == 'member' ? 
-                                    'class = "active"' : ''); ?>>
-                                <?php
-                                echo $this->Html->link('Integrantes', array(
-                                    'controller' => 'member',
-                                    'action' => 'index'
-                                    )
-                                );?>
-                            </li>
-                            <li class="divider" style="margin: 0 0.5em;">                                
                             </li>
                             <li <?php echo ($this->params['controller'] == 'user' ? 
                                     'class = "active"' : ''); ?>>
                                 <?php
-                                echo $this->Html->link('Iniciar sesión', array(
-                                    'controller' => 'user',
-                                    'action' => 'login'
+                                echo $this->Html->link('Integrantes', array(
+                                    'controller' => 'member',
+                                    'action' => 'display'
                                     )
                                 );?>
-                            <?php if ($this->Session->read('Auth.User.id') == null) {
-                                echo $this->element('member_menu', array(
-                                    'controller' => $this->params['controller']));
+                            </li>
+                            <?php 
                             } else {
                                 switch ($this->Session->read('Auth.User.role')){
-                                    case 'admin':
-                                    echo $this->element('admin_menu', array(
+                                    case 'super_admin':
+                                    echo $this->element('super_admin_menu', array(
+                                        'controller' => $this->params['controller'],
+                                        'action' => $this->params['action']));
+                                    break;
+                                    case 'ca_admin':
+                                    echo $this->element('ca_admin_menu', array(
                                     'controller' => $this->params['controller']));
                                     break;
                                     case 'member':
@@ -101,16 +77,36 @@
                                     break;
                                 }
                             } ?>
-                            <li class="divider" style="margin: 0 0.5em;"></li>
-                            <li <?php echo $this->params['controller'] == 'account' ? 
-                                'class = "active"' : ''; ?>>
+                            <li class="divider" style="margin: 0 0.5em;"></li>                            
+                            <?php if ($this->Session->read('Auth.User.id') != null) {?>
+                            <li class="has-dropdown <?php echo $this->params['controller'] == 'user' 
+                                    && ($this->params['action'] == 'edit' or $this->params['action'] != 'manage')  ? 
+                                    'active' : ''; ?>">
+                                <?php echo $this->Html->link($this->Session->read('Auth.User.username'), array(
+                                    'controller' => 'user',
+                                    'action' => 'edit'));  ?>
+                                <ul class="dropdown">
+                                    <li>
+                                        <?php echo $this->Html->link('Modificar perfil', array(
+                                            'controller' => 'user',
+                                            'action' => 'edit')); ?>
+                                    </li>
+                                    <li>
+                                        <?php echo $this->Html->link('Ver perfil', array(
+                                            'controller' => 'user',
+                                            'action' => 'view')); ?>
+                                    </li>
+                                </ul>
+                            </li>
+                            <?php }?>
+                            <li>
                                 <?php if ($this->Session->read('Auth.User.id') == null) {
                                     echo $this->Html->link('Iniciar sesión', array(
-                                        'controller' => 'account',
+                                        'controller' => 'user',
                                         'action' => 'login'));                              
                                 } else {
                                     echo $this->Html->link('Cerrar sesión', array(
-                                        'controller' => 'account',
+                                        'controller' => 'user',
                                         'action' => 'logout')); 
                                 }?>                                
                             </li>
@@ -141,7 +137,7 @@
                             </ul>
                         </aside>
                         <section class="main-section">                        
-                            <?php echo $this->Session->flash(); ?>
+                            <?php echo $this->Session->flash(); ?>                            
                             <?php echo $this->fetch('content'); ?>
 <!--                            <div class="medium-4 large-3 columns">
                         <div class="hide-for-small">

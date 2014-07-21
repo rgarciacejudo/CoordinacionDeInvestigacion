@@ -12,5 +12,5 @@
  * @author rgarcia
  */
 class Member extends AppModel {
-    //put your code here
+    
 }

@@ -49,7 +49,6 @@
     ));
     ?>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $('#LoginLoginForm').validate({
@@ -58,5 +57,14 @@
                 'data[User][password]': {required: true}
             }
         });
+        $(function(){
+        var autocompletar = <?php echo json_encode($users); ?>;        
+         $("#UserUsername").autocomplete({
+           source: autocompletar,           
+           select: function (event, ui) {            
+                console.log(ui.item);                
+            }
+         });
+  });
     });
 </script>

@@ -35,6 +35,7 @@ footer{
             cursor: default;
             list-style: none;
             color: white;
+         
             padding-bottom: 0.5em;
             margin-bottom: 1em; }
         .footer-nav li a{
@@ -48,6 +49,7 @@ footer{
     background: #f7f7f4;
     border: 1px solid #eaeaea;
     padding: 1.5em;
+    overflow: auto;
 }
 
 h4{
@@ -63,6 +65,18 @@ h4{
     margin: 0 auto;
 }
 
-.input.date select{
-    width: 32%;
+.inline-block{
+    display: inline-block;
+}
+
+select,
+textarea{
+    margin-bottom: 1rem;
+}
+
+.searching,
+.searching:focus{
+    background: url(../img/loading.gif) no-repeat !important;
+    background-origin: content-box !important;
+    background-position: right !important;
 }

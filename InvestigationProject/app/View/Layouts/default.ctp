@@ -14,7 +14,7 @@
     <header class="row">
         <figure>
             <?php echo $this->Html->image('logo_principal.png', array(
-                'alt' => 'Corrdinación de Investigación',
+                'alt' => 'Coordinación de Investigación',
                 'width' => '100%'));
             ?>                
         </figure>

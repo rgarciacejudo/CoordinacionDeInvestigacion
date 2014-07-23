@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+App::uses('AppModel', 'Model');
 /**
  * Modelo para la tabla users
  *
@@ -14,6 +14,8 @@
 class User extends AppModel {
 
     public $hasOne = 'Member';
+    public $hasMany = array('AcademicGroup', 'Experience');
+
     public $validate = array(
         'username' => array(
             'required' => array(

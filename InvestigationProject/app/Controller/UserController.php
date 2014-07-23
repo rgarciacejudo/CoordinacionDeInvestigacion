@@ -8,13 +8,11 @@ App::uses('CakeEmail', 'Network/Email');
 
 class UserController extends AppController {
 
-    var $components = array('Email');
-
     /**
      * Función principal para el inicio de sesión
      */
-    public function login() {
-        $this->set('page_name', 'Iniciar sesión');
+    public function login() {    
+        $this->set('page_name', 'Iniciar sesión');        
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
                 if ($this->data['User']['username'] === null or $this->data['User']['password'] === null) {
@@ -37,33 +35,27 @@ class UserController extends AppController {
     public function register() {
         $this->set('page_name', 'Registrar usuario');
         if ($this->request->is('post')) {
-            if (!empty($this->data)) {
-                if ($this->data['User']['username'] === null) {
-                    $this->Session->setFlash('Debe ingresar todos los datos.', 'alert-message');
-                    return;
-                }
+            if (!empty($this->data)) {                
                 $this->request->data['User']['password'] = $this->_generateRandomString();
                 $this->request->data['User']['role'] = ($this->Auth->user('role') === 'super_admin' ?
-                                'ca_admin' : ($this->Auth->user('role') === 'ca_admin' ? 'member' : ''));
-                try {
-                    if ($this->User->save($this->request->data)) {
-                        $Email = new CakeEmail('gmail');
-                        $Email->template('welcome')
-                                ->viewVars(array(
-                                    'username' => $this->data['User']['username'],
-                                    'password' => $this->data['User']['password']
-                                ))
-                                ->to($this->data['User']['username'])
-                                ->subject('Bienvenida!')
-                                ->emailFormat('html')
-                                ->send();
-                        $this->Session->setFlash('Se ha enviado un correo con los accesos para la cuenta ' . $this->data['User']['username'], 'success-message');
-                        return $this->redirect('register');
-                    }
-                    $this->Session->setFlash('Verifique los datos.', 'alert-message');
-                } catch (Exception $ex) {
-                    
+                    'ca_admin' : ($this->Auth->user('role') === 'ca_admin' ? 'member' : 'super_admin'));
+                
+                if ($this->User->save($this->request->data)) {
+                    $Email = new CakeEmail('gmail');
+                    $Email->template('welcome')
+                    ->viewVars(array(
+                        'username' => $this->data['User']['username'],
+                        'password' => $this->data['User']['password']
+                        ))
+                    ->to($this->data['User']['username'])
+                    ->subject('Bienvenida!')
+                    ->emailFormat('html')
+                    ->send();
+                    $this->Session->setFlash('Se ha enviado un correo con los accesos para la cuenta ' . $this->data['User']['username'], 'success-message');
+                    return $this->redirect('register');
                 }
+                $this->Session->setFlash('Verifique los datos.', 'alert-message');
+                
             } else {
                 $this->Session->setFlash('Debes proporcionar los datos solicitados.', 'info-message');
             }
@@ -99,32 +91,32 @@ class UserController extends AppController {
         if ($this->request->is('post') || $this->request->is('put')) {
             if (!empty($this->data)) {
                 if ($this->data['User']['password'] === null or
-                        $this->data['User']['newpassword'] == null or
-                        $this->data['User']['confirm_newpassword'] == null) {
+                    $this->data['User']['newpassword'] == null or
+                    $this->data['User']['confirm_newpassword'] == null) {
                     $this->Session->setFlash('Debe ingresar todos los datos.', 'alert-message');
-                    return;
-                } else if ($this->data['User']['newpassword'] !==
-                        $this->data['User']['confirm_newpassword']) {
-                    $this->Session->setFlash('Las nuevas contraseñas deben concidir.', 'alert-message');
-                    return;
-                }
-
-                $this->User->id = $this->Auth->user('id');
-                $user = $this->User->read('password', $this->User->id);
-
-                if ($user['User']['password'] !== AuthComponent::password($this->data['User']['password'])) {
-                    $this->Session->setFlash('La contraseña actual no coincide, favor de verificar.', 'info-message');
-                    return;
-                }
-                $this->User->set('password', $this->data['User']['newpassword']);
-                if ($this->User->save()) {
-                    $this->Session->setFlash('La contraseña se ha actualizado.', 'success-message');
-                    return $this->redirect('edit');
-                }
-                $this->Session->setFlash('La contraseña no se ha actualizado correctamente.', 'alert-message');
+                return;
+            } else if ($this->data['User']['newpassword'] !==
+                $this->data['User']['confirm_newpassword']) {
+                $this->Session->setFlash('Las nuevas contraseñas deben concidir.', 'alert-message');
+                return;
             }
+
+            $this->User->id = $this->Auth->user('id');
+            $user = $this->User->read('password', $this->User->id);
+
+            if ($user['User']['password'] !== AuthComponent::password($this->data['User']['password'])) {
+                $this->Session->setFlash('La contraseña actual no coincide, favor de verificar.', 'info-message');
+                return;
+            }
+            $this->User->set('password', $this->data['User']['newpassword']);
+            if ($this->User->save()) {
+                $this->Session->setFlash('La contraseña se ha actualizado.', 'success-message');
+                return $this->redirect('edit');
+            }
+            $this->Session->setFlash('La contraseña no se ha actualizado correctamente.', 'alert-message');
         }
     }
+}
 
     /**
      * Función para editar el perfil del usuario.
@@ -171,17 +163,17 @@ class UserController extends AppController {
                 $ext = '.' . pathinfo($this->data['User']['img']['name'], PATHINFO_EXTENSION);
                 $filename = 'img_profile_' . $this->Auth->user('id') . $ext;
                 move_uploaded_file(
-                        $this->data['User']['img']['tmp_name'], $path . $filename
-                );
+                    $this->data['User']['img']['tmp_name'], $path . $filename
+                    );
                 $user_member = $this->User->find('first', array(
                     'conditions' => array(
                         'Member.user_id' => $this->Auth->user('id')),
                     'recursive' => 0));
                 $user_member['Member']['img_profile_path'] = DS . 'files' . DS .
-                        'profile_images' . DS . $filename;
+                'profile_images' . DS . $filename;
                 if (!$this->User->saveAll($user_member)) {
                     $this->Session->setFlash('Hubo un error al actualizar la imagen '
-                            . 'del perfil.', 'erro-message');
+                        . 'del perfil.', 'erro-message');
                 }
             }
             return $this->redirect('edit');

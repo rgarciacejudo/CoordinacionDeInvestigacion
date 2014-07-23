@@ -12,7 +12,31 @@
  * @author rgarcia
  */
 class AcademicGroup extends AppModel{
-    //put your code here
+
+	public $validate = array(
+		'name' => array(
+			'required' => array(
+				'rule' => array('notEmpty'),
+				'message' => 'El nombre del cuerpo académico es requerido.'
+				),
+			'unique' => array(
+				'rule' => 'isUnique',
+				'message' => 'El nombre del cuerpo académico ingresado ya existe.'
+				)
+			),
+		'member_id' => array(
+			'required' => array(
+				'rule' => array('notEmpty'),
+				'message' => 'Debe elegir un líder para el cuerpo académico.'
+				)
+			),
+		'level' => array(
+			'required' => array(
+				'rule' => array('notEmpty'),
+				'message' => 'El nivel del cuerpo académico es requerido.'
+				)
+			)
+		);
 }
 
 ?>

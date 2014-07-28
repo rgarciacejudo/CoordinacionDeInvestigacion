@@ -80,3 +80,13 @@ textarea{
     background-origin: content-box !important;
     background-position: right !important;
 }
+
+.calendar{
+    font-family: 'linecons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    content: "\e02b";
+}

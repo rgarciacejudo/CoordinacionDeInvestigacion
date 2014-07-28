@@ -1,4 +1,7 @@
 <?php echo $this->Html->script('jquery.validate.min'); ?>
+<?php echo $this->Html->script('jquery-ui'); ?>
+<?php echo $this->Html->css('jquery-ui/smoothness/jquery-ui'); ?>
+<?php echo $this->Html->css('linecons'); ?>
 <h4><?php echo $page_name; ?></h4>
 <div class="row form-content">       
     <div class="small-12 medium-6 large-6 medium-centered large-centered columns">
@@ -200,13 +203,16 @@
         <div class="row">
             <div class="column">
                 <label>Validez SNI
+                    <span aria-hidden="true" class="li_calendar">
                     <?php
                     echo $this->Form->input('Member.SNI_validity_date', array(
                         'label' => false,
                         'placeholder' => 'validez',
-                        'class' => 'radius'
+                        'class' => 'radius calendar',
+                        'type' => 'text'                      
                     ));
                     ?>
+                    </span>
                 </label>
             </div>
         </div>
@@ -230,7 +236,8 @@
                     echo $this->Form->input('Member.PROMEP_validity_date', array(
                         'label' => false,
                         'placeholder' => 'validez',
-                        'class' => 'radius'
+                        'class' => 'radius',
+                        'type' => 'text'
                     ));
                     ?>
                 </label>
@@ -249,16 +256,10 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
+        $("#MemberSNIValidityDate").datepicker();
+        $("#MemberPROMEPValidityDate").datepicker();
         $("#UserImg").change(function() {
             $("#selected_file").html($("#UserImg").val());
         });
-
-//        $('#UserManageForm').validate({
-//            rules: {
-//                'data[User][password]': {required: true},
-//                'data[User][newpassword]': {required: true},
-//                'data[User][confirm_newpassword]': {required: true, equalTo: '#UserNewpassword'}
-//            }
-//        });
     });
 </script>

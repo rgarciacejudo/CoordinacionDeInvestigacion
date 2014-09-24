@@ -57,8 +57,7 @@ h4{
 }
 
 .avatar{
-    border-radius: 50%; 
-    border: 1px solid gray;
+    border-radius: 50%;
     height: 10em;
     width: 10em;
     display: block;
@@ -89,4 +88,60 @@ textarea{
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     content: "\e02b";
+}
+
+.radius-right{
+    border-radius: 0 3px 3px 0;
+}
+
+.radius-left{
+    border-radius: 3px 0 0 3px;
+}
+
+.remove-field{
+    font-size: 22px !important;
+    width: 37px;
+    height: 36px;
+    padding: 7px !important;
+}
+
+.experiences-content{
+    height: 520px;
+    overflow: scroll;
+}
+
+.profile-details p{
+    margin-bottom: 0;
+}
+
+.profile-details label{
+    font-weight: bold;
+    margin-bottom: -5px;
+    cursor: default;
+}
+
+.profile-details span{
+    font-size: 13px;
+    color: #4d4d4d;
+}
+
+.more-info{
+    font-size: 12px;
+    float: right;
+}
+
+.members-list{
+    padding: 1em; 
+    height: 310px;
+    overflow: scroll;
+}
+
+.member-container *{
+    display: inline-block;
+    margin: 0.5em;
+}
+
+.member-container p{
+    font-size: 0.875rem;
+    vertical-align: middle;
 }

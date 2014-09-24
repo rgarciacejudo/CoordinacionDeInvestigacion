@@ -11,21 +11,6 @@
                     'label' => false,
                     'placeholder' => 'nombre',
                     'class' => 'radius'
-                    ));
-                    ?>
-                </label>
-            </div>
-        </div>
-    <div class="row">
-        <div class="column">
-        <label>Líder
-            <?php
-            echo $this->Form->input('member_id', array(
-                'label' => false,
-                'placeholder' => 'líder del cuerpo académico',
-                'class' => 'radius',
-                'options' => $users,
-                'empty' => 'líder'
                 ));
                 ?>
             </label>
@@ -33,14 +18,29 @@
     </div>
     <div class="row">
         <div class="column">
-        <label>Nivel
-            <?php
-            echo $this->Form->input('level', array(
-                'label' => false,
-                'placeholder' => 'nivel',
-                'class' => 'radius',
-                'options' => $level_options,
-                'empty' => 'nivel'
+            <label>Líder
+                <?php
+                echo $this->Form->input('user_id', array(
+                    'label' => false,
+                    'placeholder' => 'líder del cuerpo académico',
+                    'class' => 'radius',
+                    'options' => $users,
+                    'empty' => 'líder'
+                ));
+                ?>
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <label>Nivel
+                <?php
+                echo $this->Form->input('level', array(
+                    'label' => false,
+                    'placeholder' => 'nivel',
+                    'class' => 'radius',
+                    'options' => $level_options,
+                    'empty' => 'nivel'
                 ));
                 ?>
             </label>
@@ -55,28 +55,28 @@
                     'placeholder' => 'nivel',
                     'class' => 'radius',
                     'rows' => 3
-                    ));
-                    ?>
+                ));
+                ?>
             </label>
         </div>
     </div>
-<?php
-echo $this->Form->end(array(
-    'label' => 'Registrar',
-    'class' => 'button radius small right',
-    'div' => array(
-        'class' => 'columns'
+    <?php
+    echo $this->Form->end(array(
+        'label' => 'Registrar',
+        'class' => 'button radius small right',
+        'div' => array(
+            'class' => 'columns'
         )
     ));
     ?>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#AcademicGroupRegisterForm').validate({
-        rules: {
-            'data[AcademicGroup][name]': {required: true},
-            'data[AcademicGroup][member_id]': {required: true},
-            'data[AcademicGroup][level]': {required: true},
-        }
-    });
-});
-</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#AcademicGroupRegisterForm').validate({
+                rules: {
+                    'data[AcademicGroup][name]': {required: true},
+                    'data[AcademicGroup][member_id]': {required: true},
+                    'data[AcademicGroup][level]': {required: true},
+                }
+            });
+        });
+    </script>

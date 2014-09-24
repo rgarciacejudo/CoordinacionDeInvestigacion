@@ -127,8 +127,8 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#ProjectFromDate").datepicker();
-        $("#ProjectToDate").datepicker();
+        $("#ProjectFromDate").datepicker({ dateFormat: "yyyy-mm-dd" });
+        $("#ProjectToDate").datepicker({ dateFormat: "yyyy-mm-dd" });
         $('#ProjectRegisterForm').validate({
             rules: {
                 'data[Project][pkey]': {required: true},

@@ -17,7 +17,7 @@ class HomeController extends AppController {
     * Página de inicio pública
     */
     public function display() {
-    	$this->set('page_name', '');
+    	$this->set('page_name', 'Inicio');
     }
 
 }

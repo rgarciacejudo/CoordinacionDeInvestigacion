@@ -5,12 +5,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+App::uses('AppModel', 'Model');
 /**
- * Modelo para la tabla members_projects
+ * Modelo para la tabla members_academic_groups
  *
  * @author rgarcia
  */
-class MemberProject {
+class MembersAcademicGroup extends AppModel {
     //put your code here
 }

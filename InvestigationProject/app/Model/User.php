@@ -14,7 +14,6 @@ App::uses('AppModel', 'Model');
 class User extends AppModel {
 
     public $hasOne = 'Member';
-    public $hasMany = array('AcademicGroup', 'Experience');
 
     public $validate = array(
         'username' => array(

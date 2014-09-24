@@ -1,6 +1,7 @@
 <?php
 
 App::uses('Member', 'Model');
+App::uses('Experience', 'Model');
 App::uses('CakeEmail', 'Network/Email');
 /*
  * Control para la administración de cuentas
@@ -8,11 +9,15 @@ App::uses('CakeEmail', 'Network/Email');
 
 class UserController extends AppController {
 
+    public $components = array('Paginator', 'RequestHandler');
+    public $paginate = array(
+        'limit' => 5
+    );
     /**
      * Función principal para el inicio de sesión
      */
-    public function login() {    
-        $this->set('page_name', 'Iniciar sesión');        
+    public function login() {
+        $this->set('page_name', 'Iniciar sesión');
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
                 if ($this->data['User']['username'] === null or $this->data['User']['password'] === null) {
@@ -41,27 +46,27 @@ class UserController extends AppController {
     public function register() {
         $this->set('page_name', 'Registrar usuario');
         if ($this->request->is('post')) {
-            if (!empty($this->data)) {                
+            if (!empty($this->data)) {
+                $this->request->data['Member']['name'] = $this->data['User']['username'];
                 $this->request->data['User']['password'] = $this->_generateRandomString();
                 $this->request->data['User']['role'] = ($this->Auth->user('role') === 'super_admin' ?
-                    'ca_admin' : ($this->Auth->user('role') === 'ca_admin' ? 'member' : 'super_admin'));
-                
-                if ($this->User->save($this->request->data)) {
+                                'ca_admin' : ($this->Auth->user('role') === 'ca_admin' ? 'member' : 'super_admin'));
+
+                if ($this->User->saveAll($this->request->data)) {
                     $Email = new CakeEmail('gmail');
                     $Email->template('welcome')
-                    ->viewVars(array(
-                        'username' => $this->data['User']['username'],
-                        'password' => $this->data['User']['password']
-                        ))
-                    ->to($this->data['User']['username'])
-                    ->subject('Bienvenida!')
-                    ->emailFormat('html')
-                    ->send();
+                            ->viewVars(array(
+                                'username' => $this->data['User']['username'],
+                                'password' => $this->data['User']['password']
+                            ))
+                            ->to($this->data['User']['username'])
+                            ->subject('Bienvenida!')
+                            ->emailFormat('html')
+                            ->send();
                     $this->Session->setFlash('Se ha enviado un correo con los accesos para la cuenta ' . $this->data['User']['username'], 'success-message');
                     return $this->redirect('register');
                 }
                 $this->Session->setFlash('Verifique los datos.', 'alert-message');
-                
             } else {
                 $this->Session->setFlash('Debes proporcionar los datos solicitados.', 'info-message');
             }
@@ -97,32 +102,32 @@ class UserController extends AppController {
         if ($this->request->is('post') || $this->request->is('put')) {
             if (!empty($this->data)) {
                 if ($this->data['User']['password'] === null or
-                    $this->data['User']['newpassword'] == null or
-                    $this->data['User']['confirm_newpassword'] == null) {
+                        $this->data['User']['newpassword'] == null or
+                        $this->data['User']['confirm_newpassword'] == null) {
                     $this->Session->setFlash('Debe ingresar todos los datos.', 'alert-message');
-                return;
-            } else if ($this->data['User']['newpassword'] !==
-                $this->data['User']['confirm_newpassword']) {
-                $this->Session->setFlash('Las nuevas contraseñas deben concidir.', 'alert-message');
-                return;
-            }
+                    return;
+                } else if ($this->data['User']['newpassword'] !==
+                        $this->data['User']['confirm_newpassword']) {
+                    $this->Session->setFlash('Las nuevas contraseñas deben concidir.', 'alert-message');
+                    return;
+                }
 
-            $this->User->id = $this->Auth->user('id');
-            $user = $this->User->read('password', $this->User->id);
+                $this->User->id = $this->Auth->user('id');
+                $user = $this->User->read('password', $this->User->id);
 
-            if ($user['User']['password'] !== AuthComponent::password($this->data['User']['password'])) {
-                $this->Session->setFlash('La contraseña actual no coincide, favor de verificar.', 'info-message');
-                return;
+                if ($user['User']['password'] !== AuthComponent::password($this->data['User']['password'])) {
+                    $this->Session->setFlash('La contraseña actual no coincide, favor de verificar.', 'info-message');
+                    return;
+                }
+                $this->User->set('password', $this->data['User']['newpassword']);
+                if ($this->User->save()) {
+                    $this->Session->setFlash('La contraseña se ha actualizado.', 'success-message');
+                    return $this->redirect('edit');
+                }
+                $this->Session->setFlash('La contraseña no se ha actualizado correctamente.', 'alert-message');
             }
-            $this->User->set('password', $this->data['User']['newpassword']);
-            if ($this->User->save()) {
-                $this->Session->setFlash('La contraseña se ha actualizado.', 'success-message');
-                return $this->redirect('edit');
-            }
-            $this->Session->setFlash('La contraseña no se ha actualizado correctamente.', 'alert-message');
         }
     }
-}
 
     /**
      * Función para editar el perfil del usuario.
@@ -137,8 +142,13 @@ class UserController extends AppController {
         $type = $member_db->getColumnType('SNI');
         preg_match('/^enum\((.*)\)$/', $type, $matches);
         foreach (explode(',', $matches[1]) as $value) {
-            $enum_sni[] = trim($value, "'");
+            $enum_sni[trim($value, "'")] = trim($value, "'");
         }
+        $experience_db = new Experience();
+        $experiences = $experience_db->find('all', array(
+            'conditions' => array('Experience.member_id' => $this->Session->read('User.member_id'))
+        ));
+        $this->set('experiences', $experiences);
         $this->set('SNI_options', $enum_sni);
         $this->set('img_profile', $user_member['Member']['img_profile_path']);
         if (!$this->request->data) {
@@ -148,6 +158,12 @@ class UserController extends AppController {
             $this->request->data['User']['id'] = $user_member['User']['id'];
             $this->request->data['User']['username'] = $user_member['User']['username'];
             $this->request->data['Member']['id'] = $user_member['Member']['id'];
+            if ($this->request->data['Member']['PROMEP'] !== '1') {
+                $this->request->data['Member']['PROMEP_validity_date'] = null;
+            }
+            if ($this->request->data['Member']['SNI'] === '') {
+                $this->request->data['Member']['SNI_validity_date'] = null;
+            }
             if (!$this->User->saveAll($this->data)) {
                 $this->Session->setFlash('Ocurrió un error al guardar tu infromación.', 'error-message');
             } else {
@@ -157,7 +173,7 @@ class UserController extends AppController {
     }
 
     /**
-     * Funicón para actualizar la imagen de perfil
+     * Función para actualizar la imagen de perfil.
      * @return type
      */
     public function img_change() {
@@ -169,21 +185,82 @@ class UserController extends AppController {
                 $ext = '.' . pathinfo($this->data['User']['img']['name'], PATHINFO_EXTENSION);
                 $filename = 'img_profile_' . $this->Auth->user('id') . $ext;
                 move_uploaded_file(
-                    $this->data['User']['img']['tmp_name'], $path . $filename
-                    );
+                        $this->data['User']['img']['tmp_name'], $path . $filename
+                );
                 $user_member = $this->User->find('first', array(
                     'conditions' => array(
                         'Member.user_id' => $this->Auth->user('id')),
                     'recursive' => 0));
                 $user_member['Member']['img_profile_path'] = DS . 'files' . DS .
-                'profile_images' . DS . $filename;
+                        'profile_images' . DS . $filename;
                 if (!$this->User->saveAll($user_member)) {
                     $this->Session->setFlash('Hubo un error al actualizar la imagen '
-                        . 'del perfil.', 'erro-message');
+                            . 'del perfil.', 'erro-message');
                 }
             }
             return $this->redirect('edit');
         }
+    }
+
+    /**
+     * Función para ver perfiles  de usuario.
+     * @param type $id
+     */
+    public function view($id = null) {
+        $this->set('page_name', 'Perfil de usuario');
+        $user_member = null;
+        //Si el parámetro id es nulo intenta mostrar el perfil del usuario que inició sesión
+        if (!$id) {
+            $user_member = $this->User->find('first', array(
+            'conditions' => array(
+                'Member.user_id' => $this->Auth->user('id')),
+            'recursive' => 0));
+        }else{
+            $user_member = $this->User->find('first', array(
+            'conditions' => array(
+                'Member.user_id' => $id),
+            'recursive' => 0));
+        }
+        $this->set('user_profile', $user_member);
+    }
+    
+    public function index($filter = 'all'){        
+        $this->Paginator->settings = $this->paginate;        
+        $users = null;
+        switch ($filter) {
+            case 'all':
+                $this->set('page_name', 'Investigadores');
+                $users = $this->Paginator->paginate('User');
+                break;
+            case 'leaders':
+                $this->Paginator->settings['conditions'] = array('User.role' => 'ca_admin');
+                $this->set('page_name', 'Líderes de cuerpos académicos');
+                $users = $this->Paginator->paginate('User');
+                break;
+            case 'members':
+                $this->Paginator->settings['conditions'] = array('User.role' => 'member');
+                $this->set('page_name', 'Investigadores');
+                $users = $this->Paginator->paginate('User');
+                break;
+            default:
+                break;
+        }
+        $this->set('users', $users);
+    }
+    
+    public function detail($id = null){
+        $this->set('page_name', 'Perfil de usuario');
+
+        if (!$id) {
+            throw new NotFoundException(__('Invalid user'));
+        }        
+        $this->User->recursive = 3;
+        $user = $this->User->findById($id);        
+        if (!$user) {
+            throw new NotFoundException(__('Invalid user'));
+        }
+        $this->User->recursive = 1;
+        $this->set('user', $user);
     }
 
 }

@@ -46,16 +46,18 @@
                                 <?php
                                 echo $this->Html->link('Secciones', array(
                                     'controller' => 'section',
-                                    'action' => 'display'
+                                    'action' => 'index',
+                                    'all'
                                     )
                                 );?>
                             </li>
                             <li <?php echo ($this->params['controller'] == 'user' ? 
                                     'class = "active"' : ''); ?>>
                                 <?php
-                                echo $this->Html->link('Integrantes', array(
-                                    'controller' => 'member',
-                                    'action' => 'display'
+                                echo $this->Html->link('Investigadores', array(
+                                    'controller' => 'user',
+                                    'action' => 'index',
+                                    'all'
                                     )
                                 );?>
                             </li>

@@ -3,8 +3,8 @@
 <?php echo $this->Html->css('jquery-ui/smoothness/jquery-ui'); ?>
 <?php echo $this->Html->css('linecons'); ?>
 <h4><?php echo $page_name; ?></h4>
-<div class="row form-content">       
-    <div class="small-12 medium-6 large-6 medium-centered large-centered columns">
+<div class="form-content">       
+    <div class="small-12 medium-6 large-6 columns">
         <h6>Cuenta</h6>           
         <div class="row">
             <div class="column">
@@ -17,9 +17,9 @@
                 <label>Imagen de perfil
                     <figure class="text-center">
                         <?php
-                        echo $this->Html->image($img_profile == NULL ? 'no_img_profile.png' : $img_profile, array(
-                            'alt' => 'CakePHP',
-                            'class' => 'avatar'));
+                        echo $this->Html->image($img_profile == null ? 'no_img_profile.png' : $img_profile, array(
+                            'alt' => 'Imagen de perfil',
+                            'class' => 'th avatar'));
                         ?>
                         <span id="selected_file">No se ha seleccionado un archivo.</span>
                         <?php
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="column">
+            <div class="column">                
                 <?php
                 echo $this->Html->link('Cambiar contraseña', array(
                     'controller' => 'user',
@@ -74,7 +74,7 @@
                 ?>
             </div>
         </div>        
-    </div>    
+    </div>       
     <div class="small-12 medium-6 large-6 columns">        
         <h6>Información personal</h6>
         <div class="row">
@@ -129,15 +129,17 @@
                     ?>
                 </label>
             </div>
-        </div>
+        </div>        
+    </div>    
+    <div class="small-12 medium-12 large-12 columns">
         <div class="row">
             <div class="column">
-                <label>Queremos conocerte
+                <label>Acerca de mí
                     <?php
-                    echo $this->Form->input('Member.addtional_data', array(
+                    echo $this->Form->input('Member.additional_data', array(
                         'label' => false,
-                        'placeholder' => 'información que los demás verán',
-                        'rows' => '3',
+                        'placeholder' => 'queremos conocerte',
+                        'rows' => '4',
                         'class' => 'radius'
                     ));
                     ?>
@@ -145,7 +147,7 @@
             </div>
         </div>
     </div>
-    <div class="small-12 medium-6 large-6 columns">
+    <div class="small-12 medium-6 large-6 columns">      
         <div class="row">
             <div class="column">
                 <label>Línea de investigación
@@ -199,49 +201,91 @@
                     ?>
                 </label>
             </div>
+        </div>        
+        <div class="row collapse">                        
+            <label>Validez SNI</label>
+            <div class="small-3 large-2 columns">
+                <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
+            </div>
+            <?php
+            echo $this->Form->input('Member.SNI_validity_date', array(
+                'label' => false,
+                'placeholder' => 'validez SNI',
+                'class' => 'radius-right',
+                'type' => 'text',
+                'div' => array(
+                    'class' => 'small-9 large-10 columns'
+                )
+            ));
+            ?> 
         </div>
         <div class="row">
             <div class="column">
-                <label>Validez SNI
-                    <span aria-hidden="true" class="li_calendar">
-                    <?php
-                    echo $this->Form->input('Member.SNI_validity_date', array(
-                        'label' => false,
-                        'placeholder' => 'validez',
-                        'class' => 'radius calendar',
-                        'type' => 'text'                      
-                    ));
-                    ?>
-                    </span>
-                </label>
+                <label>PROMEP</label>
+                <?php
+                echo $this->Form->input('Member.PROMEP', array(
+                    'label' => 'Aplica',
+                    'placeholder' => 'PROMEP',
+                    'class' => 'radius'
+                ));
+                ?>
+
             </div>
         </div>
-        <div class="row">
-            <div class="column">
-                <label>PROMEP
-                    <?php
-                    echo $this->Form->input('Member.PROMEP', array(
-                        'label' => 'Aplica',
-                        'placeholder' => 'PROMEP',
-                        'class' => 'radius'
-                    ));
-                    ?>
-                </label>
+        <div class="row collapse">            
+            <label>Validez PROMEP</label>
+            <div class="small-3 large-2 columns">
+                <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
             </div>
-        </div>
-        <div class="row">
-            <div class="column">
-                <label>Validez PROMEP
-                    <?php
-                    echo $this->Form->input('Member.PROMEP_validity_date', array(
-                        'label' => false,
-                        'placeholder' => 'validez',
-                        'class' => 'radius',
-                        'type' => 'text'
-                    ));
-                    ?>
-                </label>
-            </div>
+            <?php
+            echo $this->Form->input('Member.PROMEP_validity_date', array(
+                'label' => false,
+                'placeholder' => 'validez PROMEP',
+                'class' => 'radius-right',
+                'type' => 'text',
+                'div' => array(
+                    'class' => 'small-9 large-10 columns'
+                )
+            ));
+            ?>
+        </div>                
+    </div>
+    <div class="small-12 medium-6 large-6 columns"> 
+        <h6>Experiencia</h6>
+        <?php echo $this->Html->link('Agregar experiencia', array(
+            'controller' => 'experience',
+            'action' => 'register'), array(
+                'class' => 'button secondary tiny radius'
+            )
+        );?>
+        <p></p>                
+        <div class="experiences-content">
+            <?php foreach ($experiences as $key => $value) { ?>
+            <ul class="pricing-table">
+                <li class="title"><?php echo 'Actividad ' . ($key + 1); ?>
+                <?php echo $this->Html->link($this->Html->tag('span', NULL, array(
+                        'class' => 'li_trash',
+                        'aria-hidden' => 'true',
+                        'style' => 'color: white; float: right;'
+                    )), array(
+                        'controller' => 'experience',
+                        'action' => 'delete',
+                        $value['Experience']['id'])
+                      ,array('escape' => false)
+                      ,'¿Estás seguro de eliminar esta experiencia?'); ?>
+                </li>
+                <li class="price"><?php echo $value['Institution']['name']; ?></li>
+                <li class="description"><?php echo $value['Experience']['activities']; ?></li>
+                <li class="bullet-item"><?php echo 'De ' . $value['Experience']['from_date'] . ' a ' . $value['Experience']['to_date']; ?></li>
+                <li class="cta-button" style="padding: 0.5em;"><?php echo $this->Html->link('Editar', array(
+                    'controller' => 'experience',
+                    'action' => 'edit',
+                    $value['Experience']['id']
+                ), array(
+                    'class' => 'button secondary tiny radius'
+                )); ?></li>
+            </ul>
+            <?php } ?>     
         </div>                
     </div>
     <?php
@@ -256,8 +300,8 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#MemberSNIValidityDate").datepicker();
-        $("#MemberPROMEPValidityDate").datepicker();
+        $("#MemberSNIValidityDate").datepicker({ dateFormat: "yyyy-mm-dd" });
+        $("#MemberPROMEPValidityDate").datepicker({ dateFormat: "yyyy-mm-dd" });
         $("#UserImg").change(function() {
             $("#selected_file").html($("#UserImg").val());
         });

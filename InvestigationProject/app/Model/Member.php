@@ -12,5 +12,7 @@
  * @author rgarcia
  */
 class Member extends AppModel {
-    
+
+    public $hasMany = 'Experience';
+
 }

@@ -8,16 +8,11 @@
         <div class="column">
             <label>Institución
                 <?php
-                echo $this->Form->input('institution', array(
+                echo $this->Form->input('Institution.name', array(
                     'label' => false,
                     'placeholder' => 'institución',
-                    'class' => 'radius'
-                ));
-                ?>
-                <?php
-                echo $this->Form->input('institution_id', array(
-                    'label' => false,
-                    'type' => 'hidden'
+                    'class' => 'radius',
+                    'readonly' => '1'
                 ));
                 ?>
             </label>
@@ -27,7 +22,7 @@
         <div class="column">
             <label>Actividades
                 <?php
-                echo $this->Form->input('activities', array(
+                echo $this->Form->input('Experience.activities', array(
                     'label' => false,
                     'placeholder' => 'activiades',
                     'class' => 'radius'
@@ -41,7 +36,7 @@
         <div class="column text-center">
             <label class="inline-block">De
                 <?php
-                echo $this->Form->input('from_date', array(
+                echo $this->Form->input('Experience.from_date', array(
                     'label' => false,
                     'placeholder' => 'fecha de',
                     'class' => 'radius',
@@ -51,7 +46,7 @@
             </label>
             <label class="inline-block">A
                 <?php
-                echo $this->Form->input('to_date', array(
+                echo $this->Form->input('Experience.to_date', array(
                     'label' => false,
                     'placeholder' => 'fecha a',
                     'class' => 'radius',
@@ -63,7 +58,7 @@
     </div>
     <?php
     echo $this->Form->end(array(
-        'label' => 'Registrar',
+        'label' => 'Actualizar',
         'class' => 'button radius small right',
         'div' => array(
             'class' => 'columns'
@@ -80,32 +75,6 @@
                 'data[Experience][institution]': {required: true},
                 'data[Experience][activities]': {required: true}
             }
-        });
-        $(function(){
-            $( "#ExperienceInstitution" ).autocomplete({
-                source: function( request, response ) {
-                    $.ajax({
-                        url: "../institution/getexperiences",
-                        dataType: "json",
-                        data: {
-                            name: request.term
-                        },
-                        success: function( data ) {                    
-                            response( data );
-                        }
-                    });
-                },
-                minLength: 2,
-                select: function( event, ui ) {
-                    $("#ExperienceInstitutionId").val(ui.item.id);
-                },
-                search: function(event, ui){
-                    $(this).addClass('searching');
-                },
-                response: function(event, ui){
-                    $(this).removeClass('searching');
-                }
-            });
         });
     });
 </script>

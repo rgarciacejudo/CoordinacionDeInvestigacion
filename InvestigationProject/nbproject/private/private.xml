@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="3">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="6">
         <file>
             <url>app/View/Layouts/default.ctp</url>
             <bookmark id="2">
@@ -9,16 +9,29 @@
                 <key/>
             </bookmark>
         </file>
+        <file>
+            <url>app/Controller/UserController.php</url>
+            <bookmark id="6">
+                <name/>
+                <line>257</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>app/Model/Section.php</url>
+            <bookmark id="4">
+                <name/>
+                <line>35</line>
+                <key/>
+            </bookmark>
+        </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/rgarcia/NetBeansProjects/CoordinacionDeInvestigacion/InvestigationProject/app/webroot/css/linecons.css</file>
-            <file>file:/Users/rgarcia/NetBeansProjects/CoordinacionDeInvestigacion/InvestigationProject/lib/Cake/Error/ErrorHandler.php</file>
             <file>file:/Users/rgarcia/NetBeansProjects/CoordinacionDeInvestigacion/InvestigationProject/app/webroot/css/style.css</file>
             <file>file:/Users/rgarcia/NetBeansProjects/CoordinacionDeInvestigacion/InvestigationProject/app/Controller/UserController.php</file>
-            <file>file:/Users/rgarcia/NetBeansProjects/CoordinacionDeInvestigacion/InvestigationProject/app/View/User/edit.ctp</file>
-            <file>file:/Users/rgarcia/NetBeansProjects/CoordinacionDeInvestigacion/InvestigationProject/app/View/Layouts/default.ctp</file>
-            <file>file:/Users/rgarcia/NetBeansProjects/CoordinacionDeInvestigacion/InvestigationProject/app/Controller/ExperienceController.php</file>
+            <file>file:/Users/rgarcia/NetBeansProjects/CoordinacionDeInvestigacion/InvestigationProject/app/Controller/AcademicGroupController.php</file>
+            <file>file:/Users/rgarcia/NetBeansProjects/CoordinacionDeInvestigacion/InvestigationProject/app/View/AcademicGroup/admin.ctp</file>
         </group>
     </open-files>
 </project-private>

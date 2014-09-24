@@ -8,22 +8,25 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Modelo para la tabla institutions
+ * Modelo para la tabla sections_fields
  *
  * @author rgarcia
  */
-class Institution extends AppModel {
+class SectionsField extends AppModel {
 
     public $validate = array(
         'name' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'El nombre de la institución es requerido.'
+                'message' => 'El nombre del campo es requerido.'
             ),
-            'unique' => array(
-                'rule' => 'isUnique',
-                'message' => 'El nombre de la institución ingresado ya existe.'
+        ),
+        'type' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'El tipo del campo es requerido.'
             )
-    ));
+        )
+    );
 
 }

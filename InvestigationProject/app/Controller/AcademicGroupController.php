@@ -79,6 +79,7 @@ class AcademicGroupController extends AppController {
         $this->Paginator->settings = $this->paginate;
         switch ($filter) {
             case 'all':
+            default:
                 $academic_groups = $this->Paginator->paginate('AcademicGroup');
                 break;
             case 'admin':
@@ -103,6 +104,7 @@ class AcademicGroupController extends AppController {
             'conditions' => array('AcademicGroup.id' => $id),
             'fields' => array('AcademicGroup.*', 'Leader.*'),
             'recursive' => 1));
+
         if (!$academic_group) {
             throw new NotFoundException(__('Invalid academic group'));
         }
@@ -151,23 +153,23 @@ class AcademicGroupController extends AppController {
      * @throws NotFoundException
      */
     public function memberadmin($academic_group_id, $member_id, $value) {
-        try {            
-            if (isset($academic_group_id) && isset($member_id) && isset($value)) {               
+        try {
+            if (isset($academic_group_id) && isset($member_id) && isset($value)) {
                 switch ($value) {
-                    case 'true':                        
+                    case 'true':
                         //Add member
                         $member_academic_group_db = new MembersAcademicGroup();
                         $data = array();
                         $data['MembersAcademicGroup']['member_id'] = $member_id;
-                        $data['MembersAcademicGroup']['academic_group_id'] = $academic_group_id;                        
+                        $data['MembersAcademicGroup']['academic_group_id'] = $academic_group_id;
                         echo json_encode($member_academic_group_db->save($data));
                         break;
-                    case 'false':                         
+                    case 'false':
                         //Delete member
                         $member_academic_group_db = new MembersAcademicGroup();
                         echo json_encode($member_academic_group_db->deleteAll(array(
-                            'MembersAcademicGroup.member_id' => $member_id,
-                            'MembersAcademicGroup.academic_group_id' => $academic_group_id
+                                    'MembersAcademicGroup.member_id' => $member_id,
+                                    'MembersAcademicGroup.academic_group_id' => $academic_group_id
                         )));
                         break;
                     default:
@@ -179,6 +181,29 @@ class AcademicGroupController extends AppController {
         } catch (Exception $ex) {
             throw $ex;
         }
+    }
+
+    /**
+     * Indicar para qué funciones se requiere autorización
+     */
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->deny('admin', 'memberadmin');
+    }
+
+    /**
+     * Determinar qué acciones estarán disponibles por usuario
+     * @param type $user
+     * @return boolean
+     */
+    public function isAuthorized($user = null) {
+
+        if (in_array($this->request->params, array('register', 'admin', 'memberadmin')) &&
+                $user['role'] !== 'ca_admin') {
+            return false;
+        }
+
+        return parent::isAuthorized($user);
     }
 
 }

@@ -60,8 +60,8 @@ class ExperienceController extends AppController {
             if ($this->Experience->save($this->request->data)) {
                 $this->Session->setFlash('Experiencia editada.', 'success-message');
                 return $this->redirect(array(
-                    'controller' => 'user',
-                    'action' => 'edit'));
+                            'controller' => 'user',
+                            'action' => 'edit'));
             }
         }
 
@@ -69,20 +69,42 @@ class ExperienceController extends AppController {
             $this->request->data = $experience;
         }
     }
-    
+
     /**
      * Función para eliminar una experiencia
      */
     public function delete($id) {
-    if ($this->request->is('get')) {
-        throw new MethodNotAllowedException();
+        if ($this->request->is('get')) {
+            throw new MethodNotAllowedException();
+        }
+
+        if ($this->Experience->delete($id)) {
+            $this->Session->setFlash('Experiencia eliminada.', 'success-message');
+            return $this->redirect(array('controller' => 'user', 'action' => 'edit'));
+        }
     }
-    
-    if ($this->Experience->delete($id)) {
-        $this->Session->setFlash('Experiencia eliminada.', 'success-message');
-        return $this->redirect(array('controller' => 'user', 'action' => 'edit'));
+
+    /**
+     * Indicar para qué funciones se requiere autorización
+     */
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->deny('delete', 'edit', 'register');
     }
-}
+
+    /**
+     * Determinar qué acciones estarán disponibles por usuario
+     * @param type $user
+     * @return boolean
+     */
+    public function isAuthorized($user = null) {
+
+        if ($user === null) {
+            return false;
+        }
+
+        return parent::isAuthorized($user);
+    }
 
 }
 

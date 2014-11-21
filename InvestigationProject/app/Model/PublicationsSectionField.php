@@ -11,6 +11,7 @@
  *
  * @author rgarcia
  */
-class PublicationSectionField extends AppModel {
-    //put your code here
+class PublicationsSectionField extends AppModel {
+    
+//    public $belongsTo = 'SectionsField';
 }

@@ -131,7 +131,7 @@ if (isset($this->request->data['SectionsField']) and
             columns.appendTo(row);
             columns = createDiv('small-5 large-5 columns');
             input = jQuery('<select/>', {
-                name: 'data[SectionsField][0][type]',
+                name: 'data[SectionsField][' + fieldNo + '][type]',
                 class: 'radius valid',
                 id: 'SectionField' + fieldNo + 'Type',
                 required: 'required',

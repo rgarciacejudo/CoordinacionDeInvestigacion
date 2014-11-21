@@ -300,8 +300,8 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#MemberSNIValidityDate").datepicker({ dateFormat: "yyyy-mm-dd" });
-        $("#MemberPROMEPValidityDate").datepicker({ dateFormat: "yyyy-mm-dd" });
+        $("#MemberSNIValidityDate").datepicker({ dateFormat: "yy-mm-dd" });
+        $("#MemberPROMEPValidityDate").datepicker({ dateFormat: "yy-mm-dd" });
         $("#UserImg").change(function() {
             $("#selected_file").html($("#UserImg").val());
         });

@@ -19,7 +19,7 @@ class HomeController extends AppController {
     public function display() {
     	$this->set('page_name', 'Inicio');
     }
-
+    
 }
 
 ?>

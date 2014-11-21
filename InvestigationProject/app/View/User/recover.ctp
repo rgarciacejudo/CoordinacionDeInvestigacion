@@ -1,13 +1,14 @@
 <?php echo $this->Html->script('jquery.validate.min'); ?>
+<?php echo $this->Html->script('autocompleter-ui'); ?>
 <?php echo $this->Form->create('User'); ?>
 <h4><?php echo $page_name; ?></h4>
 <div class="small-12 medium-6 large-6 columns center-text">
     <div class="row" style="padding: 0 1em;">
         <p class="text-center">
-            Inicia sesión y empieza a llenar tu perfil. 
+            Ingresa tu nombre de usuario. 
             <br>
-            Sube tus publicaciones y descubre todo el contenido de investigaciones
-            que existen.
+            Se enviará un correo con la información necesaria para restablecer
+            tus accesos.
         </p>
     </div>
 </div>
@@ -28,28 +29,9 @@
     </div>
     <div class="row">
         <div class="column">
-            <label>Contraseña
-                <?php
-                echo $this->Form->input('password', array(
-                    'label' => false,
-                    'placeholder' => 'contraseña',
-                    'class' => 'radius'
-                ));
-                ?>
-            </label>
-        </div>
-    </div> 
-    <div class="row">
-        <div class="column">
-            <?php
-            echo $this->Html->link('¿Olvidó su contraseña?', array(
-                'controller' => 'user',
-                'action' => 'recover'
-                    ), array(
-                'style' => 'font-size: 12px;'
-            ));
+            <?php            
             echo $this->Form->end(array(
-                'label' => 'Entrar',
+                'label' => 'Restablecer',
                 'class' => 'button radius small right',
                 'div' => false
             ));
@@ -61,9 +43,9 @@
     $(document).ready(function() {
         $('#LoginLoginForm').validate({
             rules: {
-                'data[User][username]': {required: true, email: true},
-                'data[User][password]': {required: true}
+                'data[User][username]': {required: true, email: true}                
             }
-        });             
+        });
+        $('#UserUsername').customAutocompleter();
     });
 </script>

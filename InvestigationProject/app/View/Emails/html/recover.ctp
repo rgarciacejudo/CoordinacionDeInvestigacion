@@ -7,8 +7,8 @@
     <body>
         <div class="row">
             <p>
-                El Observatorio de Investigación te da la bienvenida, tus accesos
-                al sistema son los siguientes:
+                Su contraseña ha sido restablecida con éxito, ahora podrá entrar
+                al sistema con los siguientes accesos:
             </p>
             <p>
                 <span style="font-weight: bold;">Usuario: </span> 

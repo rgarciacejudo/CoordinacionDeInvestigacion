@@ -139,7 +139,8 @@
                             </ul>
                         </aside>
                         <section class="main-section">                        
-                            <?php echo $this->Session->flash(); ?>                            
+                            <?php echo $this->Session->flash(); ?> 
+                            <?php echo $this->Session->flash('auth'); ?>
                             <?php echo $this->fetch('content'); ?>
 <!--                            <div class="medium-4 large-3 columns">
                         <div class="hide-for-small">

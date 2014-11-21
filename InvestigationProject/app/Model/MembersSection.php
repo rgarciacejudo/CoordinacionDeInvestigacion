@@ -5,12 +5,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+App::uses('AppModel', 'Model');
 /**
  * Modelo para la tabla members_sections
  *
  * @author rgarcia
  */
-class MemberSection extends AppModel {
-    //put your code here
-}
+class MembersSection extends AppModel {
+    //put your code here    
+    public $belongsTo = 'Section';
+} 

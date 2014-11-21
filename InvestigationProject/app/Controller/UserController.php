@@ -13,6 +13,7 @@ class UserController extends AppController {
     public $paginate = array(
         'limit' => 5
     );
+
     /**
      * Función principal para el inicio de sesión
      */
@@ -195,7 +196,7 @@ class UserController extends AppController {
                         'profile_images' . DS . $filename;
                 if (!$this->User->saveAll($user_member)) {
                     $this->Session->setFlash('Hubo un error al actualizar la imagen '
-                            . 'del perfil.', 'erro-message');
+                            . 'del perfil.', 'error-message');
                 }
             }
             return $this->redirect('edit');
@@ -212,20 +213,20 @@ class UserController extends AppController {
         //Si el parámetro id es nulo intenta mostrar el perfil del usuario que inició sesión
         if (!$id) {
             $user_member = $this->User->find('first', array(
-            'conditions' => array(
-                'Member.user_id' => $this->Auth->user('id')),
-            'recursive' => 0));
-        }else{
+                'conditions' => array(
+                    'Member.user_id' => $this->Auth->user('id')),
+                'recursive' => 0));
+        } else {
             $user_member = $this->User->find('first', array(
-            'conditions' => array(
-                'Member.user_id' => $id),
-            'recursive' => 0));
+                'conditions' => array(
+                    'Member.user_id' => $id),
+                'recursive' => 0));
         }
         $this->set('user_profile', $user_member);
     }
-    
-    public function index($filter = 'all'){        
-        $this->Paginator->settings = $this->paginate;        
+
+    public function index($filter = 'all') {
+        $this->Paginator->settings = $this->paginate;
         $users = null;
         switch ($filter) {
             case 'all':
@@ -247,20 +248,118 @@ class UserController extends AppController {
         }
         $this->set('users', $users);
     }
-    
-    public function detail($id = null){
+
+    /**
+     * Muestra el perfil del usuario
+     * @param type $id
+     * @throws NotFoundException
+     */
+    public function detail($id = null) {
         $this->set('page_name', 'Perfil de usuario');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid user'));
-        }        
+        }
         $this->User->recursive = 3;
-        $user = $this->User->findById($id);        
+        $user = $this->User->findById($id);
         if (!$user) {
             throw new NotFoundException(__('Invalid user'));
         }
         $this->User->recursive = 1;
         $this->set('user', $user);
+    }
+
+    /**
+     * Función para restablecer la contraseña de un usuario
+     */
+    public function recover() {
+        $this->set('page_name', 'Recuperar contraseña');
+        if ($this->request->is('post')) {
+            if (!empty($this->data)) {
+                $user_id = $this->User->find('first', array(
+                    'conditions' => array('User.username' => $this->data['User']['username']),
+                    'fields' => array('User.id', 'User.username')
+                ));
+                if (!$user_id) {
+                    $this->Session->setFlash('No se encontró el usuario en el sistema.', 'alert-message');
+                    return;
+                }
+                $this->User->id = $user_id['User']['id'];
+                $newPassword = $this->_generateRandomString();
+                $this->User->saveField('password', $newPassword);
+                $Email = new CakeEmail('gmail');
+                $Email->template('recover')
+                        ->viewVars(array(
+                            'username' => $user_id['User']['username'],
+                            'password' => $newPassword
+                        ))
+                        ->to($user_id['User']['username'])
+                        ->subject('Recuperación de contraseña!')
+                        ->emailFormat('html')
+                        ->send();
+                $this->Session->setFlash('Sus accesos han sido restablecidos con éxito, verifique su cuenta de correo.', 'info-message');
+                return $this->redirect('recover');
+            }
+        }
+    }
+
+    /**
+     * Función para obtener usuarios por tipo
+     */
+    public function getusers() {
+        $role = isset($_GET["role"]) ? $_GET["role"] : '';
+        $name = isset($_GET["name"]) ? $_GET["name"] : '';
+        $this->autoRender = false;
+        $this->response->type('json');
+        $users = $this->User->find('all', array(
+            'conditions' => array(
+                'OR' => array(
+                    'User.username LIKE' => '%' . $name . '%',
+                    'Member.name LIKE' => '%' . $name . '%',
+                    'Member.last_name LIKE' => '%' . $name . '%',
+                ),
+                'User.role LIKE' => '%' . $role . '%'
+            ),
+            'order' => array(
+                'User.username'
+            ),
+            'fields' => array('User.id', 'User.username', 'Member.id',
+                'Member.name', 'Member.last_name', 'Member.img_profile_path')
+        ));
+        $options = array();
+        foreach ($users as $key => $u) {
+            $options[$key]['id'] = $u['User']['id'];
+            $options[$key]['label'] = $u['User']['username'];
+            $options[$key]['value'] = $u['User']['username'];
+            $options[$key]['name'] = $u['Member']['name'] . ' ' . $u['Member']['last_name'];
+            $options[$key]['image'] = $u['Member']['img_profile_path'];
+        }
+        $json = json_encode($options);
+        $this->response->body($json);
+    }
+
+    /**
+     * Indicar para qué funciones se requiere autorización
+     */
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('view', 'detail');
+        $this->Auth->deny('edit', 'getusers', 'img_change', 'manage', 'register');
+    }
+
+    /**
+     * Determinar qué acciones estarán disponibles por usuario
+     * @param type $user
+     * @return boolean
+     */
+    public function isAuthorized($user = null) {
+
+        if (in_array($this->request->params, array('register', 'admin', 'memberadmin')) &&
+                $user['role'] !== 'ca_admin') {
+            return false;
+        }
+
+        return parent::isAuthorized($user);
     }
 
 }

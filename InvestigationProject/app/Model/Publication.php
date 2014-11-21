@@ -12,5 +12,36 @@
  * @author rgarcia
  */
 class Publication extends AppModel {
-    //put your code here
+
+    //put your code here    
+    public $hasAndBelongsToMany = array(
+        'Fields' =>
+        array(
+            'className' => 'SectionsField',
+            'joinTable' => 'publications_section_fields',
+            'foreignKey' => 'publication_id',
+            'associationForeignKey' => 'section_field_id',
+            'unique' => true,
+        )
+    );
+    
+    public $validate = array(
+        'title' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'El título es requerido.'
+            ),
+            'unique' => array(
+                'rule' => 'isUnique',
+                'message' => 'El título ingresado ya existe.'
+            )
+        ),
+        'publish_date' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'La fecha de publicación es requerida.'
+            )
+        )
+    );
+
 }

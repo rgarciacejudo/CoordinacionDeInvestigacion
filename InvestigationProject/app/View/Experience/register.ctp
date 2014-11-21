@@ -73,36 +73,36 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#ExperienceFromDate").datepicker({ dateFormat: "yy-mm-dd" });
-        $("#ExperienceToDate").datepicker({ dateFormat: "yy-mm-dd" });
+        $("#ExperienceFromDate").datepicker({dateFormat: "yy-mm-dd"});
+        $("#ExperienceToDate").datepicker({dateFormat: "yy-mm-dd"});
         $('#ExperienceRegisterForm').validate({
             rules: {
                 'data[Experience][institution]': {required: true},
                 'data[Experience][activities]': {required: true}
             }
         });
-        $(function(){
-            $( "#ExperienceInstitution" ).autocomplete({
-                source: function( request, response ) {
+        $(function() {
+            $("#ExperienceInstitution").autocomplete({
+                source: function(request, response) {
                     $.ajax({
                         url: "../institution/getexperiences",
                         dataType: "json",
                         data: {
                             name: request.term
                         },
-                        success: function( data ) {                    
-                            response( data );
+                        success: function(data) {
+                            response(data);
                         }
                     });
                 },
                 minLength: 2,
-                select: function( event, ui ) {
+                select: function(event, ui) {
                     $("#ExperienceInstitutionId").val(ui.item.id);
                 },
-                search: function(event, ui){
+                search: function(event, ui) {
                     $(this).addClass('searching');
                 },
-                response: function(event, ui){
+                response: function(event, ui) {
                     $(this).removeClass('searching');
                 }
             });

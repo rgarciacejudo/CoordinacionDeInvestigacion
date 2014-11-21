@@ -37,12 +37,21 @@ class AppController extends Controller {
         'Auth' => array(
             'loginAction' => array('controller' => 'user', 'action' => 'login'),
             'loginRedirect' => array('controller' => 'home', 'action' => 'index'),
-            'logoutRedirect' => array('controller' => 'home', 'action' => 'index', 'home'),
-            'authError' => 'Debes iniciar sesión para ingresar a esta función.',
-            'loginError' => 'Usuario o contraseña inválidos.'
+            'logoutRedirect' => array('controller' => 'home', 'action' => 'display'),
+            'authError' => 'No tiene los permisos necesarios para acceder a esta acción.',
+            'loginError' => 'Usuario o contraseña inválidos.',
+            'authorize' => array('Controller'),
+            'unauthorizedRedirect' => array('controller' => 'home', 'action' => 'index'),
+            'flash' => array('element' => 'alert-message', 'key' => 'auth', 'params' => array())
+            
     ));
 
     public function beforeFilter(){
-        $this->Auth->allow();
+        $this->Auth->allow('index');
     }  
+    
+    public function isAuthorized($user = null) {       
+        // Default allow        
+        return true;
+    }
 }

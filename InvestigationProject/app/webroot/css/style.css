@@ -1,3 +1,25 @@
+html,
+body {
+    height: 100%;
+}
+
+.wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
+body .wrapper > section.container {
+    padding-bottom: 298px !important;
+}
+
+footer {    
+    width: 100% !important;    
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 298px;
+}
+
 .transparent{
     background: transparent;
 }
@@ -50,6 +72,7 @@ footer{
     border: 1px solid #eaeaea;
     padding: 1.5em;
     overflow: auto;
+    margin-bottom: 1em;
 }
 
 h4{

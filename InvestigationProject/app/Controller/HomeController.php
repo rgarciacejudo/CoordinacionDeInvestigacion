@@ -19,6 +19,14 @@ class HomeController extends AppController {
     public function display() {
     	$this->set('page_name', 'Inicio');
     }
+
+    /**
+     * Indicar para qué funciones se requiere autorización
+     */
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('index', 'display');
+    }
     
 }
 

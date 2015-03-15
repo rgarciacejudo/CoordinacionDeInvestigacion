@@ -344,7 +344,7 @@ class UserController extends AppController {
      */
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('view', 'detail');
+        $this->Auth->allow('login', 'recover', 'view', 'detail');
         $this->Auth->deny('edit', 'getusers', 'img_change', 'manage', 'register');
     }
 

@@ -9,14 +9,17 @@
     <meta description="Investigaci&oacute;n">
     <?php echo $this->Html->css(array('foundation', 'normalize', 'style')); ?>
     <?php echo $this->Html->script(array('vendor/modernizr', 'vendor/jquery', 'vendor/fastclick', 'foundation.min')); ?>
+     <?php echo $this->Html->script('research-observatory'); ?>
 </head>
 <body>
     <header class="row">
         <figure>
-            <?php echo $this->Html->image('logo_principal.png', array(
-                'alt' => 'Observatorio de Investigación',
-                'width' => '100%'));
-            ?>                
+            <a href="http://www.uaemex.mx/">
+                <?php echo $this->Html->image('logo_principal.png', array(
+                    'alt' => 'Observatorio de Investigación',
+                    'width' => '100%'));
+                ?>                
+            </a>
         </figure>
         <nav class="top-bar" style="margin-top: 5px;" data-topbar>
             <ul class="title-area">
@@ -202,20 +205,17 @@
             <div class="small-12 medium-6 large-3 columns">
                 <ul class="footer-nav">
                     <li><label>Enlaces</label></li>
-                    <li><a href="#">Agenda Estadística</a></li>
-                    <li><a href="#">Catálogo de Productos y Servicios</a></li>
-                    <li><a href="#">Compras UAEM</a></li>
-                    <li><a href="#">Descuentos Comunidad UAEM</a></li>
-                    <li><a href="#">Estadísticas uaemex.mx</a></li>
-                    <li><a href="#">FONDICT</a></li>
-                    <li><a href="#">Nuevo Ingreso 2014</a></li>
-                    <li><a href="#">Testigos Sociales</a></li>
+                    <li><a href="http://www.conacyt.mx/">CONACYT</a></li>
+                    <li><a href="http://promep.sep.gob.mx">PROMEP</a></li>
                 </ul>
             </div>
             <div class="small-12 medium-6 large-3 columns">
                 <ul class="footer-nav">
                     <li><label>Dirección</label></li>
-                    <p>Universidad Autónoma del Estado de México Instituto Literario # 100. Col. Centro C.P. 50000. Tel. (01-722) 2262300 Toluca, Estado de México. rectoria@uaemex.mx</p>
+                    <p>Dra. Rosa María Valdovinos Rosas 
+                        <br>Facultad de Ingeniería Cerro de Coatepec s/n, Ciudad Univesitaria Toluca, México. 
+                        <br>Tel. (722) 2140855 ext. 1212
+                    </p>
                 </ul>
             </div>
         </div>

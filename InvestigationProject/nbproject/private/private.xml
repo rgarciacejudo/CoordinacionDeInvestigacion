@@ -10,14 +10,6 @@
             </bookmark>
         </file>
         <file>
-            <url>app/Controller/PublicationController.php</url>
-            <bookmark id="7">
-                <name/>
-                <line>70</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>app/View/Publication/index.ctp</url>
             <bookmark id="8">
                 <name/>
@@ -30,6 +22,14 @@
             <bookmark id="4">
                 <name/>
                 <line>35</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>app/Controller/PublicationController.php</url>
+            <bookmark id="7">
+                <name/>
+                <line>70</line>
                 <key/>
             </bookmark>
         </file>

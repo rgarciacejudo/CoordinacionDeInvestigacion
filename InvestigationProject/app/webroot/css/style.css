@@ -27,24 +27,24 @@ footer{
     padding: 1em;
     font-size: 11px;
     color: white; }	
-    .footer-nav li{
-        list-style: none;
-        margin: 1em; }
-        .footer-nav li label{
-            font-size: 12px;
-            cursor: default;
-            list-style: none;
-            color: white;
-         
-            padding-bottom: 0.5em;
-            margin-bottom: 1em; }
-        .footer-nav li a{
-            color: white; }
-        .footer-nav li a:hover{
-            color: #968411; }
-    .footer-nav p{
-        font-size: 11px; }
-    
+.footer-nav li{
+    list-style: none;
+    margin: 1em; }
+.footer-nav li label{
+    font-size: 12px;
+    cursor: default;
+    list-style: none;
+    color: white;
+
+    padding-bottom: 0.5em;
+    margin-bottom: 1em; }
+.footer-nav li a{
+    color: white; }
+.footer-nav li a:hover{
+    color: #968411; }
+.footer-nav p{
+    font-size: 11px; }
+
 .form-content{
     background: #f7f7f4;
     border: 1px solid #eaeaea;
@@ -145,4 +145,8 @@ textarea{
 .member-container p{
     font-size: 0.875rem;
     vertical-align: middle;
+}
+
+.li_calendar {
+    cursor: pointer;
 }

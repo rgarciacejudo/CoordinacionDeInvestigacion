@@ -68,8 +68,8 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#ExperienceFromDate").datepicker({ dateFormat: "yy-mm-dd" });
-        $("#ExperienceToDate").datepicker({ dateFormat: "yy-mm-dd" });
+        $("#ExperienceFromDate").datepicker({ dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true });
+        $("#ExperienceToDate").datepicker({ dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true });
         $('#ExperienceRegisterForm').validate({
             rules: {
                 'data[Experience][institution]': {required: true},

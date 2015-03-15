@@ -201,24 +201,45 @@
                     ?>
                 </label>
             </div>
-        </div>        
-        <div class="row collapse">                        
-            <label>Validez SNI</label>
-            <div class="small-3 large-2 columns">
-                <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
+        </div>   
+        <div class="sni-container hide">
+            <div class="row collapse">                        
+                <label>SNI - Fecha de Inicio</label>
+                <div class="small-3 large-2 columns">
+                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
+                </div>
+                <?php
+                echo $this->Form->input('Member.SNI_start_date', array(
+                    'label' => false,
+                    'placeholder' => 'fecha de inicio',
+                    'class' => 'radius-right',
+                    'readonly' => 'readonly',
+                    'type' => 'text',
+                    'div' => array(
+                        'class' => 'small-9 large-10 columns'
+                    )
+                ));
+                ?> 
             </div>
-            <?php
-            echo $this->Form->input('Member.SNI_validity_date', array(
-                'label' => false,
-                'placeholder' => 'validez SNI',
-                'class' => 'radius-right',
-                'type' => 'text',
-                'div' => array(
-                    'class' => 'small-9 large-10 columns'
-                )
-            ));
-            ?> 
-        </div>
+            <div class="row collapse">                        
+                <label>SNI - Fecha de Fin</label>
+                <div class="small-3 large-2 columns">
+                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
+                </div>
+                <?php
+                echo $this->Form->input('Member.SNI_end_date', array(
+                    'label' => false,
+                    'placeholder' => 'fecha de fin',
+                    'class' => 'radius-right',
+                    'readonly' => 'readonly',
+                    'type' => 'text',
+                    'div' => array(
+                        'class' => 'small-9 large-10 columns'
+                    )
+                ));
+                ?> 
+            </div>
+        </div>        
         <div class="row">
             <div class="column">
                 <label>PROMEP</label>
@@ -232,59 +253,85 @@
 
             </div>
         </div>
-        <div class="row collapse">            
-            <label>Validez PROMEP</label>
-            <div class="small-3 large-2 columns">
-                <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
-            </div>
-            <?php
-            echo $this->Form->input('Member.PROMEP_validity_date', array(
-                'label' => false,
-                'placeholder' => 'validez PROMEP',
-                'class' => 'radius-right',
-                'type' => 'text',
-                'div' => array(
-                    'class' => 'small-9 large-10 columns'
-                )
-            ));
-            ?>
-        </div>                
+        <div class="promep-container hide" >
+            <div class="row collapse">            
+                <label>PROMEP - Fecha de Inicio</label>
+                <div class="small-3 large-2 columns">
+                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
+                </div>
+                <?php
+                echo $this->Form->input('Member.PROMEP_start_date', array(
+                    'label' => false,
+                    'placeholder' => 'fecha de inicio',
+                    'class' => 'radius-right',
+                    'readonly' => 'readonly',
+                    'type' => 'text',
+                    'div' => array(
+                        'class' => 'small-9 large-10 columns'
+                    )
+                ));
+                ?>
+            </div>   
+            <div class="row collapse">            
+                <label>PROMEP - Fecha de Fin</label>
+                <div class="small-3 large-2 columns">
+                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
+                </div>
+                <?php
+                echo $this->Form->input('Member.PROMEP_end_date', array(
+                    'label' => false,
+                    'placeholder' => 'fecha de fin',
+                    'class' => 'radius-right',
+                    'type' => 'text',
+                    'div' => array(
+                        'class' => 'small-9 large-10 columns'
+                    )
+                ));
+                ?>
+            </div>  
+        </div>
     </div>
     <div class="small-12 medium-6 large-6 columns"> 
         <h6>Experiencia</h6>
-        <?php echo $this->Html->link('Agregar experiencia', array(
+        <?php
+        echo $this->Html->link('Agregar experiencia', array(
             'controller' => 'experience',
             'action' => 'register'), array(
-                'class' => 'button secondary tiny radius'
-            )
-        );?>
+            'class' => 'button secondary tiny radius'
+                )
+        );
+        ?>
         <p></p>                
         <div class="experiences-content">
             <?php foreach ($experiences as $key => $value) { ?>
-            <ul class="pricing-table">
-                <li class="title"><?php echo 'Actividad ' . ($key + 1); ?>
-                <?php echo $this->Html->link($this->Html->tag('span', NULL, array(
-                        'class' => 'li_trash',
-                        'aria-hidden' => 'true',
-                        'style' => 'color: white; float: right;'
-                    )), array(
-                        'controller' => 'experience',
-                        'action' => 'delete',
-                        $value['Experience']['id'])
-                      ,array('escape' => false)
-                      ,'¿Estás seguro de eliminar esta experiencia?'); ?>
-                </li>
-                <li class="price"><?php echo $value['Institution']['name']; ?></li>
-                <li class="description"><?php echo $value['Experience']['activities']; ?></li>
-                <li class="bullet-item"><?php echo 'De ' . $value['Experience']['from_date'] . ' a ' . $value['Experience']['to_date']; ?></li>
-                <li class="cta-button" style="padding: 0.5em;"><?php echo $this->Html->link('Editar', array(
-                    'controller' => 'experience',
-                    'action' => 'edit',
-                    $value['Experience']['id']
-                ), array(
-                    'class' => 'button secondary tiny radius'
-                )); ?></li>
-            </ul>
+                <ul class="pricing-table">
+                    <li class="title"><?php echo 'Actividad ' . ($key + 1); ?>
+                        <?php
+                        echo $this->Html->link($this->Html->tag('span', NULL, array(
+                                    'class' => 'li_trash',
+                                    'aria-hidden' => 'true',
+                                    'style' => 'color: white; float: right;'
+                                )), array(
+                            'controller' => 'experience',
+                            'action' => 'delete',
+                            $value['Experience']['id'])
+                                , array('escape' => false)
+                                , '¿Estás seguro de eliminar esta experiencia?');
+                        ?>
+                    </li>
+                    <li class="price"><?php echo $value['Institution']['name']; ?></li>
+                    <li class="description"><?php echo $value['Experience']['activities']; ?></li>
+                    <li class="bullet-item"><?php echo 'De ' . $value['Experience']['from_date'] . ' a ' . $value['Experience']['to_date']; ?></li>
+                    <li class="cta-button" style="padding: 0.5em;"><?php
+                        echo $this->Html->link('Editar', array(
+                            'controller' => 'experience',
+                            'action' => 'edit',
+                            $value['Experience']['id']
+                                ), array(
+                            'class' => 'button secondary tiny radius'
+                        ));
+                        ?></li>
+                </ul>
             <?php } ?>     
         </div>                
     </div>
@@ -299,11 +346,36 @@
     ?>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#MemberSNIValidityDate").datepicker({ dateFormat: "yy-mm-dd" });
-        $("#MemberPROMEPValidityDate").datepicker({ dateFormat: "yy-mm-dd" });
-        $("#UserImg").change(function() {
+    $(document).ready(function () {
+        $("#MemberSNIStartDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+        $("#MemberPROMEPStartDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+        $("#MemberSNIEndDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+        $("#MemberPROMEPEndDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+
+
+        $("#UserImg").change(function () {
             $("#selected_file").html($("#UserImg").val());
+        });
+
+        //Lógica de SNI y PROMEP
+        $('#MemberPROMEP').change(function () {
+            if (!$(this).prop('checked')) {
+                $('.promep-container').addClass('hide');
+                $('#MemberPROMEPStartDate').val('');
+                $('#MemberPROMEPEndDate').val('');
+            } else {
+                $('.promep-container').removeClass('hide');
+            }
+        });
+
+        $('#MemberSNI').change(function () {
+            if ($(this).val() === '') {
+                $('.sni-container').addClass('hide');
+                $("#MemberSNIStartDate").val('');
+                $("#MemberSNIEndDate").val('');
+            } else {
+                $('.sni-container').removeClass('hide');
+            }
         });
     });
 </script>

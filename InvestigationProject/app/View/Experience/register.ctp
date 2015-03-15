@@ -61,48 +61,57 @@
             </label>
         </div>
     </div>
-    <?php
-    echo $this->Form->end(array(
-        'label' => 'Registrar',
-        'class' => 'button radius small right',
-        'div' => array(
-            'class' => 'columns'
-        )
-    ));
-    ?>
+    <div class="row">
+        <div class="small-6 columns" style="text-align: right;">
+        <?php
+        echo $this->Html->link('Cancelar'
+                , array('controller' => 'user', 'action' => 'edit')
+                , array('class' => 'button radius secondary small'));
+        ?>
+        </div>
+        <?php
+        echo $this->Form->end(array(
+            'label' => 'Registrar',
+            'class' => 'button radius small',
+            'div' => array(
+                'class' => 'small-6 columns'
+            )
+        ));
+        ?>
+    </div>    
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#ExperienceFromDate").datepicker({dateFormat: "yy-mm-dd"});
-        $("#ExperienceToDate").datepicker({dateFormat: "yy-mm-dd"});
+    $(document).ready(function () {
+        $("#ExperienceFromDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+        $("#ExperienceToDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
         $('#ExperienceRegisterForm').validate({
             rules: {
                 'data[Experience][institution]': {required: true},
                 'data[Experience][activities]': {required: true}
             }
         });
-        $(function() {
+        $(function () {
             $("#ExperienceInstitution").autocomplete({
-                source: function(request, response) {
+                source: function (request, response) {
                     $.ajax({
                         url: "../institution/getexperiences",
                         dataType: "json",
                         data: {
                             name: request.term
                         },
-                        success: function(data) {
+                        success: function (data) {
                             response(data);
                         }
                     });
                 },
                 minLength: 2,
-                select: function(event, ui) {
+                select: function (event, ui) {
                     $("#ExperienceInstitutionId").val(ui.item.id);
                 },
-                search: function(event, ui) {
+                search: function (event, ui) {
                     $(this).addClass('searching');
                 },
-                response: function(event, ui) {
+                response: function (event, ui) {
                     $(this).removeClass('searching');
                 }
             });

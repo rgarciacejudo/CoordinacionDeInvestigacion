@@ -11,7 +11,8 @@ class UserController extends AppController {
 
     public $components = array('Paginator', 'RequestHandler');
     public $paginate = array(
-        'limit' => 5
+        'limit' => 5,
+//        'group' => array('role')
     );
 
     /**

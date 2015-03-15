@@ -95,7 +95,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#PublicationPublishDate").datepicker({dateFormat: "yy-mm-dd"});
+        $("#PublicationPublishDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
 
         $('#PublicationRegisterForm').validate({
             rules: {
@@ -143,7 +143,7 @@
                         container.append(hidden);
                         container.append(input);
                         if (this.type === 'Fecha') {
-                            $('#PublicationsSectionField' + fieldNo + 'Value').datepicker({dateFormat: "yy-mm-dd"});
+                            $('#PublicationsSectionField' + fieldNo + 'Value').datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
                         }
                         fieldNo++;
                     });

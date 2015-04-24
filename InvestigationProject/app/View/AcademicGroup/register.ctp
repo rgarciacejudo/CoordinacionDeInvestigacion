@@ -121,7 +121,7 @@
                                 item.label + '<br>' +
                                 item.name + '</p></a>')
                             .appendTo(ul);
-                }
+                };
             });
         });
     </script>

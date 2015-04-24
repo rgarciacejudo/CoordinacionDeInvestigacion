@@ -86,6 +86,11 @@ class AcademicGroupController extends AppController {
                 $this->Paginator->settings['conditions'] = array('AcademicGroup.user_id' => $this->Auth->user('id'));
                 $academic_groups = $this->Paginator->paginate('AcademicGroup');
                 break;
+            case 'members':
+                $this->set('isMembersDetail', true);
+                $this->Paginator->settings['group'] = array('AcademicGroup.id');
+                $academic_groups = $this->Paginator->paginate('AcademicGroup');
+                break;
         }
         $this->set('academic_groups', $academic_groups);
     }

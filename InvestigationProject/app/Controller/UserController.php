@@ -180,14 +180,14 @@ class UserController extends AppController {
      */
     public function img_change() {
         if ($this->request->is('post') || $this->request->is('put')) {
-            if (empty($this->data['User']['img']['tmp_name']) or ! is_uploaded_file($this->data['User']['img']['tmp_name'])) {
+            if (empty($this->data['UserImage']['img']['tmp_name']) or ! is_uploaded_file($this->data['UserImage']['img']['tmp_name'])) {
                 $this->Session->setFlash('Debe seleccionar una imagen.', 'info-message');
             } else {
                 $path = WWW_ROOT . 'files' . DS . 'profile_images' . DS;
-                $ext = '.' . pathinfo($this->data['User']['img']['name'], PATHINFO_EXTENSION);
+                $ext = '.' . pathinfo($this->data['UserImage']['img']['name'], PATHINFO_EXTENSION);
                 $filename = 'img_profile_' . $this->Auth->user('id') . $ext;
                 move_uploaded_file(
-                        $this->data['User']['img']['tmp_name'], $path . $filename
+                        $this->data['UserImage']['img']['tmp_name'], $path . $filename
                 );
                 $user_member = $this->User->find('first', array(
                     'conditions' => array(
@@ -243,7 +243,7 @@ class UserController extends AppController {
                 $this->Paginator->settings['conditions'] = array('User.role' => 'member');
                 $this->set('page_name', 'Investigadores');
                 $users = $this->Paginator->paginate('User');
-                break;
+                break;            
             default:
                 break;
         }

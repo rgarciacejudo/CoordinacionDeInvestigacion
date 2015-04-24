@@ -14,8 +14,18 @@
                 <li>
                     <?php echo $this->Html->link('Registrar', array('controller' => 'user', 'action' => 'register')); ?>
                 </li>
-                <li>
+                <li class="has-dropdown">
                     <?php echo $this->Html->link('Consultar', array('controller' => 'user', 'action' => 'index', 'members')); ?>
+                    <ul class="dropdown">
+                        <li>
+                            <?php echo $this->Html->link('Todos', array('controller' => 'user', 'action' => 'index', 'all'));
+                            ?>
+                        </li>
+                        <li>
+                            <?php echo $this->Html->link('Por Cuerpo Académico', array('controller' => 'academicgroup', 'action' => 'index', 'members'));
+                            ?>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </li>

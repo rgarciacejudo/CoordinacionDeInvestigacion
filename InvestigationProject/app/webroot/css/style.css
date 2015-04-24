@@ -129,8 +129,7 @@ textarea{
     padding: 7px !important;
 }
 
-.experiences-content{
-    height: 520px;
+.experiences-content{    
     overflow: scroll;
 }
 
@@ -172,4 +171,39 @@ textarea{
 
 .li_calendar {
     cursor: pointer;
+}
+
+p.no-margin{
+    margin-bottom: 0.5em;
+}
+
+.experience-title{
+    background-color: white;
+    text-align: center;
+    color: #777777;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 1.4;
+    border-bottom: dotted 1px #dddddd;
+}
+
+a.del-exp{
+    position: relative;
+    top: 10px;
+    padding: 0 !important;
+    right: 10px;
+}
+
+/*Foundation custom elements*/
+.accordion .accordion-navigation > a, .accordion dd > a {
+    background-color: #333;
+    text-align: center;
+    color: white;
+}
+
+.accordion .accordion-navigation > a:hover, .accordion dd > a:hover {
+    background: #444; }
+
+.accordion .accordion-navigation.active > a, .accordion dd.active > a {
+    background: #444;
 }

@@ -9,7 +9,7 @@
         <div class="row">
             <div class="column">
                 <?php
-                echo $this->Form->create('User', array(
+                echo $this->Form->create('UserImage', array(
                     'type' => 'file',
                     'url' => array('controller' => 'user', 'action' => 'img_change')
                 ));
@@ -21,20 +21,17 @@
                             'alt' => 'Imagen de perfil',
                             'class' => 'th avatar'));
                         ?>
-                        <span id="selected_file">No se ha seleccionado un archivo.</span>
+                        <span id="selected_file">Seleccionar imagen</span>
                         <?php
                         echo $this->Form->input('img', array(
                             'label' => false,
                             'type' => 'file',
+                            'accept' => 'image/x-png, image/gif, image/jpeg',
                             'hidden' => '1'
                         ));
                         ?>
                     </figure>                
                 </label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="column">
                 <?php
                 echo $this->Form->end(array(
                     'label' => 'Cambiar imagen',
@@ -44,37 +41,10 @@
                     )
                 ));
                 ?>
-            </div>
-        </div>  
-        <?php echo $this->Form->create(); ?>
-        <div class="row">
-            <div class="column">
-                <label>Usuario
-                    <?php
-                    echo $this->Form->input('User.username', array(
-                        'label' => false,
-                        'placeholder' => 'contraseña actual',
-                        'class' => 'radius',
-                        'readonly' => '1'
-                    ));
-                    ?>
-                </label>
-            </div>
+            </div>            
         </div>
-        <div class="row">
-            <div class="column">                
-                <?php
-                echo $this->Html->link('Cambiar contraseña', array(
-                    'controller' => 'user',
-                    'action' => 'manage'
-                        ), array(
-                    'class' => 'button tiny radius right'
-                        )
-                );
-                ?>
-            </div>
-        </div>        
-    </div>       
+    </div>
+    <?php echo $this->Form->create(); ?>    
     <div class="small-12 medium-6 large-6 columns">        
         <h6>Información personal</h6>
         <div class="row">
@@ -130,7 +100,36 @@
                 </label>
             </div>
         </div>        
-    </div>    
+    </div>   
+    <div class="small-12 medium-6 large-6 columns">        
+        <div class="row">
+            <div class="column">
+                <label>Usuario
+                    <?php
+                    echo $this->Form->input('User.username', array(
+                        'label' => false,
+                        'placeholder' => 'contraseña actual',
+                        'class' => 'radius',
+                        'readonly' => '1'
+                    ));
+                    ?>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">                
+                <?php
+                echo $this->Html->link('Cambiar contraseña', array(
+                    'controller' => 'user',
+                    'action' => 'manage'
+                        ), array(
+                    'class' => 'button tiny radius right'
+                        )
+                );
+                ?>
+            </div>
+        </div>        
+    </div>       
     <div class="small-12 medium-12 large-12 columns">
         <div class="row">
             <div class="column">
@@ -302,36 +301,39 @@
         );
         ?>
         <p></p>                
-        <div class="experiences-content">
+        <div class="experiences-content">            
             <?php foreach ($experiences as $key => $value) { ?>
-                <ul class="pricing-table">
-                    <li class="title"><?php echo 'Actividad ' . ($key + 1); ?>
+                <?php $activityId = 'Actividad' . ($key + 1); ?>
+                <dl class="accordion" data-accordion>
+                    <dd class="accordion-navigation">
                         <?php
                         echo $this->Html->link($this->Html->tag('span', NULL, array(
-                                    'class' => 'li_trash',
+                                    'class' => 'li_trash delete-experience',
                                     'aria-hidden' => 'true',
-                                    'style' => 'color: white; float: right;'
+                                    'style' => 'color:white;float:right;display:inline;'
                                 )), array(
                             'controller' => 'experience',
                             'action' => 'delete',
                             $value['Experience']['id'])
-                                , array('escape' => false)
+                                , array('escape' => false, 'class' => 'del-exp')
                                 , '¿Estás seguro de eliminar esta experiencia?');
                         ?>
-                    </li>
-                    <li class="price"><?php echo $value['Institution']['name']; ?></li>
-                    <li class="description"><?php echo $value['Experience']['activities']; ?></li>
-                    <li class="bullet-item"><?php echo 'De ' . $value['Experience']['from_date'] . ' a ' . $value['Experience']['to_date']; ?></li>
-                    <li class="cta-button" style="padding: 0.5em;"><?php
-                        echo $this->Html->link('Editar', array(
-                            'controller' => 'experience',
-                            'action' => 'edit',
-                            $value['Experience']['id']
-                                ), array(
-                            'class' => 'button secondary tiny radius'
-                        ));
-                        ?></li>
-                </ul>
+                        <a href="#<?php echo $activityId; ?>"><?php echo $value['Institution']['name']; ?></a>                      
+                        <div id="<?php echo $activityId; ?>" class="content">
+                            <p class="no-margin experience-title"><?php echo 'De ' . $value['Experience']['from_date'] . ' a ' . $value['Experience']['to_date']; ?></p>
+                            <p class="no-margin"><?php echo $value['Experience']['activities']; ?></p>
+                            <div style="text-align:right;"><?php
+                                echo $this->Html->link('Editar', array(
+                                    'controller' => 'experience',
+                                    'action' => 'edit',
+                                    $value['Experience']['id']
+                                        ), array(
+                                    'class' => 'button secondary tiny radius'
+                                ));
+                                ?></div>                          
+                        </div>
+                    </dd>                
+                </dl>                
             <?php } ?>     
         </div>                
     </div>
@@ -352,6 +354,7 @@
         $("#MemberSNIEndDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
         $("#MemberPROMEPEndDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
 
+        $('#UserEditForm').validate();
 
         $("#UserImg").change(function () {
             $("#selected_file").html($("#UserImg").val());
@@ -363,8 +366,12 @@
                 $('.promep-container').addClass('hide');
                 $('#MemberPROMEPStartDate').val('');
                 $('#MemberPROMEPEndDate').val('');
+                $('#MemberPROMEPStartDate').rules('remove', 'required');
+                $('#MemberPROMEPEndDate').rules('remove', 'required');
             } else {
                 $('.promep-container').removeClass('hide');
+                $('#MemberPROMEPStartDate').rules('add', 'required');
+                $('#MemberPROMEPEndDate').rules('add', 'required');
             }
         });
 
@@ -373,9 +380,16 @@
                 $('.sni-container').addClass('hide');
                 $("#MemberSNIStartDate").val('');
                 $("#MemberSNIEndDate").val('');
+                $('#MemberSNIStartDate').rules('remove', 'required');
+                $('#MemberSNIEndDate').rules('remove', 'required');
             } else {
                 $('.sni-container').removeClass('hide');
+                $('#MemberSNIStartDate').rules('add', {required: true});
+                $('#MemberSNIEndDate').rules('add', {required: true});
             }
         });
+
+        $('#MemberPROMEP').change();
+        $('#MemberSNI').change();
     });
 </script>

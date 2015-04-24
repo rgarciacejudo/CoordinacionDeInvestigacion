@@ -28,7 +28,7 @@ class AcademicGroup extends AppModel {
                 'foreignKey' => 'academic_group_id',
                 'associationForeignKey' => 'member_id',
                 'unique' => true,
-                'fields' => 'Members.user_id'
+                //'fields' => 'Members.user_id'
             )
     );
 

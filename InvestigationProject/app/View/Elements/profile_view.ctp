@@ -54,10 +54,11 @@
     }
     ?>
     <?php if ($detail) { ?>    
-        <div class="small-12 medium-12 large-12 columns experiences-details">
-            <h5>Experiencias</h5>            
+        <div class="columns profile-details">
+            <p style="margin-bottom: 0.5em;"><label>Experiencia Profesional</label></p>            
+            <div class="row">
             <?php foreach ($user_profile['Member']['Experience'] as $key => $value) { ?>
-                <div class="small-3 medium-3 large-3 columns ">
+                <div class="small-12 medium-3 large-3 columns" style="float: left;">
                     <ul class="pricing-table">
                         <li class="title">Actividad <?php echo $key + 1; ?></li>
                         <li class="price"><?php echo $value['Institution']['name']; ?></li>
@@ -66,6 +67,7 @@
                     </ul>
                 </div>
             <?php } ?>
+            </div>                
         </div>
     <?php } ?>
 </div>

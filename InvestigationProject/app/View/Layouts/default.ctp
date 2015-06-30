@@ -39,7 +39,7 @@
 
                     <section class="top-bar-section">
                         <ul class="left">
-                            <li <?php
+<!--                            <li <?php
                             echo $this->params['controller'] == 'home' ?
                                     'class = "active"' : '';
                             ?>>
@@ -48,7 +48,7 @@
                                         'controller' => 'home',
                                         'action' => 'display'));
                                     ?>
-                            </li>
+                            </li>-->
                             <?php if ($this->Session->read('Auth.User.id') == null) { ?>                       
                                 <?php echo $this->element('public_menu'); ?>
                                 <?php

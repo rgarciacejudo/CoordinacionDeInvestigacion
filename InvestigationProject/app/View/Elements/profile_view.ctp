@@ -30,7 +30,7 @@
                 ?>
             </span></p>
         <?php $date = strtotime($user_profile['User']['created']); ?>
-        <p><label>Fecha de registro:</label><span><?php echo strftime("%A %d de %B del %Y", $date); ?></span></p>           
+        <p><label>Fecha de registro:</label><span><?php echo strftime("%d/%m/%Y", $date); ?></span></p>           
     </div>
     <div class="small-12 medium-3 large-3 columns profile-details">        
         <p><label>Grado académico:</label><span><?php echo $user_profile['Member']['grade']; ?></span></p>
@@ -54,8 +54,8 @@
     }
     ?>
     <?php if ($detail) { ?>    
-        <div class="columns profile-details">
-            <p style="margin-bottom: 0.5em;"><label>Experiencia Profesional</label></p>            
+        <div class="columns profile-details">            
+            <p><label>Experiencia Profesional</label></p>            
             <div class="row">
             <?php foreach ($user_profile['Member']['Experience'] as $key => $value) { ?>
                 <div class="small-12 medium-3 large-3 columns" style="float: left;">

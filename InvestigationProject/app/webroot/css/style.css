@@ -207,3 +207,7 @@ a.del-exp{
 .accordion .accordion-navigation.active > a, .accordion dd.active > a {
     background: #444;
 }
+
+.profile-details p {
+    margin:1em 0;
+}

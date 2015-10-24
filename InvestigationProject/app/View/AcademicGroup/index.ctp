@@ -6,7 +6,7 @@
             <p><label>Nombre:</label><span><?php echo $academic_group['AcademicGroup']['name']; ?></span></p>
             <p><label>Nivel:</label><span><?php echo $academic_group['AcademicGroup']['level']; ?></span></p>
             <?php $date = strtotime($academic_group['AcademicGroup']['created']); ?>
-            <p><label>Fecha de registro:</label><span><?php echo strftime("%A %d de %B del %Y", $date); ?></span></p>
+            <p><label>Fecha de registro:</label><span><?php echo strftime("%d/%m/%Y", $date); ?></span></p>
         </div>
         <div class="small-12 medium-6 large-6 columns  profile-details">
             <p>

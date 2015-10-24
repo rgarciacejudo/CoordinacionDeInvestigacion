@@ -6,7 +6,7 @@
             <p><label>Nombre:</label><span><?php echo $value['Section']['name']; ?></span></p>
             <p><label>Descripción:</label><span><?php echo $value['Section']['description']; ?></span></p>        
             <?php $date = strtotime($value['Section']['created']); ?>
-            <p><label>Fecha de registro:</label><span><?php echo strftime("%A %d de %B del %Y", $date); ?></span></p>
+            <p><label>Fecha de registro:</label><span><?php echo strftime("%d/%m/%Y", $date); ?></span></p>
             <?php
             echo $this->Html->link('ver publicaciones »', array(
                 'controller' => 'publication',

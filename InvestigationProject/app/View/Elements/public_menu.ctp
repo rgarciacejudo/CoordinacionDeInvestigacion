@@ -46,7 +46,7 @@ echo ($this->params['controller'] == 'user' ?
         </li>
         <li>
             <?php echo $this->Html->link('Por Cuerpo Académico', 
-                    array('controller' => 'academicgroup', 'action' => 'index', 'members')); ?>
+                    array('controller' => 'AcademicGroup', 'action' => 'index', 'members')); ?>
         </li>
     </ul>
 </li>

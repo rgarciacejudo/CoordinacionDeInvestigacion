@@ -138,6 +138,7 @@ textarea{
 }
 
 .profile-details label{
+    margin: 1em 0;
     font-weight: bold;
     margin-bottom: -5px;
     cursor: default;
@@ -206,8 +207,4 @@ a.del-exp{
 
 .accordion .accordion-navigation.active > a, .accordion dd.active > a {
     background: #444;
-}
-
-.profile-details p {
-    margin:1em 0;
 }

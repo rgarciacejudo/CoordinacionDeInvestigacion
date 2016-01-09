@@ -1,12 +1,5 @@
 <?php setlocale(LC_ALL, 'es_ES'); ?>
 <h4><?php echo $page_name; ?></h4>
-<?php
-echo $this->Html->link('Regresar', $this->request->referer(), array(
-        'class' => 'button secondary tiny radius',
-        'style' => 'margin-bottom: 1em;'
-    )
-);
-?>
 <?php foreach ($publications as $key => $value) { ?>
     <div class="small-12 medium-3 large-3 columns end profile-details">
         <div class="form-content" style="margin-bottom: 1em;">

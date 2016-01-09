@@ -20,12 +20,8 @@
             </p>
             <p>
                 <span style="font-weight: bold;">Accede al sitio desde:</span>
-                <?php
-                echo $this->Html->link('Observatorio de Investigación de la FI UAEMEX', array(
-                    'controller' => 'home',
-                    'action' => 'display'
-                ));
-                ?>
+                <?php echo $this->Html->link('Observatorio de Investigación de la FI UAEMEX', FULL_BASE_URL.$this->webroot.'home/display'); 
+                ?>                
             </p>
         </div>
     </body>

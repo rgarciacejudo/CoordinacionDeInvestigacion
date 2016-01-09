@@ -12,17 +12,34 @@
             <p>
                 <label>Líder:</label><span><?php echo $academic_group['Leader']['username']; ?></span>
                 <?php
-                echo $this->Html->link('ver perfil »', array(
+                echo $this->Html->link('ver líder »', array(
                     'controller' => 'user',
                     'action' => 'detail',
                     $academic_group['Leader']['id']), array(
                     'class' => 'more-info'));
                 ?>
             </p>
-            <p><label>Descripción:</label><span><?php echo $academic_group['AcademicGroup']['description']; ?></span></p>            
-            <p>
+            <p><label>Descripción:</label><span><?php echo $academic_group['AcademicGroup']['description']; ?></span>
                 <?php
-                if (isset($this->request['pass'][0]) && $this->request['pass'][0] === 'admin') {
+                echo $this->Html->link('ver miembros »', array(
+                    'controller' => 'academic_group',
+                    'action' => 'members',
+                    $academic_group['AcademicGroup']['id']), array(
+                    'class' => 'more-info'));
+                ?>
+                <br />
+                <?php
+                echo $this->Html->link('ver producción »', array(
+                    'controller' => 'academic_group',
+                    'action' => 'production',
+                    $academic_group['AcademicGroup']['id']), array(
+                    'class' => 'more-info'));
+                ?>
+            </p>            
+            <p>
+                <?php                
+                if ((isset($this->params['pass'][0]) && $this->params['pass'][0] === 'admin' && $authUser["role"] === 'ca_admin') || $authUser["role"] == 'super_admin') {
+                    echo "<br />";
                     echo $this->Html->link('administrar »', array(
                         'controller' => 'academic_group',
                         'action' => 'admin',

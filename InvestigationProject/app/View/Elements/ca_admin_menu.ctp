@@ -22,7 +22,7 @@
                             ?>
                         </li>
                         <li>
-                            <?php echo $this->Html->link('Por Cuerpo Académico', array('controller' => 'academicgroup', 'action' => 'index', 'members'));
+                            <?php echo $this->Html->link('Por Cuerpo Académico', array('controller' => 'academic_group', 'action' => 'index', 'members'));
                             ?>
                         </li>
                     </ul>

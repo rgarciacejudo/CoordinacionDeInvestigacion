@@ -92,8 +92,8 @@ h4{
     display: inline-block;
 }
 
-select,
-textarea{
+.select,
+.textarea{
     margin-bottom: 1rem;
 }
 
@@ -102,6 +102,14 @@ textarea{
     background: url(../img/loading.gif) no-repeat !important;
     background-origin: content-box !important;
     background-position: right !important;
+}
+
+.download-icon{
+    background: url(../img/download.png) no-repeat !important;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    padding: 0 !important;
 }
 
 .calendar{
@@ -137,8 +145,7 @@ textarea{
     margin-bottom: 0;
 }
 
-.profile-details label{
-    margin: 1em 0;
+.profile-details label{    
     font-weight: bold;
     margin-bottom: -5px;
     cursor: default;
@@ -207,4 +214,27 @@ a.del-exp{
 
 .accordion .accordion-navigation.active > a, .accordion dd.active > a {
     background: #444;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+    top:5px !important;
+}
+
+.select2-container--default .select2-selection--single{
+    height: 37px !important;
+    padding-top: 4px !important; 
+}
+
+.error-message{
+    color: #C60F13;
+}
+
+.orbit-container .orbit-next:hover,
+.orbit-container .orbit-prev:hover {
+    background-color: rgba(187, 169, 53, 0.92) !important;
+}
+
+.orbit-container .orbit-next,
+.orbit-container .orbit-prev {
+    background-color: rgba(0, 0, 0, 0.3) !important;
 }

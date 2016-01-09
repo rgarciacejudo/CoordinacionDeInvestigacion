@@ -48,4 +48,5 @@
 	require CAKE . 'Config' . DS . 'routes.php';
 
         
-        Router::parseExtensions('json', 'xml');
+  Router::parseExtensions('json', 'xml');
+  Router::parseExtensions('pdf');

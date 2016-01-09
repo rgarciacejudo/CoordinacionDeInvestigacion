@@ -263,9 +263,6 @@ class UserController extends AppController {
         }
         $this->User->recursive = 3;
         $user = $this->User->findById($id);
-        if (!$user) {
-            throw new NotFoundException(__('Invalid user'));
-        }
         $this->User->recursive = 1;
         $this->set('user', $user);
     }

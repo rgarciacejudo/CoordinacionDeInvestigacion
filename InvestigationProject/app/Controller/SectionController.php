@@ -82,6 +82,62 @@ class SectionController extends AppController {
     }
 
     /**
+    * Muestra el detalle de la sección
+    */
+    public function detail($id = null){
+        $this->set('page_name', 'Detale de sección');
+
+        if (!$id) {
+            throw new NotFoundException(__('Invalid section'));
+        }
+
+        $detail = $this->Section->find('first', array(
+            'conditions' => array('Section.id' => $id),
+            'fields' => array('Section.*'),
+            'recursive' => 1));
+
+        $this->set('detail', $detail);
+    }
+
+    public function admin($id = null){
+        $this->set('page_name', 'Administrar sección');
+
+        if (!$id) {
+            throw new NotFoundException(__('Invalid section'));
+        }
+
+        $section = $this->Section->find('first', array(
+            'conditions' => array('Section.id' => $id),
+            'fields' => array('Section.*'),
+            'recursive' => 1));
+        $this->set('section', $section);
+
+        $section_field_db = new SectionsField();
+        $type = $section_field_db->getColumnType('type');
+        preg_match('/^enum\((.*)\)$/', $type, $matches);
+        foreach (explode(',', $matches[1]) as $value) {
+            $enum_types[trim($value, "'")] = trim($value, "'");
+        }
+        $this->set('field_types', $enum_types);
+
+        if ($this->request->is('put')) {            
+            if (!empty($this->data)) {                
+                if ($this->Section->saveAll($this->request->data)) {
+                    $this->Session->setFlash('Se ha actualizado la sección ' . $this->data['Section']['name'], 'success-message');
+                } else {
+                    $this->Session->setFlash('Ocurrió un error al guardar la sección ' . $this->data['Section']['name'], 'error-message');
+                }
+            } else {
+                $this->Session->setFlash('Debes proporcionar los datos solicitados.', 'info-message');
+            }
+        }
+
+        if (!$this->request->data) {
+            $this->request->data = $section;
+        }    
+    }
+
+    /**
      * Indicar para qué funciones se requiere autorización
      */
     public function beforeFilter() {

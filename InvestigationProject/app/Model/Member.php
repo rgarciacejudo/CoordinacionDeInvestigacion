@@ -12,7 +12,14 @@ App::uses('AppModel', 'Model');
  * @author rgarcia
  */
 class Member extends AppModel {
+	
+		public $belongsTo = array(
+    	'User' => array(
+        'className' => 'User',
+        'foreignKey' => 'user_id'
+      )
+    );
 
-    public $hasMany = 'Experience';       
+    public $hasMany = array('Experience', 'Publication');
 
 }

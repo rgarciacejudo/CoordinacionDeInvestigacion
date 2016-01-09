@@ -109,14 +109,14 @@
 
         $("#PublicationSectionId").change(function() {
             $('.publication-fields').html('');
-            $('#PublicationSectionId').toggleClass('searching');
+            $('#PublicationSectionId').addClass('searching');
             $.ajax({
                 url: '../section/getfields',
                 data: {
                     id: $(this).val()
                 },
                 error: function(){
-                    $('#PublicationSectionId').toggleClass('searching');
+                    $('#PublicationSectionId').removeClass('searching');
                 },
                 success: function(response) {
                     var fieldNo = 0;
@@ -128,28 +128,71 @@
                             class: 'radius',
                             type: this.type === 'Casilla de verificación' ? 'checkbox' : 'text',
                             placeholder: this.name,
-                            name: 'data[PublicationsSectionField][' + fieldNo + '][value]',
-                            id: 'PublicationsSectionField' + fieldNo + 'Value'
+                            name: 'data[Fields][' + fieldNo + '][value]',
+                            id: 'Fields' + fieldNo + 'Value'
                         });
                         var hidden = $('<input>', {
                             class: 'radius',
                             type: 'hidden',
                             value: this.id,
-                            name: 'data[PublicationsSectionField][' + fieldNo + '][section_field_id]',
-                            id: 'PublicationsSectionField' + fieldNo + 'SectionFieldId'
+                            name: 'data[Fields][' + fieldNo + '][section_field_id]',
+                            id: 'Fields' + fieldNo + 'SectionFieldId'
                         });
 
-                        container.append(label);
                         container.append(hidden);
-                        container.append(input);
-                        if (this.type === 'Fecha') {
-                            $('#PublicationsSectionField' + fieldNo + 'Value').datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
-                        }
+
+                        switch(this.type){                            
+                            case 'Fecha':
+                                var divCollapse = $('<div>', {
+                                    class: 'row collapse'
+                                });
+                                divCollapse.append(label);
+
+                                var divDate = $('<div>', {
+                                    class: 'small-3 large-2 columns'
+                                });
+
+                                var dateIcon = $('<span>', { 
+                                    'aria-hidden': 'true',
+                                    class: 'radius-left prefix li_calendar'
+                                });
+
+                                dateIcon.click(function(){
+                                    $($($(this).parent()).next().children()[0]).datepicker('show');
+                                });                                
+                                divDate.append(dateIcon);
+                                divCollapse.append(divDate);
+
+                                var divInput = $('<div>', {
+                                    class: 'small-9 large-10 columns'
+                                });
+
+                                input.removeClass('radius');
+                                input.addClass('radius-right')
+
+                                divInput.append(input);
+                                divCollapse.append(divInput);
+
+                                container.append(divCollapse);                                
+
+                                $('#Fields' + fieldNo + 'Value').datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+                            break;
+                            case 'Texto':                            
+                                container.append(label);
+                                container.append(input);
+                            break;
+                            case 'Casilla de verificación':                                
+                                container.append(input);
+                                container.append(label);
+                            break;
+                        }                                            
                         fieldNo++;
                     });
-                    $('#PublicationSectionId').toggleClass('searching');
+                    $('#PublicationSectionId').removeClass('searching');
                 }
             });
         });
+
+        $("#PublicationSectionId").change();
     });
 </script>

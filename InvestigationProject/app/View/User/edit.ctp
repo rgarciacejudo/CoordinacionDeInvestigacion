@@ -21,7 +21,7 @@
                             'alt' => 'Imagen de perfil',
                             'class' => 'th avatar'));
                         ?>
-                        <span id="selected_file">Seleccionar imagen</span>
+                        <span id="selected_file">Cambiar imagen</span>
                         <?php
                         echo $this->Form->input('img', array(
                             'label' => false,
@@ -34,7 +34,7 @@
                 </label>
                 <?php
                 echo $this->Form->end(array(
-                    'label' => 'Cambiar imagen',
+                    'label' => 'Guardar cambio',
                     'class' => 'button tiny radius right',
                     'div' => array(
                         'class' => 'columns'
@@ -241,7 +241,7 @@
         </div>        
         <div class="row">
             <div class="column">
-                <label>PROMEP</label>
+                <label>PRODEP</label>
                 <?php
                 echo $this->Form->input('Member.PROMEP', array(
                     'label' => 'Aplica',
@@ -254,7 +254,7 @@
         </div>
         <div class="promep-container hide" >
             <div class="row collapse">            
-                <label>PROMEP - Fecha de Inicio</label>
+                <label>PRODEP - Fecha de Inicio</label>
                 <div class="small-3 large-2 columns">
                     <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
                 </div>
@@ -272,7 +272,7 @@
                 ?>
             </div>   
             <div class="row collapse">            
-                <label>PROMEP - Fecha de Fin</label>
+                <label>PRODEP - Fecha de Fin</label>
                 <div class="small-3 large-2 columns">
                     <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
                 </div>

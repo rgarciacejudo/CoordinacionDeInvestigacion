@@ -93,6 +93,7 @@ class AcademicGroupController extends AppController {
                 break;
         }
         $this->set('academic_groups', $academic_groups);
+        $this->set('authUser', $this->Auth->user());
     }
 
     /**
@@ -189,11 +190,70 @@ class AcademicGroupController extends AppController {
     }
 
     /**
+    * Muestra los miembros de un cuerpo académico
+    */
+    public function members($id = null){
+        $this->set('page_name', 'Miembros de cuerpo académico');
+
+        if (!$id) {
+            throw new NotFoundException(__('Invalid academic group'));
+        }
+
+        $academic_group = $this->AcademicGroup->find('first', array(
+            'conditions' => array('AcademicGroup.id' => $id),
+            'fields' => array('AcademicGroup.*'),
+            'recursive' => 2));
+        $this->set('members', $academic_group["Members"]);
+    }
+
+    /**
+    * Muestra la producción de un cuerpo académico
+    */
+    public function production($id = null){
+        $this->set('page_name', 'Producción de cuerpo académico');
+
+        if (!$id) {
+            throw new NotFoundException(__('Invalid academic group'));
+        }        
+
+        $this->paginate = array(
+            'limit' => 5,
+            'fields' => array('Member.*', 'Publication.*', 'User.id', 'User.username'),
+            'conditions' => array('AcademicGroup.id' => $id),
+            'recursive' => -1,
+            'joins' => array(
+                array('table' => 'members_academic_groups',
+                    'alias' => 'MembersAcademicGroup',
+                    'type' => 'INNER',
+                    'conditions' => array('MembersAcademicGroup.academic_group_id = AcademicGroup.id')),
+                array('table' => 'members',
+                    'alias' => 'Member',
+                    'type' => 'INNER',
+                    'conditions' => array('Member.id = MembersAcademicGroup.member_id')),
+                array('table' => 'publications',
+                    'alias' => 'Publication',
+                    'type' => 'INNER',
+                    'conditions' => array('Publication.member_id = Member.id')),
+                array('table' => 'users',
+                    'alias' => 'User',
+                    'type' => 'INNER',
+                    'conditions' => array('User.id = Member.user_id'))
+            )
+        );
+
+        $this->Paginator->settings = $this->paginate;    
+        $publications = $this->paginate('AcademicGroup');
+        $this->set('membersPublications', $publications);
+    }
+
+    /**
      * Indicar para qué funciones se requiere autorización
      */
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->deny('admin', 'memberadmin');
+        $this->Auth->allow('members');
+        $this->Auth->allow('production');
     }
 
     /**

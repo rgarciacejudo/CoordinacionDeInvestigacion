@@ -34,6 +34,7 @@ class AppController extends Controller {
 
     public $components = array(
         'Session',
+        'Cookie',
         'Auth' => array(
             'loginAction' => array('controller' => 'user', 'action' => 'login'),
             'loginRedirect' => array('controller' => 'home', 'action' => 'index'),
@@ -48,6 +49,15 @@ class AppController extends Controller {
 
     public function beforeFilter(){
         $this->Auth->allow('index');
+        //Obtener los links del pie de página
+        if(!$this->Cookie->check('footerLinks')){
+            $this->loadModel('Link');        
+            $links = $this->Link->find('all');
+            $this->Cookie->write('footerLinks', $links);
+            $this->set('footer_links', $links);            
+        } else {
+            $this->set('footer_links', $this->Cookie->read('footerLinks'));            
+        }
     }  
     
     public function isAuthorized($user = null) {       

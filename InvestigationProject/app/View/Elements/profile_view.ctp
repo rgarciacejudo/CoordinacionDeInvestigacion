@@ -1,4 +1,9 @@
 <?php setlocale(LC_ALL, 'es_ES'); ?>
+<?php 
+    if(!isset($user_profile["Member"])){
+        $user_profile["Member"] = $user_profile;
+    }
+?>
 <div class="form-content" style="margin-bottom: 1em;">
     <div class="small-12 medium-3 large-3 columns">
         <figure>
@@ -35,7 +40,15 @@
     <div class="small-12 medium-3 large-3 columns profile-details">        
         <p><label>Grado académico:</label><span><?php echo $user_profile['Member']['grade']; ?></span></p>
         <p><label>Universidad de egreso:</label><span><?php echo $user_profile['Member']['university']; ?></span></p>
-        <p><label>Línea de investigación:</label><span><?php echo $user_profile['Member']['research_line']; ?></span></p>        
+        <p><label>Línea de investigación:</label><span><?php echo $user_profile['Member']['research_line']; ?></span></p>                
+        <p><label>SNI:</label><span><?php echo $user_profile['Member']['SNI'] ? 
+            'De: ' . strftime("%d/%m/%Y", strtotime($user_profile['Member']['SNI_start_date'])) . 
+            ' a: ' . strftime("%d/%m/%Y", strtotime($user_profile['Member']['SNI_end_date'])) : 'No';?>
+        </span></p>
+        <p><label>PRODEP:</label><span><?php echo $user_profile['Member']['PROMEP'] ? 
+            'De: ' . strftime("%d/%m/%Y", strtotime($user_profile['Member']['PROMEP_start_date'])) . 
+            ' a: ' . strftime("%d/%m/%Y", strtotime($user_profile['Member']['PROMEP_end_date'])) : 'No'; 
+        ?></span></p>
     </div>
     <div class="small-12 medium-3 large-3 columns profile-details">
         <p><label>Dirección:</label><span><?php echo $user_profile['Member']['address']; ?></span></p>
@@ -44,6 +57,7 @@
     <div class="small-12 medium-12 large-12 columns profile-details">
         <p><label>Acerca de mí:</label><span><?php echo $user_profile['Member']['additional_data']; ?></span></p>
     </div>  
+    <?php echo $this->Html->link('pdf »', array('action' => 'detail', 'ext' => 'pdf', $user['User']['id']), array('class' => 'more-info')); ?>
     <?php
     if (!$detail) {
         echo $this->Html->link('ver perfil »', array(

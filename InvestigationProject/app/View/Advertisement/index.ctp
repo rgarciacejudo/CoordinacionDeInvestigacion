@@ -23,9 +23,20 @@
         <span><?php echo $this->Html->link($ad['Advertisement']['url'], $ad['Advertisement']['url']); ?></span>
       </p>
       <p>
+        <label>Permanente:</label>
+        <span><?php echo $ad['Advertisement']['is_permanent'] ? 'Sí' : 'No'; ?></span>
+      </p>
+      <p>
       	<label>Fecha límite de visualización:</label>
       	<span><?php echo $ad['Advertisement']['expiration_date']; ?></span>
       </p>
+      <?php
+        echo $this->Html->link('administrar »', array(
+            'controller' => 'advertisement',
+            'action' => 'admin', $ad['Advertisement']['id']), array(
+            'class' => 'more-info'));
+      ?>
+      <br/>
       <?php
         echo $this->Form->postLink('borrar »', array(
             'controller' => 'advertisement',

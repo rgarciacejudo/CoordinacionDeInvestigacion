@@ -192,29 +192,40 @@ class AcademicGroupController extends AppController {
     /**
     * Muestra los miembros de un cuerpo académico
     */
-    public function members($id = null){
+    public function members($id = null, $print = null){
         $this->set('page_name', 'Miembros de cuerpo académico');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid academic group'));
         }
 
+        if($print !== null){
+            $this->layout = 'print_layout';
+            $this->set('print', true);
+        }
+
         $academic_group = $this->AcademicGroup->find('first', array(
             'conditions' => array('AcademicGroup.id' => $id),
             'fields' => array('AcademicGroup.*'),
             'recursive' => 2));
+        $this->set('academic_group_id', $id);
         $this->set('members', $academic_group["Members"]);
     }
 
     /**
     * Muestra la producción de un cuerpo académico
     */
-    public function production($id = null){
+    public function production($id = null, $print = null){
         $this->set('page_name', 'Producción de cuerpo académico');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid academic group'));
         }        
+
+        if($print !== null){
+            $this->layout = 'print_layout';
+            $this->set('print', true);
+        }
 
         $this->paginate = array(
             'limit' => 5,
@@ -243,6 +254,7 @@ class AcademicGroupController extends AppController {
 
         $this->Paginator->settings = $this->paginate;    
         $publications = $this->paginate('AcademicGroup');
+        $this->set('academic_group_id', $id);
         $this->set('membersPublications', $publications);
     }
 

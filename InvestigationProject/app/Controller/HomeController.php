@@ -13,6 +13,7 @@ class HomeController extends AppController {
      */
     public function index() {
       $this->set('page_name', 'Bienvenido');
+      return $this->redirect('display');
     }
 
     /**
@@ -22,7 +23,9 @@ class HomeController extends AppController {
     	$this->set('page_name', 'Inicio');
         $adv_db = new Advertisement();
         $advertisements = $adv_db->find('all', array(
-            'conditions' => array('expiration_date >= ' => date('Y-m-d'))
+            'conditions' => array('OR' => array(
+                'expiration_date >= ' => date('Y-m-d'),
+                'is_permanent' => true))
             )
         );
         $this->set('advertisements', $advertisements);

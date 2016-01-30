@@ -16,6 +16,13 @@
       	<span><?php echo $this->Html->link($link['Link']['url'], $link['Link']['url']); ?></span>
       </p>
       <?php
+        echo $this->Html->link('administrar »', array(
+            'controller' => 'link',
+            'action' => 'admin', $link['Link']['id']), array(
+            'class' => 'more-info'));
+      ?>
+      <br/>
+      <?php
         echo $this->Form->postLink('borrar »', array(
             'controller' => 'link',
             'action' => 'delete', $link['Link']['id']), array(

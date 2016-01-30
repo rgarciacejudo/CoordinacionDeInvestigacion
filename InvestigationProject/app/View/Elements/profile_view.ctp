@@ -56,18 +56,21 @@
     </div>
     <div class="small-12 medium-12 large-12 columns profile-details">
         <p><label>Acerca de mí:</label><span><?php echo $user_profile['Member']['additional_data']; ?></span></p>
-    </div>  
-    <?php echo $this->Html->link('pdf »', array('action' => 'detail', 'ext' => 'pdf', $user['User']['id']), array('class' => 'more-info')); ?>
+    </div>    
     <?php
-    if (!$detail) {
+    if (!isset($detail) && !isset($print)) {
         echo $this->Html->link('ver perfil »', array(
             'controller' => 'user',
             'action' => 'detail',
             $user_profile['User']['id']), array(
             'class' => 'more-info'));
+    } else {
+        if(!isset($print)){
+           echo $this->Html->link('pdf »', array('action' => 'detail', $user_profile['User']['id'], 'print'), array('class' => 'more-info', 'target' => '_blank')); 
+        }        
     }
     ?>
-    <?php if ($detail) { ?>    
+    <?php if (isset($detail)) { ?>    
         <div class="columns profile-details">            
             <p><label>Experiencia Profesional</label></p>            
             <div class="row">

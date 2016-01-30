@@ -255,12 +255,18 @@ class UserController extends AppController {
      * @param type $id
      * @throws NotFoundException
      */
-    public function detail($id = null) {
-        $this->set('page_name', 'Perfil de usuario');
+    public function detail($id = null, $print = null) {
+        $this->set('page_name', 'Perfil de usuario');        
 
         if (!$id) {
             throw new NotFoundException(__('Invalid user'));
         }
+
+        if($print !== null){
+            $this->layout = 'print_layout';
+            $this->set('print', true);
+        }
+
         $this->User->recursive = 3;
         $user = $this->User->findById($id);
         $this->User->recursive = 1;

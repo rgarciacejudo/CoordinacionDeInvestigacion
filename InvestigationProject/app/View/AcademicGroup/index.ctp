@@ -56,7 +56,7 @@
             <span>Este grupo académico aún no cuenta con miebros.</span>
             <?php } ?>
             <?php foreach ($academic_group['Members'] as $member) { ?>
-            <div class="member-item" style="padding:1em;">
+            <div class="member-item row" style="padding:1em;">
                     <div class="small-3 medium-2 large-2 columns">
                         <figure>
                             <?php

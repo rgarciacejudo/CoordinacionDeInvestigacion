@@ -3,47 +3,66 @@
 <?php echo $this->Html->css('jquery-ui/smoothness/jquery-ui'); ?>
 <?php echo $this->Html->css('linecons'); ?>
 <h4><?php echo $page_name; ?></h4>
-<div class="form-content">       
-    <div class="small-12 medium-6 large-6 columns">
-        <h6>Cuenta</h6>           
-        <div class="row">
-            <div class="column">
-                <?php
-                echo $this->Form->create('UserImage', array(
-                    'type' => 'file',
-                    'url' => array('controller' => 'user', 'action' => 'img_change')
-                ));
-                ?>
-                <label>Imagen de perfil
-                    <figure class="text-center">
-                        <?php
-                        echo $this->Html->image($img_profile == null ? 'no_img_profile.png' : $img_profile, array(
-                            'alt' => 'Imagen de perfil',
-                            'class' => 'th avatar'));
-                        ?>
-                        <span id="selected_file">Cambiar imagen</span>
-                        <?php
-                        echo $this->Form->input('img', array(
-                            'label' => false,
-                            'type' => 'file',
-                            'accept' => 'image/x-png, image/gif, image/jpeg',
-                            'hidden' => '1'
-                        ));
-                        ?>
-                    </figure>                
-                </label>
-                <?php
-                echo $this->Form->end(array(
-                    'label' => 'Guardar cambio',
-                    'class' => 'button tiny radius right',
-                    'div' => array(
-                        'class' => 'columns'
-                    )
-                ));
-                ?>
-            </div>            
+<div class="form-content">    
+    <div class="row">
+        <div class="small-12 medium-6 large-6 columns">
+            <h6>Cuenta</h6>                   
+            <?php
+            echo $this->Form->create('UserImage', array(
+                'type' => 'file',
+                'url' => array('controller' => 'user', 'action' => 'img_change')
+            ));
+            ?>
+            <label>Imagen de perfil
+                <figure class="text-center">
+                    <?php
+                    echo $this->Html->image($img_profile == null ? 'no_img_profile.png' : $img_profile, array(
+                        'alt' => 'Imagen de perfil',
+                        'class' => 'th avatar'));
+                    ?>
+                    <span id="selected_file">Cambiar imagen</span>
+                    <?php
+                    echo $this->Form->input('img', array(
+                        'label' => false,
+                        'type' => 'file',
+                        'accept' => 'image/x-png, image/gif, image/jpeg',
+                        'hidden' => '1'
+                    ));
+                    ?>
+                </figure>                
+            </label>
+            <?php
+            echo $this->Form->end(array(
+                'label' => 'Guardar cambio',
+                'class' => 'button tiny radius right',
+                'div' => array(
+                    'class' => 'columns'
+                )
+            ));
+            ?>
         </div>
-    </div>
+        <div class="small-12 medium-6 large-6 columns">            
+            <label>Usuario
+                <?php
+                echo $this->Form->input('User.username', array(
+                    'label' => false,
+                    'placeholder' => 'contraseña actual',
+                    'class' => 'radius',
+                    'readonly' => '1'
+                ));
+                ?>
+            </label>               
+            <?php
+            echo $this->Html->link('Cambiar contraseña', array(
+                'controller' => 'user',
+                'action' => 'manage'
+                    ), array(
+                'class' => 'button tiny radius right'
+                    )
+            );
+            ?>
+        </div>        
+    </div>           
     <?php echo $this->Form->create(); ?>    
     <div class="small-12 medium-6 large-6 columns">        
         <h6>Información personal</h6>
@@ -99,38 +118,7 @@
                     ?>
                 </label>
             </div>
-        </div>        
-    </div>   
-    <div class="small-12 medium-6 large-6 columns">        
-        <div class="row">
-            <div class="column">
-                <label>Usuario
-                    <?php
-                    echo $this->Form->input('User.username', array(
-                        'label' => false,
-                        'placeholder' => 'contraseña actual',
-                        'class' => 'radius',
-                        'readonly' => '1'
-                    ));
-                    ?>
-                </label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="column">                
-                <?php
-                echo $this->Html->link('Cambiar contraseña', array(
-                    'controller' => 'user',
-                    'action' => 'manage'
-                        ), array(
-                    'class' => 'button tiny radius right'
-                        )
-                );
-                ?>
-            </div>
-        </div>        
-    </div>       
-    <div class="small-12 medium-12 large-12 columns">
+        </div>   
         <div class="row">
             <div class="column">
                 <label>Acerca de mí
@@ -144,8 +132,8 @@
                     ?>
                 </label>
             </div>
-        </div>
-    </div>
+        </div>     
+    </div>               
     <div class="small-12 medium-6 large-6 columns">      
         <div class="row">
             <div class="column">
@@ -290,7 +278,16 @@
             </div>  
         </div>
     </div>
-    <div class="small-12 medium-6 large-6 columns"> 
+    <?php
+    echo $this->Form->end(array(
+        'label' => 'Actualizar',
+        'class' => 'button radius small right',
+        'div' => array(
+            'class' => 'columns'
+        )
+    ));
+    ?>
+    <div class="small-12 medium-12 large-12 columns"> 
         <h6>Experiencia</h6>
         <?php
         echo $this->Html->link('Agregar experiencia', array(
@@ -302,21 +299,22 @@
         ?>
         <p></p>                
         <div class="experiences-content">            
+            <dl class="accordion" data-accordion>
             <?php foreach ($experiences as $key => $value) { ?>
-                <?php $activityId = 'Actividad' . ($key + 1); ?>
-                <dl class="accordion" data-accordion>
+                <?php $activityId = 'Actividad' . ($key + 1); ?>                
                     <dd class="accordion-navigation">
                         <?php
-                        echo $this->Html->link($this->Html->tag('span', NULL, array(
-                                    'class' => 'li_trash delete-experience',
-                                    'aria-hidden' => 'true',
-                                    'style' => 'color:white;float:right;display:inline;'
-                                )), array(
-                            'controller' => 'experience',
-                            'action' => 'delete',
-                            $value['Experience']['id'])
-                                , array('escape' => false, 'class' => 'del-exp')
-                                , '¿Estás seguro de eliminar esta experiencia?');
+                        echo $this->Form->postLink($this->Html->tag('span', NULL, array(
+                                'class' => 'li_trash delete-experience',
+                                'aria-hidden' => 'true',
+                            )), 
+                            array(
+                                'controller' => 'experience',
+                                'action' => 'delete',
+                                $value['Experience']['id'])
+                                    , array('escape' => false, 'class' => 'del-exp')
+                                    , '¿Estás seguro de eliminar esta experiencia?'
+                            );
                         ?>
                         <a href="#<?php echo $activityId; ?>"><?php echo $value['Institution']['name']; ?></a>                      
                         <div id="<?php echo $activityId; ?>" class="content">
@@ -332,20 +330,11 @@
                                 ));
                                 ?></div>                          
                         </div>
-                    </dd>                
-                </dl>                
+                    </dd>                                        
             <?php } ?>     
+            </dl>        
         </div>                
-    </div>
-    <?php
-    echo $this->Form->end(array(
-        'label' => 'Actualizar',
-        'class' => 'button radius small right',
-        'div' => array(
-            'class' => 'columns'
-        )
-    ));
-    ?>
+    </div>    
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -391,5 +380,21 @@
 
         $('#MemberPROMEP').change();
         $('#MemberSNI').change();
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.th.avatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#UserImageImg").change(function(){
+            readURL(this);
+        });
     });
 </script>

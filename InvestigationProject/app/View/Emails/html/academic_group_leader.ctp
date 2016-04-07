@@ -11,8 +11,11 @@
                 Te ha elegido líder del grupo académico: <?php echo $academic_group; ?>
             </p>            
             <p>
+                <?php echo $description; ?>
+            </p>
+            <p>
                 <span style="font-weight: bold;">Accede al grupo académico desde:</span>
-                <?php echo $this->Html->link($academic_group, FULL_BASE_URL.$this->webroot.'academic_group/view/'.$view_id); ?>
+                <?php echo $this->Html->link($academic_group, FULL_BASE_URL.$this->webroot.'academic_group/index/'.$view_id); ?>
             </p>
         </div>
     </body>

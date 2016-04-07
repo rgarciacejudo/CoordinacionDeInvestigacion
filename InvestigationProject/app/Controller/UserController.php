@@ -1,6 +1,7 @@
 <?php
 
 App::uses('Member', 'Model');
+App::uses('AcademicGroup', 'Model');
 App::uses('Experience', 'Model');
 App::uses('CakeEmail', 'Network/Email');
 /*
@@ -12,6 +13,13 @@ class UserController extends AppController {
     public $components = array('Paginator', 'RequestHandler');
     public $paginate = array(
         'limit' => 5,
+        'order' => array(
+            'Member.name' => 'asc',
+            'Member.last_name' => 'asc',
+            'User.username' => 'asc'
+        )
+        //array('Member.name', 'Member.last_name', 'User.username')
+
 //        'group' => array('role')
     );
 
@@ -45,15 +53,22 @@ class UserController extends AppController {
     /**
      * Función para registrar usuarios
      */
-    public function register() {
-        $this->set('page_name', 'Registrar usuario');
+    public function register() {      
+        switch ($this->Session->read('Auth.User.role')) {
+            case 'super_admin':
+                $this->set('page_name', 'Registar líder cuerpo académico');
+            break;
+            case 'ca_admin':
+                $this->set('page_name', 'Registar miembro de cuerpo académico');
+            break;
+        }
+
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
-                $this->request->data['Member']['name'] = $this->data['User']['username'];
+                $this->request->data['Member']['name'] = 'Usuario';
                 $this->request->data['User']['password'] = $this->_generateRandomString();
                 $this->request->data['User']['role'] = ($this->Auth->user('role') === 'super_admin' ?
                                 'ca_admin' : ($this->Auth->user('role') === 'ca_admin' ? 'member' : 'super_admin'));
-
                 if ($this->User->saveAll($this->request->data)) {
                     $Email = new CakeEmail('gmail');
                     $Email->template('welcome')
@@ -148,6 +163,7 @@ class UserController extends AppController {
         }
         $experience_db = new Experience();
         $experiences = $experience_db->find('all', array(
+            'order' => array('Institution.name' => 'asc'),
             'conditions' => array('Experience.member_id' => $this->Session->read('User.member_id'))
         ));
         $this->set('experiences', $experiences);
@@ -155,6 +171,7 @@ class UserController extends AppController {
         $this->set('img_profile', $user_member['Member']['img_profile_path']);
         if (!$this->request->data) {
             $this->request->data = $user_member;
+            $this->set('user_member', $user_member);
         }
         if ($this->request->is('post') || $this->request->is('put')) {
             $this->request->data['User']['id'] = $user_member['User']['id'];
@@ -325,7 +342,7 @@ class UserController extends AppController {
                 'User.role LIKE' => '%' . $role . '%'
             ),
             'order' => array(
-                'User.username'
+                'User.username' => 'asc'
             ),
             'fields' => array('User.id', 'User.username', 'Member.id',
                 'Member.name', 'Member.last_name', 'Member.img_profile_path')
@@ -343,11 +360,76 @@ class UserController extends AppController {
     }
 
     /**
+    * Muestra los miembros de un cuerpo
+    */
+    public function academicgroupmembers($id = null, $print = null){
+        $this->set('page_name', 'Miembros de cuerpo académico');
+
+        if (!$id) {
+            throw new NotFoundException(__('Invalid academic group'));
+        }
+
+        $conditions = array('AcademicGroup.id' => $id);
+        $fields = array('User.*', 'Member.*');
+        $joins = array(                
+            array('table' => 'members_academic_groups',
+                'alias' => 'MembersAcademicGroup',
+                'type' => 'INNER',
+                'conditions' => array('MembersAcademicGroup.member_id = Member.id')),
+            array('table' => 'academic_groups',
+                'alias' => 'AcademicGroup',
+                'type' => 'INNER',
+                'conditions' => array('AcademicGroup.id = MembersAcademicGroup.academic_group_id'))
+        );
+        $order = array(
+            'Member.name' => 'asc',
+            'Member.last_name' => 'asc',
+            'User.username' => 'asc'
+        ); 
+
+        if($print !== null){
+            $this->layout = 'print_layout';
+            $this->set('print', true);
+            $academic_group = $this->User->find('all', array( 
+                'order' => $order,           
+                'conditions' => $conditions,
+                'fields' => $fields,
+                'recursive' => 1,
+                'joins' => $joins
+            ));           
+        }
+        else{
+            $this->paginate = array(    
+                'order' => $order,        
+                'limit' => 5,
+                'conditions' => $conditions,
+                'fields' => $fields,
+                'recursive' => 1,
+                'joins' => $joins
+            );
+
+            $this->Paginator->settings = $this->paginate;    
+            $academic_group = $this->paginate('User');
+        }
+
+        $academic_db = new AcademicGroup();
+        $academic = $academic_db->find('first', array(
+            'fields' => array('AcademicGroup.name'),
+            'conditions' => array('AcademicGroup.id' => $id),
+            'recursive' => -1          
+        ));
+        
+        $this->set('academic_group_id', $id);
+        $this->set('academic_group', $academic);
+        $this->set('members', $academic_group);
+    }
+
+    /**
      * Indicar para qué funciones se requiere autorización
      */
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('login', 'recover', 'view', 'detail');
+        $this->Auth->allow('login', 'recover', 'view', 'detail', 'academicgroupmembers');
         $this->Auth->deny('edit', 'getusers', 'img_change', 'manage', 'register');
     }
 

@@ -22,8 +22,8 @@
             <p><label>Descripción:</label><span><?php echo $academic_group['AcademicGroup']['description']; ?></span>
                 <?php
                 echo $this->Html->link('ver miembros »', array(
-                    'controller' => 'academic_group',
-                    'action' => 'members',
+                    'controller' => 'user',
+                    'action' => 'academicgroupmembers',
                     $academic_group['AcademicGroup']['id']), array(
                     'class' => 'more-info'));
                 ?>
@@ -74,11 +74,16 @@
                             <p><label>Nombre:</label><span><?php echo $member['name'] . ' ' . $member['last_name']; ?></span></p>
                         </div>
                         <div class="small-12 medium-6 large-6 columns">
-                            <p><label>Acerca de mí:</label><span><?php echo $member['additional_data']; ?></span></p>
+                            <p><label>Acerca de mí:</label>
+                                <span>
+                                    <?php echo empty($member['additional_data']) ? 
+                                        'No registrado' : $member['additional_data']; ?>
+                                </span>
+                            </p>
                         </div>                    
                     </div>
                     <?php
-                    echo $this->Html->link('ver perfil »', array(
+                    echo $this->Html->link('ver perfil completo »', array(
                         'controller' => 'user',
                         'action' => 'detail',
                         $member['user_id']), array(

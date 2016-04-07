@@ -19,6 +19,10 @@ class ExperienceController extends AppController {
                     $data = array();
                     $data['Institution']['name'] = $this->data['Experience']['institution'];
                     if (!$Institution_db->save($data)) {
+                        if(count($Institution_db->validationErrors) > 0){
+                            $this->Session->setFlash(implode(', ', $Institution_db->validationErrors["name"]), 'alert-message');
+                            return;
+                        }
                         $this->Session->setFlash('Ocurrió un error al salvar la experiencia.', 'alert-message');
                         return;
                     }
@@ -28,9 +32,9 @@ class ExperienceController extends AppController {
                 if ($this->Experience->save($this->request->data)) {
                     $this->Session->setFlash('Se ha registrado una nueva experiencia.', 'success-message');
                     return $this->redirect(array(
-                                'controller' => 'user',
-                                'action' => 'edit'
-                                    )
+                        'controller' => 'user',
+                        'action' => 'edit'
+                        )
                     );
                 }
                 $this->Session->setFlash('Ocurrió un error al registrar la experiencia.', 'alert-message');
@@ -60,8 +64,8 @@ class ExperienceController extends AppController {
             if ($this->Experience->save($this->request->data)) {
                 $this->Session->setFlash('Experiencia editada.', 'success-message');
                 return $this->redirect(array(
-                            'controller' => 'user',
-                            'action' => 'edit'));
+                    'controller' => 'user',
+                    'action' => 'edit'));
             }
         }
 

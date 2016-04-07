@@ -13,7 +13,7 @@ class InstitutionController extends AppController {
         $name = isset($_GET["name"]) ? $_GET["name"] : '';
         $this->autoRender = false;
         $this->response->type('json');
-        $institutions = $this->Institution->find('list', array(
+        $institutions = $this->Institution->find('all', array(
             'conditions' => array(
                 'Institution.name LIKE' => '%' . $name . '%'
             ),
@@ -22,8 +22,13 @@ class InstitutionController extends AppController {
             ),
             'fields' => array('Institution.id', 'Institution.name')
         ));
-        $json = json_encode($institutions);
-        $this->response->body($json);
+        $json = array();
+        foreach ($institutions as $key => $value) {
+            $json[$key]['id'] = $value["Institution"]['id'];
+            $json[$key]['label'] = $value["Institution"]['name'];
+            $json[$key]['value'] = $value["Institution"]['name'];
+        }
+        $this->response->body(json_encode($json));
     }
     
     /**

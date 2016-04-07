@@ -12,24 +12,27 @@
             <br>
             <?php
             switch ($this->Session->read('Auth.User.role')) {
-                case 'admin':
+                case 'super_admin':
                     ?>
                 <ul>
+                    <li>Administrar un cuerpo académico</li>
+                    <li>Administrar composición del cuerpo académico</li>
                     <li>Leer publicaciones</li>
+                    <li>Registrar publicaciones</li>
                 </ul>
                 <?php
                 break;
-            case 'member':
-                ?>
-
-                <?php
-                break;
-            default:
+            case 'ca_admin':
                 ?>
                 <ul>
                     <li>Leer publicaciones</li>
                     <li>Registrar publicaciones</li>
                 </ul>
+                <?php
+                break;
+            default:
+                ?>
+                
                 <?php
                 break;
         }

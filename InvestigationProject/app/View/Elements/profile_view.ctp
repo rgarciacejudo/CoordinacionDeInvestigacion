@@ -38,9 +38,24 @@
         <p><label>Fecha de registro:</label><span><?php echo strftime("%d/%m/%Y", $date); ?></span></p>           
     </div>
     <div class="small-12 medium-3 large-3 columns profile-details">        
-        <p><label>Grado académico:</label><span><?php echo $user_profile['Member']['grade']; ?></span></p>
-        <p><label>Universidad de egreso:</label><span><?php echo $user_profile['Member']['university']; ?></span></p>
-        <p><label>Línea de investigación:</label><span><?php echo $user_profile['Member']['research_line']; ?></span></p>                
+        <p><label>Grado académico:</label>
+            <span>
+                <?php echo empty($user_profile['Member']['grade']) ? 'No registrado' : 
+                $user_profile['Member']['grade']; ?>
+            </span>
+        </p>
+        <p><label>Universidad de egreso:</label>
+            <span>
+                <?php echo empty($user_profile['Member']['university']) ? 'No registrada' : 
+                $user_profile['Member']['university']; ?>
+            </span>
+        </p>
+        <p><label>Línea de investigación:</label>
+            <span>
+                <?php echo empty($user_profile['Member']['research_line']) ? 'No registrada' : 
+                $user_profile['Member']['research_line']; ?>
+            </span>
+        </p>                
         <p><label>SNI:</label><span><?php echo $user_profile['Member']['SNI'] ? 
             'De: ' . strftime("%d/%m/%Y", strtotime($user_profile['Member']['SNI_start_date'])) . 
             ' a: ' . strftime("%d/%m/%Y", strtotime($user_profile['Member']['SNI_end_date'])) : 'No';?>
@@ -51,15 +66,31 @@
         ?></span></p>
     </div>
     <div class="small-12 medium-3 large-3 columns profile-details">
-        <p><label>Dirección:</label><span><?php echo $user_profile['Member']['address']; ?></span></p>
-        <p><label>Teléfono:</label><span><?php echo $user_profile['Member']['telephone']; ?></span></p>
+        <p><label>Dirección:</label>
+            <span>
+                <?php echo empty($user_profile['Member']['address']) ? 'No registrado' : 
+                $user_profile['Member']['address']; ?>
+            </span>
+        </p>
+        <p><label>Teléfono:</label>
+            <span>
+                <?php echo empty($user_profile['Member']['telephone']) ? 'No registrado' :
+                $user_profile['Member']['telephone']; ?>
+            </span>
+        </p>
     </div>
     <div class="small-12 medium-12 large-12 columns profile-details">
-        <p><label>Acerca de mí:</label><span><?php echo $user_profile['Member']['additional_data']; ?></span></p>
+        <p>
+            <label>Acerca de mí:</label>
+            <span>
+                <?php echo empty($user_profile['Member']['additional_data']) ? 'No registrado' : 
+                    $user_profile['Member']['additional_data']; ?>
+            </span>
+        </p>
     </div>    
     <?php
     if (!isset($detail) && !isset($print)) {
-        echo $this->Html->link('ver perfil »', array(
+        echo $this->Html->link('ver perfil completo »', array(
             'controller' => 'user',
             'action' => 'detail',
             $user_profile['User']['id']), array(
@@ -72,7 +103,10 @@
     ?>
     <?php if (isset($detail)) { ?>    
         <div class="columns profile-details">            
-            <p><label>Experiencia Profesional</label></p>            
+            <p><label>Experiencia Profesional</label></p>   
+            <?php if(count($user_profile['Member']['Experience']) == 0) {  ?>
+                <span>No registrada</span>
+            <?php } ?>        
             <div class="row">
             <?php foreach ($user_profile['Member']['Experience'] as $key => $value) { ?>
                 <div class="small-12 medium-3 large-3 columns" style="float: left;">

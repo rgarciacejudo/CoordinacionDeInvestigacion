@@ -2,6 +2,12 @@
 <?php echo $this->Html->script('jquery-ui'); ?>
 <?php echo $this->Html->css('jquery-ui/smoothness/jquery-ui'); ?>
 <h4><?php echo $page_name; ?></h4>
+<?php    
+echo $this->Html->link('Regresar', $this->request->referer(), array(
+    'class' => 'button secondary tiny radius',
+    'style' => 'margin-bottom: 1em;'
+        )
+); ?>
 <?php echo $this->Form->create(''); ?>
 <div class="small-12 medium-6 large-6 medium-centered large-centered columns form-content">
     <div class="row">

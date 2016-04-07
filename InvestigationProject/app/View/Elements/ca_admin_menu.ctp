@@ -3,7 +3,7 @@
     <?php echo $this->Html->link('Cuerpos académicos', array('controller' => 'academic_group', 'action' => 'index')); ?>
     <ul class="dropdown">
         <li>
-            <?php echo $this->Html->link('Administrar', array('controller' => 'academic_group', 'action' => 'index', 'admin')); ?>
+            <?php echo $this->Html->link('Administrar', array('controller' => 'academic_group', 'action' => 'admin')); ?>
         </li>
         <li>
             <?php echo $this->Html->link('Consultar', array('controller' => 'academic_group', 'action' => 'index')); ?>

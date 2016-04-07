@@ -49,4 +49,3 @@
 
         
   Router::parseExtensions('json', 'xml');
-  Router::parseExtensions('pdf');

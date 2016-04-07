@@ -9,7 +9,7 @@ body {
 }
 
 body .wrapper > section.container {
-    padding-bottom: 298px !important;
+    padding-bottom: 298px;
 }
 
 footer {    
@@ -237,4 +237,8 @@ a.del-exp{
 .orbit-container .orbit-next,
 .orbit-container .orbit-prev {
     background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.delete-experience{
+    float: right;
 }

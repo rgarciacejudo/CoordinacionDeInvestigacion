@@ -109,9 +109,12 @@
 
         $("#PublicationSectionId").change(function() {
             $('.publication-fields').html('');
+            if(!$(this).val()){
+                return;
+            }
             $('#PublicationSectionId').addClass('searching');
             $.ajax({
-                url: '../section/getfields',
+                url: '<?php echo $this->webroot . "section/getfields";?>',
                 data: {
                     id: $(this).val()
                 },

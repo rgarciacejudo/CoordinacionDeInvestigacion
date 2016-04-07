@@ -83,14 +83,12 @@
             });
 
             function usersResultFormat(state){                
-                console.log(state);
                 if(!state.id) return state.text;
-                return $('<img style="height: 50px; width:50px; display:inline-block;" class="th avatar" src="..' +
+                return $('<img style="height: 50px; width:50px; display:inline-block;" class="th avatar" src="<?php echo $this->webroot; ?>' +
                 state.image + '"/>' + '<p style="display:inline-block;vertical-align:middle;margin:0;margin-left:1em;">' + state.text + '<br/>' + state.name + '</p>');
             }
 
             function usersSelectionFormat(state){                
-                console.log(state);
                 if(!state.id) return state.text;
                 return $('<p style="display:inline-block;vertical-align:middle;margin:0;margin-left:0.25em;">' + state.text + '</p>');
             }
@@ -114,24 +112,14 @@
 
             function getUsers(){
                 var users = new Array();
-                $.ajax({
-                    async: false,
-                    url: "../user/getusers",
-                    dataType: "json",
-                    data: {                    
-                        role: 'ca_admin'
-                    },
-                    success: function(data) {                                                
-                        console.log(data);
-                        $(data).each(function(){
-                            users.push({
-                                id: this.id,
-                                text: this.name,
-                                image: this.image,
-                                name: this.value
-                            });
-                        });                        
-                    }
+                var data = JSON.parse('<?php echo json_encode($users, JSON_FORCE_OBJECT); ?>');
+                $.map(data, function(value, index){
+                    users.push({
+                        id: value.User.id,
+                        text: value.Member.name + ' ' + (value.Member.last_name ? value.Member.last_name : ''),
+                        image: value.Member.img_profile_path ? value.Member.img_profile_path : '/img/no_img_profile.png',
+                        name: value.User.username
+                    });
                 });
                 return users;
             }

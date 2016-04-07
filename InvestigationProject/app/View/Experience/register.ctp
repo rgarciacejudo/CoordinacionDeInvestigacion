@@ -2,6 +2,12 @@
 <?php echo $this->Html->script('jquery-ui'); ?>
 <?php echo $this->Html->css('jquery-ui/smoothness/jquery-ui'); ?>
 <h4><?php echo $page_name; ?></h4>
+<?php    
+echo $this->Html->link('Regresar', $this->request->referer(), array(
+    'class' => 'button secondary tiny radius',
+    'style' => 'margin-bottom: 1em;'
+        )
+); ?>
 <?php echo $this->Form->create(''); ?>
 <div class="small-12 medium-6 large-6 medium-centered large-centered columns form-content">
     <div class="row">
@@ -94,7 +100,7 @@
             $("#ExperienceInstitution").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: "../institution/getexperiences",
+                        url: "<?php echo $this->webroot . 'institution/getexperiences'; ?>",
                         dataType: "json",
                         data: {
                             name: request.term
@@ -106,6 +112,7 @@
                 },
                 minLength: 2,
                 select: function (event, ui) {
+                    console.log(event, ui);
                     $("#ExperienceInstitutionId").val(ui.item.id);
                 },
                 search: function (event, ui) {

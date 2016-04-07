@@ -30,9 +30,20 @@ class AcademicGroupController extends AppController {
     public function register() {
         $this->set('page_name', 'Registrar cuerpo académico');
         $user_db = new User();
-        $users = $user_db->find('list', array(
-            'conditions' => array('User.role' => 'ca_admin'),
-            'fields' => array('User.id', 'User.username')));
+        $users = $user_db->find('all', array(
+            'order' => array(
+                'Member.name' => 'asc',
+                'Member.last_name' => 'asc',
+                'User.username' => 'asc'
+            ),
+            'joins' => array(                
+                array(
+                    'table' => 'academic_groups',
+                    'alias' => 'AcademicGroup',
+                    'type' => 'LEFT',
+                    'conditions' => array('AcademicGroup.user_id = User.id'))),
+            'conditions' => array('User.role' => 'ca_admin', 'AcademicGroup.id IS NULL'),
+            'fields' => array('User.id', 'User.username', 'Member.name', 'Member.last_name', 'Member.img_profile_path')));
         $this->set('users', $users);
         $type = $this->AcademicGroup->getColumnType('level');
         preg_match('/^enum\((.*)\)$/', $type, $matches);
@@ -53,6 +64,7 @@ class AcademicGroupController extends AppController {
                             ->viewVars(array(
                                 'from_username' => $this->Auth->user('username'),
                                 'academic_group' => $this->data['AcademicGroup']['name'],
+                                'description' => $this->data['AcademicGroup']['description'],
                                 'view_id' => $this->AcademicGroup->getInsertID(),
                             ))
                             ->to($leader['User']['username'])
@@ -77,21 +89,20 @@ class AcademicGroupController extends AppController {
         $this->set('page_name', 'Cuerpos académicos');
         $academic_groups = null;
         $this->Paginator->settings = $this->paginate;
-        switch ($filter) {
-            case 'all':
-            default:
-                $academic_groups = $this->Paginator->paginate('AcademicGroup');
-                break;
-            case 'admin':
-                $this->Paginator->settings['conditions'] = array('AcademicGroup.user_id' => $this->Auth->user('id'));
-                $academic_groups = $this->Paginator->paginate('AcademicGroup');
-                break;
-            case 'members':
-                $this->set('isMembersDetail', true);
-                $this->Paginator->settings['group'] = array('AcademicGroup.id');
-                $academic_groups = $this->Paginator->paginate('AcademicGroup');
-                break;
+        if(is_numeric($filter)){
+            $this->Paginator->settings['conditions'] = array('AcademicGroup.id' => $filter);
+        } else{
+            switch ($filter) {                
+                case 'admin':
+                    $this->Paginator->settings['conditions'] = array('AcademicGroup.user_id' => $this->Auth->user('id'));
+                    break;
+                case 'members':
+                    $this->set('isMembersDetail', true);
+                    $this->Paginator->settings['group'] = array('AcademicGroup.id');
+                    break;
+            }
         }
+        $academic_groups = $this->Paginator->paginate('AcademicGroup');
         $this->set('academic_groups', $academic_groups);
         $this->set('authUser', $this->Auth->user());
     }
@@ -102,14 +113,19 @@ class AcademicGroupController extends AppController {
     public function admin($id = null) {
         $this->set('page_name', 'Administrar cuerpo académico');
 
-        if (!$id) {
-            throw new NotFoundException(__('Invalid academic group'));
-        }
-
-        $academic_group = $this->AcademicGroup->find('first', array(
-            'conditions' => array('AcademicGroup.id' => $id),
+        if($this->Session->read('Auth.User.role') === 'ca_admin'){
+            $academic_group = $this->AcademicGroup->find('first', array(
+            'conditions' => array('AcademicGroup.user_id' => $this->Session->read('Auth.User.id')),
             'fields' => array('AcademicGroup.*', 'Leader.*'),
-            'recursive' => 1));
+            'recursive' => 1));            
+        } else if (!$id) {
+            throw new NotFoundException(__('Invalid academic group'));
+        } else {
+            $academic_group = $this->AcademicGroup->find('first', array(
+                'conditions' => array('AcademicGroup.id' => $id),
+                'fields' => array('AcademicGroup.*', 'Leader.*'),
+                'recursive' => 1));
+        }
 
         if (!$academic_group) {
             throw new NotFoundException(__('Invalid academic group'));
@@ -118,14 +134,40 @@ class AcademicGroupController extends AppController {
         $this->set('academic_group', $academic_group);
 
         $user_db = new User();
-        $users = $user_db->find('list', array(
-            'conditions' => array('User.role' => 'ca_admin'),
-            'fields' => array('User.id', 'User.username')));
-        $this->set('users', $users);
+            $users = $user_db->find('all', array(
+                'order' => array(
+                    'Member.name' => 'asc',
+                    'Member.last_name' => 'asc',
+                    'User.username' => 'asc'
+                ),
+                'joins' => array(                
+                    array(
+                        'table' => 'academic_groups',
+                        'alias' => 'AcademicGroup',
+                        'type' => 'LEFT',
+                        'conditions' => array('AcademicGroup.user_id = User.id'))),
+                'conditions' => array('User.role' => 'ca_admin', 
+                    '(AcademicGroup.id IS NULL OR AcademicGroup.user_id = ' . $this->Session->read('Auth.User.id') . ')'),
+                'fields' => array('User.id', 'User.username', 'Member.name', 'Member.last_name', 'Member.img_profile_path')));
+            $this->set('users', $users);
 
-        $members = $user_db->find('list', array(
-            'conditions' => array('User.role' => 'member'),
-            'fields' => array('User.id', 'User.username')));
+        $members = $user_db->find('all', array(
+            'order' => array(
+                'Member.name' => 'asc',
+                'Member.last_name' => 'asc',
+                'User.username' => 'asc'
+            ),
+            'recursive' => 1,
+            'joins' => array(                
+                    array(
+                        'table' => 'members_academic_groups',
+                        'alias' => 'AcademicGroup',
+                        'type' => 'LEFT',
+                        'conditions' => array('AcademicGroup.member_id = Member.id'))),
+            'conditions' => array('User.role' => 'member',
+                '(AcademicGroup.academic_group_id = ' . $academic_group['AcademicGroup']['id'] . ' or  AcademicGroup.id is null)'),
+            'fields' => array('User.username', 'Member.name', 'Member.last_name', 'Member.img_profile_path', 
+                'Member.id', 'AcademicGroup.academic_group_id')));
 
         $this->set('members', $members);
 
@@ -190,29 +232,6 @@ class AcademicGroupController extends AppController {
     }
 
     /**
-    * Muestra los miembros de un cuerpo académico
-    */
-    public function members($id = null, $print = null){
-        $this->set('page_name', 'Miembros de cuerpo académico');
-
-        if (!$id) {
-            throw new NotFoundException(__('Invalid academic group'));
-        }
-
-        if($print !== null){
-            $this->layout = 'print_layout';
-            $this->set('print', true);
-        }
-
-        $academic_group = $this->AcademicGroup->find('first', array(
-            'conditions' => array('AcademicGroup.id' => $id),
-            'fields' => array('AcademicGroup.*'),
-            'recursive' => 2));
-        $this->set('academic_group_id', $id);
-        $this->set('members', $academic_group["Members"]);
-    }
-
-    /**
     * Muestra la producción de un cuerpo académico
     */
     public function production($id = null, $print = null){
@@ -220,40 +239,59 @@ class AcademicGroupController extends AppController {
 
         if (!$id) {
             throw new NotFoundException(__('Invalid academic group'));
-        }        
+        }    
+
+        $fields = array('Member.*', 'Publication.*', 'User.id', 'User.username');
+        $conditions = array('AcademicGroup.id' => $id);
+        $joins = array(
+            array('table' => 'members_academic_groups',
+                'alias' => 'MembersAcademicGroup',
+                'type' => 'INNER',
+                'conditions' => array('MembersAcademicGroup.academic_group_id = AcademicGroup.id')),
+            array('table' => 'members',
+                'alias' => 'Member',
+                'type' => 'INNER',
+                'conditions' => array('Member.id = MembersAcademicGroup.member_id')),
+            array('table' => 'publications',
+                'alias' => 'Publication',
+                'type' => 'INNER',
+                'conditions' => array('Publication.member_id = Member.id')),
+            array('table' => 'users',
+                'alias' => 'User',
+                'type' => 'INNER',
+                'conditions' => array('User.id = Member.user_id'))
+        );   
+        $order = array(
+            'Publication.title' => 'asc',
+            'Member.name' => 'asc',
+            'Member.last_name' => 'asc',
+            'User.username' => 'asc'
+        ); 
 
         if($print !== null){
             $this->layout = 'print_layout';
             $this->set('print', true);
+            $publications = $this->AcademicGroup->find('all', array(
+                'order' => $order,
+                'fields' => $fields,
+                'conditions' => $conditions,
+                'recursive' => -1,
+                'joins' => $joins
+            ));
         }
+        else{
+            $this->paginate = array(
+                'order' => $order,
+                'limit' => 5,
+                'fields' => $fields,
+                'conditions' => $conditions,
+                'recursive' => -1,
+                'joins' => $joins
+            );
 
-        $this->paginate = array(
-            'limit' => 5,
-            'fields' => array('Member.*', 'Publication.*', 'User.id', 'User.username'),
-            'conditions' => array('AcademicGroup.id' => $id),
-            'recursive' => -1,
-            'joins' => array(
-                array('table' => 'members_academic_groups',
-                    'alias' => 'MembersAcademicGroup',
-                    'type' => 'INNER',
-                    'conditions' => array('MembersAcademicGroup.academic_group_id = AcademicGroup.id')),
-                array('table' => 'members',
-                    'alias' => 'Member',
-                    'type' => 'INNER',
-                    'conditions' => array('Member.id = MembersAcademicGroup.member_id')),
-                array('table' => 'publications',
-                    'alias' => 'Publication',
-                    'type' => 'INNER',
-                    'conditions' => array('Publication.member_id = Member.id')),
-                array('table' => 'users',
-                    'alias' => 'User',
-                    'type' => 'INNER',
-                    'conditions' => array('User.id = Member.user_id'))
-            )
-        );
-
-        $this->Paginator->settings = $this->paginate;    
-        $publications = $this->paginate('AcademicGroup');
+            $this->Paginator->settings = $this->paginate;    
+            $publications = $this->paginate('AcademicGroup');
+        }
         $this->set('academic_group_id', $id);
         $this->set('membersPublications', $publications);
     }

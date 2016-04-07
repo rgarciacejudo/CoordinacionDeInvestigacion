@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.19)
 # Base de datos: research_observatory
-# Tiempo de Generación: 2014-07-28 03:57:05 +0000
+# Tiempo de Generación: 2016-04-07 01:01:21 +0000
 # ************************************************************
 
 
@@ -27,15 +27,34 @@ DROP TABLE IF EXISTS `academic_groups`;
 
 CREATE TABLE `academic_groups` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `member_id` int(10) unsigned DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
   `name` varchar(100) DEFAULT '',
   `description` text,
   `level` enum('En formación','En consolidación','Consolidado') NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `member_id` (`member_id`),
-  CONSTRAINT `academic_groups_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`)
+  KEY `member_id` (`user_id`),
+  CONSTRAINT `academic_groups_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Volcado de tabla advertisements
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `advertisements`;
+
+CREATE TABLE `advertisements` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` text,
+  `url` varchar(1000) NOT NULL,
+  `expiration_date` date NOT NULL,
+  `file_path` text NOT NULL,
+  `is_permanent` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -69,6 +88,22 @@ DROP TABLE IF EXISTS `institutions`;
 CREATE TABLE `institutions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Volcado de tabla links
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `links`;
+
+CREATE TABLE `links` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `display_name` varchar(100) NOT NULL,
+  `url` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -82,33 +117,26 @@ DROP TABLE IF EXISTS `members`;
 CREATE TABLE `members` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
-  `address` varchar(150) DEFAULT '',
-  `telephone` varchar(20) DEFAULT '',
+  `name` varchar(50) DEFAULT '',
+  `last_name` varchar(100) DEFAULT NULL,
+  `address` varchar(150) DEFAULT NULL,
+  `telephone` varchar(20) DEFAULT NULL,
   `additional_data` text,
   `SNI` enum('C','1','2','3') DEFAULT NULL,
-  `SNI_validity_date` date DEFAULT NULL,
+  `SNI_start_date` date DEFAULT NULL,
+  `SNI_end_date` date DEFAULT NULL,
   `PROMEP` tinyint(1) DEFAULT NULL,
-  `PROMEP_validity_date` date DEFAULT NULL,
-  `research_line` varchar(100) DEFAULT '',
+  `PROMEP_start_date` date DEFAULT NULL,
+  `PROMEP_end_date` date DEFAULT NULL,
+  `research_line` varchar(100) DEFAULT NULL,
   `grade` enum('Sin definir','Doctor','Maestro') DEFAULT 'Sin definir',
-  `university` varchar(100) DEFAULT '',
+  `university` varchar(100) DEFAULT NULL,
   `img_profile_path` text,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `members_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `members` WRITE;
-/*!40000 ALTER TABLE `members` DISABLE KEYS */;
-
-INSERT INTO `members` (`id`, `user_id`, `name`, `last_name`, `address`, `telephone`, `additional_data`, `SNI`, `SNI_validity_date`, `PROMEP`, `PROMEP_validity_date`, `research_line`, `grade`, `university`, `img_profile_path`)
-VALUES
-	(1,1,'Ricardo','','','',NULL,NULL,'2014-07-21',0,'2014-07-21','',NULL,'','/files/profile_images/img_profile_1.jpg');
-
-/*!40000 ALTER TABLE `members` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Volcado de tabla members_academic_groups
@@ -121,71 +149,10 @@ CREATE TABLE `members_academic_groups` (
   `member_id` int(10) unsigned NOT NULL,
   `academic_group_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `member_id` (`member_id`),
+  UNIQUE KEY `member_id` (`member_id`,`academic_group_id`),
   KEY `academic_group_id` (`academic_group_id`),
   CONSTRAINT `members_academic_groups_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`),
   CONSTRAINT `members_academic_groups_ibfk_2` FOREIGN KEY (`academic_group_id`) REFERENCES `academic_groups` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Volcado de tabla members_projects
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `members_projects`;
-
-CREATE TABLE `members_projects` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `member_id` int(10) unsigned NOT NULL,
-  `project_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `member_id` (`member_id`),
-  KEY `project_id` (`project_id`),
-  CONSTRAINT `members_projects_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`),
-  CONSTRAINT `members_projects_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Volcado de tabla members_sections
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `members_sections`;
-
-CREATE TABLE `members_sections` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `member_id` int(10) unsigned NOT NULL,
-  `section_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `member_id` (`member_id`),
-  KEY `section_id` (`section_id`),
-  CONSTRAINT `members_sections_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`),
-  CONSTRAINT `members_sections_ibfk_2` FOREIGN KEY (`section_id`) REFERENCES `sections` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Volcado de tabla projects
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `projects`;
-
-CREATE TABLE `projects` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `institution_id` int(10) unsigned NOT NULL,
-  `key` varchar(50) DEFAULT '',
-  `name` varchar(100) DEFAULT '',
-  `from_date` date DEFAULT NULL,
-  `to_date` date DEFAULT NULL,
-  `resume` text,
-  `mount` decimal(10,0) DEFAULT NULL,
-  `file_path` text,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `key` (`key`),
-  KEY `institution_id` (`institution_id`),
-  CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`institution_id`) REFERENCES `institutions` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -257,10 +224,11 @@ DROP TABLE IF EXISTS `sections_fields`;
 
 CREATE TABLE `sections_fields` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `section_id` int(11) unsigned DEFAULT NULL,
+  `section_id` int(11) unsigned NOT NULL,
   `name` varchar(30) DEFAULT NULL,
   `type` enum('Texto','Casilla de verificación','Fecha') DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`,`section_id`),
   KEY `section_id` (`section_id`),
   CONSTRAINT `sections_fields_ibfk_1` FOREIGN KEY (`section_id`) REFERENCES `sections` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -283,19 +251,6 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-
-INSERT INTO `users` (`id`, `username`, `password`, `role`, `created`, `modified`)
-VALUES
-	(1,'rgarcia.cejudo@gmail.com','24844b5b2ee67dac745610c79ec49abb5ee95fe8','super_admin','2014-07-19 00:39:51','2014-07-21 02:12:29'),
-	(2,'ricardo_soulost@hotmail.com','cbd2d12dff3c3d1e2407a8ef0663407cd43511ba','ca_admin','2014-07-19 00:55:50','2014-07-19 00:55:50'),
-	(3,'elbueno@gmail.com','cbd2d12dff3c3d1e2407a8ef0663407cd43511ba','member','2014-07-19 01:29:38','2014-07-19 01:29:38'),
-	(4,'otro@gmail.com','cbd2d12dff3c3d1e2407a8ef0663407cd43511ba','member','2014-07-19 01:30:39','2014-07-19 01:30:39'),
-	(5,'asd@asd.com','cbd2d12dff3c3d1e2407a8ef0663407cd43511ba','member','2014-07-19 01:31:33','2014-07-19 01:31:33');
-
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 

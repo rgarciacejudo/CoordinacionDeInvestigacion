@@ -74,7 +74,18 @@
                 ?>                
             </label>
         </div>
-    </div>        
+    </div>      
+    <div class="row">
+        <div class="column">
+            <label>Permanente
+                <?php
+                echo $this->Form->input('is_permanent', array(
+                    'label' => false
+                ));
+                ?>                
+            </label>
+        </div>
+    </div>   
     <div class="row">
     	<?php
         echo $this->Form->end(array(

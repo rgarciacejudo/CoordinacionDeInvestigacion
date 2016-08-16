@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.19)
 # Base de datos: research_observatory
-# Tiempo de Generación: 2016-04-07 01:01:21 +0000
+# Tiempo de Generación: 2016-08-16 20:56:16 +0000
 # ************************************************************
 
 
@@ -50,7 +50,7 @@ CREATE TABLE `advertisements` (
   `name` varchar(100) NOT NULL,
   `description` text,
   `url` varchar(1000) NOT NULL,
-  `expiration_date` date NOT NULL,
+  `expiration_date` date DEFAULT NULL,
   `file_path` text NOT NULL,
   `is_permanent` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -260,3 +260,11 @@ CREATE TABLE `users` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`, `created`, `modified`)
+VALUES
+  (1,'rgarcia.cejudo@gmail.com','24844b5b2ee67dac745610c79ec49abb5ee95fe8','super_admin',NOW(),NOW());
+  
+  INSERT INTO `members` (`id`, `user_id`, `name`, `last_name`, `address`, `telephone`, `additional_data`, `SNI`, `SNI_start_date`, `SNI_end_date`, `PROMEP`, `PROMEP_start_date`, `PROMEP_end_date`, `research_line`, `grade`, `university`, `img_profile_path`)
+VALUES
+  (1,1,'Ricardo','García Cejudo','Morelos Norte # 11, Calimaya, México','(044) 722 373 36 06','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',NULL,NULL,'0000-00-00',0,NULL,'0000-00-00','Tecnologías de la información','Sin definir','UAEM','/files/profile_images/img_profile_1.jpg');

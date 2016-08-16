@@ -38,7 +38,7 @@
             </p>            
             <p>
                 <?php                
-                if ((isset($this->params['pass'][0]) && $this->params['pass'][0] === 'admin' && $authUser["role"] === 'ca_admin') || $authUser["role"] == 'super_admin') {
+                if (isset($this->params['pass'][0]) && $this->params['pass'][0] === 'admin' && $authUser["role"] === 'ca_admin') {
                     echo "<br />";
                     echo $this->Html->link('administrar »', array(
                         'controller' => 'academic_group',

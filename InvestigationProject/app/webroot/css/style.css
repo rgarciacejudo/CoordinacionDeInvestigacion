@@ -242,3 +242,12 @@ a.del-exp{
 .delete-experience{
     float: right;
 }
+
+.top-bar.expanded .toggle-topbar a {
+    background-color: #b4b4b4;
+    border: solid 1px gray;
+}
+
+.top-bar-section .dropdown li.title h5 a:hover::before{
+    border-color: transparent white transparent transparent !important;
+}

@@ -31,3 +31,6 @@
         </li>
     </ul>
 </li>
+<li class="<?php echo $controller == 'section' ? 'active' : ''; ?>">
+    <?php echo $this->Html->link('Secciones', array('controller' => 'section', 'action' => 'index')); ?>    
+</li>

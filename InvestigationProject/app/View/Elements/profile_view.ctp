@@ -103,11 +103,10 @@
     ?>
     <?php if (isset($detail)) { ?>    
         <div class="columns profile-details">            
-            <p><label>Experiencia Profesional</label></p>   
+            <p style="margin-bottom:4px;"><label>Experiencia Profesional</label></p>   
             <?php if(count($user_profile['Member']['Experience']) == 0) {  ?>
                 <span>No registrada</span>
-            <?php } ?>        
-            <div class="row">
+            <?php } ?>                    
             <?php foreach ($user_profile['Member']['Experience'] as $key => $value) { ?>
                 <div class="small-12 medium-3 large-3 columns" style="float: left;">
                     <ul class="pricing-table">
@@ -117,8 +116,7 @@
                         <li class="bullet-item">De <?php echo $value['from_date']; ?> a <?php echo $value['to_date']; ?></li>
                     </ul>
                 </div>
-            <?php } ?>
-            </div>                
+            <?php } ?>    
         </div>
     <?php } ?>
 </div>

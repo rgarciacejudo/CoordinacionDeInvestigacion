@@ -15,7 +15,6 @@
     </div>
 </div>        
 <?php } ?>
-<?php if(!isset($print)) { ?>
 <?php foreach ($membersPublications as $key => $value) {
 		echo $this->element('publication_view', array(
 			'publication' => $value['Publication'], 
@@ -23,6 +22,7 @@
 			'user' => $value['User'])
 		) . '<div style="page-break-before: always;"></div>'; 
 } ?>
+<?php if(!isset($print)) { ?>
 <div class="large-6 medium-6 columns">
     <ul class="pagination" role="menubar" aria-label="Pagination">
         <?php

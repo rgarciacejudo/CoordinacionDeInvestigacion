@@ -29,17 +29,19 @@ class AdvertisementController extends AppController {
             if (!empty($this->data)) {
                 if (is_uploaded_file($this->request->data['Advertisement']['file_path']['tmp_name'])) {
                     $filename = basename($this->request->data['Advertisement']['file_path']['name']);
-                    $path = WWW_ROOT . DS . 'files' . DS . 'advertisements' . DS;
+                    $path = WWW_ROOT . 'files' . DS . 'advertisements' . DS;
                     if (!is_dir($path)) {
                         mkdir($path);
                     }
-                    move_uploaded_file($this->data['Advertisement']['file_path']['tmp_name'], $path . $filename);
-                    $this->request->data['Advertisement']['file_path'] = '/files/advertisements/' . $filename;
-                    if ($this->Advertisement->save($this->request->data)) {
-                        $this->Session->setFlash('Se ha creado el anuncio ' .
-                                $this->data['Advertisement']['name'], 'success-message');
-                        return $this->redirect('register');
-                    }
+                    if(move_uploaded_file($this->data['Advertisement']['file_path']['tmp_name'], $path . $filename)){
+                        $this->request->data['Advertisement']['file_path'] = '/files/advertisements/' . $filename;
+                        if ($this->Advertisement->save($this->request->data)) {
+                            $this->Session->setFlash('Se ha creado el anuncio ' .
+                                    $this->data['Advertisement']['name'], 'success-message');
+                            return $this->redirect('register');
+                        }
+                    }   
+                    $this->Session->setFlash('No fue posible guardar la imagen del anuncio.', 'alert-message');                 
                 }
                 $this->Session->setFlash('Ocurrió un error al crear el anuncio.', 'alert-message');
             } else {

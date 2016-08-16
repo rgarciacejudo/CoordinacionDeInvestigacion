@@ -6,7 +6,7 @@
 
 class LinkController extends AppController {
 
-    public $components = array('Paginator');
+    public $components = array('Paginator', 'Cookie');
     public $paginate = array(
         'fields' => array(
             'Link.id',
@@ -25,6 +25,7 @@ class LinkController extends AppController {
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
                 if ($this->Link->save($this->request->data)) {
+                    $this->Cookie->delete('footerLinks');
                     $this->Session->setFlash('Se ha creado el link ' .
                             $this->data['Link']['name'], 'success-message');
                     return $this->redirect('register');

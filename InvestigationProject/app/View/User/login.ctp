@@ -1,5 +1,15 @@
 <?php echo $this->Html->script('jquery.validate.min'); ?>
 <?php echo $this->Form->create('User'); ?>
+
+<script type="text/javascript">
+    var onloadCallback = function() {
+        grecaptcha.render('recaptcha', {
+            'sitekey' : '6Lc7XCgTAAAAAGsQKluXJ4QPV3zXyS64zfOA26a6'
+        });
+    };
+</script>
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
 <h4><?php echo $page_name; ?></h4>
 <div class="small-12 medium-6 large-6 columns center-text">
     <div class="row" style="padding: 0 1em;">
@@ -38,7 +48,9 @@
                 ?>
             </label>
         </div>
-    </div> 
+    </div>    
+    <div id="recaptcha"></div>
+    <label id="captcha-error" style="display:none;" class="error"></label>
     <div class="row">
         <div class="column">
             <?php
@@ -59,11 +71,22 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#LoginLoginForm').validate({
+        $('#UserLoginForm').validate({
             rules: {
                 'data[User][username]': {required: true, email: true},
-                'data[User][password]': {required: true}
+                'data[User][password]': {required: true}                
             }
-        });             
+        });     
+
+        $('#UserLoginForm').submit(function(e){            
+            if(grecaptcha.getResponse() == '') {
+                $('#captcha-error').css('display', 'block');
+                $('#captcha-error').html('Este campo es requerido.');                
+                e.preventDefault();
+                return false;
+            } else {
+                return true;
+            }         
+        });      
     });
 </script>

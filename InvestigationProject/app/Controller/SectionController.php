@@ -126,6 +126,7 @@ class SectionController extends AppController {
             if (!empty($this->data)) {                
                 if ($this->Section->saveAll($this->request->data)) {
                     $this->Session->setFlash('Se ha actualizado la sección ' . $this->data['Section']['name'], 'success-message');
+                    return $this->redirect(array('controller' => 'section', 'action' => 'index'));
                 } else {
                     $this->Session->setFlash('Ocurrió un error al guardar la sección ' . $this->data['Section']['name'], 'error-message');
                 }

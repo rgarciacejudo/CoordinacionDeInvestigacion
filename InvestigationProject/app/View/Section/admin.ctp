@@ -1,4 +1,6 @@
 <?php echo $this->Html->script('jquery.validate.min'); ?>
+<?php echo $this->Html->script('bootstrap-tagsinput.min'); ?>
+<?php echo $this->Html->css('bootstrap-tagsinput'); ?>
 <?php echo $this->Html->css('linecons'); ?>
 <h4><?php echo $page_name; ?></h4>
 <?php echo $this->Form->create(''); ?>
@@ -65,7 +67,19 @@
                     ));
                     ?>
                 </label>
+            </div>            
+            <?php if ($section['SectionsField'][0]['type'] === 'Lista desplegable' || $section['SectionsField'][0]['type'] === 'Selección múltiple') { ?>
+            <div class="small-12 large-12 columns field-0-values">
+                <?php
+                    echo $this->Form->input('SectionsField.0.values', array(                                           
+                        'label' => false,
+                        'placeholder' => 'Ingrese valores separados por comas',
+                        'type' => 'text',
+                        'data-role' => 'tagsinput'                    
+                    ));
+                ?>
             </div>
+            <?php } ?>
             <div class="small-1 large-1 columns" style="padding: 0;">             
             </div>        
         </div>        
@@ -77,6 +91,7 @@
     echo $this->Form->end(array(
         'label' => 'Actualizar sección',
         'class' => 'button radius small right',
+        'style' => 'margin-top: 1em;',
         'div' => array(
             'class' => 'columns'
         )
@@ -116,13 +131,14 @@
 		    count($this->request->data['SectionsField']) > 1) {
 		    foreach ($this->request->data['SectionsField'] as $key => $value) {		    	
 		        if ($key > 0) {
-		            echo "addField('" . $value["type"] . "','" . $value["name"] . "'," . $value["id"] . ");\n";
+		            echo "addField('" . $value["type"] . "','" . $value["name"] . "'," . $value["id"] . 
+                        ",'" . $value["values"] . "');\n";
 		        }
 		    }
 		}
 		?>
 
-		function addField(type, value, id) {
+		function addField(type, value, id, options) {
             var row = createDiv('row');
             var columns = createDiv('small-6 large-6 columns');
             var input = createInput(
@@ -150,16 +166,44 @@
                     '<option value="Fecha">Fecha</option>' +
                     '<option value="Lista desplegable">Lista desplegable</option>' + 
                     '<option value="Selección múltiple">Selección múltiple</option>');
-            columns.append(input);            
+            columns.append(input);  
+
+            var fieldAuxNo = fieldNo;          
+
+            input.change(function(){
+                $('.field-' + fieldAuxNo + '-values').remove();
+                switch($(this).val()){
+                    case 'Lista desplegable':
+                    case 'Selección múltiple':
+                        $('.field-' + fieldAuxNo + '-values').remove();
+                        var values = $('<input>', {
+                            type: 'text',
+                            id: 'SectionsField' + fieldAuxNo + 'Values',
+                            name: 'data[SectionsField][' + fieldAuxNo + '][values]',
+                            placeholder: 'Ingrese valores separados por comas',
+                            style: 'width: 100%;'
+                        });                        
+                        var columns = createDiv('small-12 large-12 columns field-' + fieldAuxNo + '-values');
+                        columns.append(values);                        
+                        columns.appendTo($(input).parent().parent());
+                        $(values).tagsinput();
+                    break;
+                    default:
+                        $('.field-' + fieldAuxNo + '-values').remove();
+                    break;
+                }
+            });
+
             columns.appendTo(row);
             columns = createDiv('small-1 large-1 columns');
             var trashBtn = createTrashButtton();
             trashBtn.click(function() {
                 row.remove();
+                $('.field-' + fieldNo + '-values').remove();
             });
             trashBtn.appendTo(row);
 
-						$fieldId = $('<input>', {
+			$fieldId = $('<input>', {
             	'type': 'hidden',
             	'name': 'data[SectionsField][' + fieldNo + '][id]',
             	'value': id
@@ -167,15 +211,50 @@
 
             row.append($fieldId);
 
+            if(type === 'Lista desplegable' || type === 'Selección múltiple'){
+                var values = $('<input>', {
+                    type: 'text',
+                    id: 'SectionsField' + fieldNo + 'Values',
+                    name: 'data[SectionsField][' + fieldNo + '][values]',
+                    placeholder: 'Ingrese valores separados por comas',
+                    style: 'width: 100%;',
+                    value: options
+                });
+                var columns = createDiv('small-12 large-12 columns field-' + fieldNo + '-values');
+                columns.append(values);                        
+                columns.appendTo(row);
+                $(values).tagsinput();
+            }                    
+
             row.appendTo('.section_fields');
             //$('#SectionField' + fieldNo + 'Name').rules("add", {required: true, checkForDuplicate: true});
             $("#SectionField" + fieldNo + "Type option").filter(function() {
-						    //may want to use $.trim in here
-						    return $(this).text() == type; 
-						}).prop('selected', true);           
+    		    //may want to use $.trim in here            
+    		    return $(this).text() == type; 
+    		}).prop('selected', true);           
 
             fieldNo++;
         }       
+
+        $('#SectionsField0Type').change(function(){
+            $('.field-' + 0 + '-values').remove();
+            switch($(this).val()){
+                case 'Lista desplegable':
+                case 'Selección múltiple':
+                    var values = $('<input>', {
+                        type: 'text',
+                        id: 'SectionsField' + 0 + 'Values',
+                        name: 'data[SectionsField][' + 0 + '][values]',
+                        placeholder: 'Ingrese valores separados por comas',
+                        style: 'width: 100%;'
+                    });                    
+                    var columns = createDiv('small-12 large-12 columns field-' + 0 + '-values');
+                    columns.append(values);                    
+                    columns.appendTo($(this).parent().parent().parent().parent());
+                    $(values).tagsinput();
+                break;                    
+            }
+        });
 
         function createDiv(cssClass) {
             return jQuery('<div/>', {

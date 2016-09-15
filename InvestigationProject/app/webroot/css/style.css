@@ -254,8 +254,13 @@ a.del-exp{
 
 .bootstrap-tagsinput{
     width: 100%;
+    margin-bottom: 1em;
 }
 
 select.multiple{
     height: 100px;
+}
+
+.bootstrap-tagsinput input{
+    width: 100% !important;
 }

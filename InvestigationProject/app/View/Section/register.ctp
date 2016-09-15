@@ -1,4 +1,6 @@
+<?php echo $this->Html->script('bootstrap-tagsinput.min'); ?>
 <?php echo $this->Html->script('jquery.validate.min'); ?>
+<?php echo $this->Html->css('bootstrap-tagsinput'); ?>
 <?php echo $this->Html->css('linecons'); ?>
 <h4><?php echo $page_name; ?></h4>
 <?php echo $this->Form->create(''); ?>
@@ -71,6 +73,7 @@
     echo $this->Form->end(array(
         'label' => 'Crear sección',
         'class' => 'button radius small right',
+        'style' => 'margin-top: 1em;',
         'div' => array(
             'class' => 'columns'
         )
@@ -144,19 +147,67 @@ if (isset($this->request->data['SectionsField']) and
                     '<option value="Casilla de verificación">Casilla de verificación</option>' +
                     '<option value="Fecha">Fecha</option>' + 
                     '<option value="Lista desplegable">Lista desplegable</option>' + 
-                    '<option value="Selección múltiple">Selección múltiple</option>');
+                    '<option value="Selección múltiple">Selección múltiple</option>');        
+
             columns.append(input);
+
+            var fieldAuxNo = fieldNo;
+
+            input.change(function(){
+                $('.field-' + fieldAuxNo + '-values').remove();
+                switch($(this).val()){
+                    case 'Lista desplegable':
+                    case 'Selección múltiple':                        
+                        var values = $('<input>', {
+                            type: 'text',
+                            id: 'SectionsField' + fieldAuxNo + 'Values',
+                            name: 'data[SectionsField][' + fieldAuxNo + '][values]',
+                            placeholder: 'Ingrese valores separados por comas',
+                            style: 'width: 100%;'
+                        });                        
+                        var columns = createDiv('small-12 large-12 columns field-' + fieldAuxNo + '-values');
+                        columns.append(values);                                            
+                        columns.appendTo($(input).parent().parent());
+                        $(values).tagsinput();
+                    break;
+                    default:
+                        $('.field-' + fieldAuxNo + '-values').remove();
+                    break;
+                }
+            });
+
             columns.appendTo(row);
             columns = createDiv('small-1 large-1 columns');
             var trashBtn = createTrashButtton();
             trashBtn.click(function() {
                 row.remove();
+                $('.field-' + fieldNo + '-values').remove();
             });
             trashBtn.appendTo(row);
             row.appendTo('.section_fields');
             $('#SectionField' + fieldNo + 'Name').rules("add", {required: true, checkForDuplicate: true});
             fieldNo++;
         }
+
+        $('#SectionsField0Type').change(function(){
+            $('.field-' + 0 + '-values').remove();
+            switch($(this).val()){
+                case 'Lista desplegable':
+                case 'Selección múltiple':
+                    var values = $('<input>', {
+                        type: 'text',
+                        id: 'SectionsField' + 0 + 'Values',
+                        name: 'data[SectionsField][' + 0 + '][values]',
+                        placeholder: 'Ingrese valores separados por comas',
+                        style: 'width: 100%;'
+                    });                    
+                    var columns = createDiv('small-12 large-12 columns field-' + 0 + '-values');
+                    columns.append(values);                    
+                    columns.appendTo($(this).parent().parent().parent().parent());
+                    $(values).tagsinput();
+                break;                    
+            }
+        });
 
         function refreshFieldsInformation() {
 

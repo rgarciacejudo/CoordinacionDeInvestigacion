@@ -142,7 +142,9 @@ if (isset($this->request->data['SectionsField']) and
             });
             input.append('<option value="Texto" selected="selected">Texto</option>' +
                     '<option value="Casilla de verificación">Casilla de verificación</option>' +
-                    '<option value="Fecha">Fecha</option>')
+                    '<option value="Fecha">Fecha</option>' + 
+                    '<option value="Lista desplegable">Lista desplegable</option>' + 
+                    '<option value="Selección múltiple">Selección múltiple</option>');
             columns.append(input);
             columns.appendTo(row);
             columns = createDiv('small-1 large-1 columns');

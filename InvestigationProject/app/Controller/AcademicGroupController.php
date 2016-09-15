@@ -27,7 +27,7 @@ class AcademicGroupController extends AppController {
     /**
      * Función para registrar grupos académicos
      */
-    public function register() {
+    public function register() {        
         $this->set('page_name', 'Registrar cuerpo académico');
         $user_db = new User();
         $users = $user_db->find('all', array(
@@ -55,10 +55,19 @@ class AcademicGroupController extends AppController {
             if (!empty($this->data)) {
                 if ($this->AcademicGroup->save($this->request->data)) {
                     //Obtener nombre de usuario
-                    $user_db->recursive = -1;
+                    $user_db->recursive = 1;
                     $leader = $user_db->find('first', array(
                         'conditions' => array('User.id' => $this->request->data['AcademicGroup']['user_id'])
-                    ));
+                    ));                    
+                    
+                    //Agregar también como miembro del grupo            
+                    $academic_group_id = $this->AcademicGroup->getLastInsertID();                        
+                    $member_academic_group_db = new MembersAcademicGroup();
+                    $data = array();
+                    $data['MembersAcademicGroup']['member_id'] = $leader['Member']['id'];
+                    $data['MembersAcademicGroup']['academic_group_id'] = $academic_group_id;
+                    $member_academic_group_db->save($data);
+                    
                     $Email = new CakeEmail('gmail');
                     $Email->template('academic_group_leader')
                             ->viewVars(array(

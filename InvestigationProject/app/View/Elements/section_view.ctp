@@ -7,8 +7,6 @@
 <?php } ?>    
         <p><label>Nombre:</label><span><?php echo $section['Section']['name']; ?></span></p>
         <p><label>Descripción:</label><span><?php echo $section['Section']['description']; ?></span></p>        
-        <?php $date = strtotime($section['Section']['created']); ?>
-        <p><label>Fecha de registro:</label><span><?php echo strftime("%d/%m/%Y", $date); ?></span></p>
         <?php
         if(!isset($section["SectionsField"])){
             echo $this->Html->link('ver detalle »', array(
@@ -21,6 +19,13 @@
                     'controller' => 'section',
                     'action' => 'admin', $section['Section']['id']), array(
                     'class' => 'more-info'));
+                echo "<br />";
+                echo $this->Form->postLink('borrar »', array(
+                    'controller' => 'section',
+                    'action' => 'delete', $section['Section']['id']),
+                    array('class' => 'more-info'),
+                    'Está seguro de eliminar la sección?'
+                );
             }   
         } 
         ?> 

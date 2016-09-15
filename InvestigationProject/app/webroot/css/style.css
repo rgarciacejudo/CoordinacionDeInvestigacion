@@ -251,3 +251,11 @@ a.del-exp{
 .top-bar-section .dropdown li.title h5 a:hover::before{
     border-color: transparent white transparent transparent !important;
 }
+
+.bootstrap-tagsinput{
+    width: 100%;
+}
+
+select.multiple{
+    height: 100px;
+}

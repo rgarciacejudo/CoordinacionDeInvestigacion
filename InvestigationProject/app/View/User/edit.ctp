@@ -1,5 +1,7 @@
+<?php echo $this->Html->script('bootstrap-tagsinput.min'); ?>
 <?php echo $this->Html->script('jquery.validate.min'); ?>
 <?php echo $this->Html->script('jquery-ui'); ?>
+<?php echo $this->Html->css('bootstrap-tagsinput'); ?>
 <?php echo $this->Html->css('jquery-ui/smoothness/jquery-ui'); ?>
 <?php echo $this->Html->css('linecons'); ?>
 <h4><?php echo $page_name; ?></h4>
@@ -137,12 +139,13 @@
     <div class="small-12 medium-6 large-6 columns">      
         <div class="row">
             <div class="column">
-                <label>Línea de investigación
+                <label>Líneas de investigación
                     <?php
                     echo $this->Form->input('Member.research_line', array(
                         'label' => false,
-                        'placeholder' => 'línea de investigación',
-                        'class' => 'radius'
+                        'placeholder' => 'Separe por comas',
+                        'class' => 'radius',
+                        'data-role' => 'tagsinput'
                     ));
                     ?>
                 </label>
@@ -152,11 +155,13 @@
             <div class="column">
                 <label>Grado académico
                     <?php
-                    echo $this->Form->input('Member.research_line', array(
-                        'label' => false,
-                        'placeholder' => 'grado académico',
-                        'class' => 'radius'
-                    ));
+                        echo $this->Form->input('Member.grade', array(
+                            'options' => $grade_options,
+                            'empty' => 'Sin definir',
+                            'label' => false,
+                            'placeholder' => 'Grado académico',
+                            'class' => 'radius'
+                        ));
                     ?>
                 </label>
             </div>
@@ -165,7 +170,7 @@
             <div class="column">
                 <label>Univerdad de egreso
                     <?php
-                    echo $this->Form->input('Member.research_line', array(
+                    echo $this->Form->input('Member.university', array(
                         'label' => false,
                         'placeholder' => 'universidad de egreso',
                         'class' => 'radius'

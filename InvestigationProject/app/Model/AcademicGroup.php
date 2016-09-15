@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+App::uses('AppModel', 'Model');
 /**
  * Modelo para la tabla academic_groups
  *

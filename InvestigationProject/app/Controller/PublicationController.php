@@ -17,7 +17,7 @@ class PublicationController extends AppController {
 
     public $components = array('Paginator');
     public $paginate = array(
-        'limit' => 5
+        'limit' => 16
     );
 
     public function index($filter = 'all', $section_id = null) {
@@ -64,7 +64,8 @@ class PublicationController extends AppController {
                     $this->request->data['Publication']['file_path'] = $path . $filename;
                 } else {
                     $this->request->data['Publication']['file_path'] = '';
-                }                
+                }          
+
                 if ($this->Publication->saveAll($this->request->data)) {
                     $this->Session->setFlash('Se ha creado la publicación ' . $this->data['Publication']['title'], 'success-message');
                     return $this->redirect(array(

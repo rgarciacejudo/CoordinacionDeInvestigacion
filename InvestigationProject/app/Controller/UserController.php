@@ -3,6 +3,7 @@
 App::uses('Member', 'Model');
 App::uses('AcademicGroup', 'Model');
 App::uses('Experience', 'Model');
+App::uses('MembersAcademicGroup', 'Model');
 App::uses('CakeEmail', 'Network/Email');
 /*
  * Control para la administración de cuentas
@@ -68,8 +69,28 @@ class UserController extends AppController {
                 $this->request->data['Member']['name'] = 'Usuario';
                 $this->request->data['User']['password'] = $this->_generateRandomString();
                 $this->request->data['User']['role'] = ($this->Auth->user('role') === 'super_admin' ?
-                                'ca_admin' : ($this->Auth->user('role') === 'ca_admin' ? 'member' : 'super_admin'));
+                                'ca_admin' : ($this->Auth->user('role') === 'ca_admin' ? 'member' : 'super_admin'));                
+
                 if ($this->User->saveAll($this->request->data)) {
+
+                    if($this->request->data['User']['role'] === 'member'){
+                        $member_id = $this->User->Member->getLastInsertID();                        
+                        $academic_db = new AcademicGroup();
+                        $academic = $academic_db->find('first', array(
+                            'fields' => array('AcademicGroup.id'),
+                            'conditions' => array('user_id' => $this->Session->read('Auth.User.id')),
+                            'recursive' => -1          
+                        ));                   
+
+                        if(isset($academic) && isset($academic['AcademicGroup']['id'])){
+                            $data = array();
+                            $data['MembersAcademicGroup']['member_id'] = $member_id;
+                            $data['MembersAcademicGroup']['academic_group_id'] = $academic['AcademicGroup']['id'];
+                            $academicgroupmembers_db = new MembersAcademicGroup();
+                            $academicgroupmembers_db->save($data);
+                        }                        
+                    }
+
                     $Email = new CakeEmail('gmail');
                     $Email->template('welcome')
                             ->viewVars(array(
@@ -161,6 +182,11 @@ class UserController extends AppController {
         foreach (explode(',', $matches[1]) as $value) {
             $enum_sni[trim($value, "'")] = trim($value, "'");
         }
+        $grade = $member_db->getColumnType('grade');
+        preg_match('/^enum\((.*)\)$/', $grade, $matches);
+        foreach (explode(',', $matches[1]) as $value) {
+            $enum_grade[trim($value, "'")] = trim($value, "'");
+        }
         $experience_db = new Experience();
         $experiences = $experience_db->find('all', array(
             'order' => array('Institution.name' => 'asc'),
@@ -168,6 +194,7 @@ class UserController extends AppController {
         ));
         $this->set('experiences', $experiences);
         $this->set('SNI_options', $enum_sni);
+        $this->set('grade_options', $enum_grade);
         $this->set('img_profile', $user_member['Member']['img_profile_path']);
         if (!$this->request->data) {
             $this->request->data = $user_member;
@@ -182,7 +209,7 @@ class UserController extends AppController {
             }
             if ($this->request->data['Member']['SNI'] === '') {
                 $this->request->data['Member']['SNI_validity_date'] = null;
-            }
+            }            
             if (!$this->User->saveAll($this->data)) {
                 $this->Session->setFlash('Ocurrió un error al guardar tu infromación.', 'error-message');
             } else {

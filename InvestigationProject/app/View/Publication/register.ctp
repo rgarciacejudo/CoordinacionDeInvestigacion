@@ -86,6 +86,7 @@
         echo $this->Form->end(array(
             'label' => 'Registrar',
             'class' => 'button radius small right',
+            'style' => 'margin-top: 1em;',
             'div' => array(
                 'class' => 'columns'
             )
@@ -126,14 +127,7 @@
                     $.each(response, function() {
                         var container = $('.publication-fields');
                         var label = $('<label>', {});
-                        label.html(this.name);
-                        var input = $('<input>', {
-                            class: 'radius',
-                            type: this.type === 'Casilla de verificación' ? 'checkbox' : 'text',
-                            placeholder: this.name,
-                            name: 'data[Fields][' + fieldNo + '][value]',
-                            id: 'Fields' + fieldNo + 'Value'
-                        });
+                        label.html(this.name);                        
                         var hidden = $('<input>', {
                             class: 'radius',
                             type: 'hidden',
@@ -146,6 +140,13 @@
 
                         switch(this.type){                            
                             case 'Fecha':
+                                var input = $('<input>', {
+                                    class: 'radius',
+                                    type: 'text',
+                                    placeholder: this.name,
+                                    name: 'data[Fields][' + fieldNo + '][value]',
+                                    id: 'Fields' + fieldNo + 'Value'
+                                });
                                 var divCollapse = $('<div>', {
                                     class: 'row collapse'
                                 });
@@ -180,13 +181,68 @@
 
                                 $('#Fields' + fieldNo + 'Value').datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
                             break;
-                            case 'Texto':                            
+                            case 'Texto':   
+                                var input = $('<input>', {
+                                    class: 'radius',
+                                    type: this.type === 'Casilla de verificación' ? 'checkbox' : 'text',
+                                    placeholder: this.name,
+                                    name: 'data[Fields][' + fieldNo + '][value]',
+                                    id: 'Fields' + fieldNo + 'Value'
+                                });                         
                                 container.append(label);
                                 container.append(input);
                             break;
-                            case 'Casilla de verificación':                                
+                            case 'Casilla de verificación':   
+                                var input = $('<input>', {
+                                    class: 'radius',
+                                    type: 'checkbox',
+                                    placeholder: this.name,
+                                    name: 'data[Fields][' + fieldNo + '][value]',
+                                    id: 'Fields' + fieldNo + 'Value'
+                                });                             
                                 container.append(input);
                                 container.append(label);
+                            break;
+                            case 'Lista desplegable':
+                                var input = $('<select>', {
+                                    class: 'radius',                                    
+                                    name: 'data[Fields][' + fieldNo + '][value]',
+                                    id: 'Fields' + fieldNo + 'Value'
+                                });
+                                var data = this.values.split(',');
+                                for(var val in data) {
+                                    $("<option />", {value: data[val], text: data[val]}).appendTo(input);
+                                }
+                                container.append(label);
+                                container.append(input);                                
+                            break;
+                            case 'Selección múltiple':
+                                var select = $('<select>', {
+                                    class: 'multiple',                                   
+                                    multiple: 'true',
+                                    size: 6                                    
+                                });  
+                                var input = $('<input>', {
+                                    name: 'data[Fields][' + fieldNo + '][value]',
+                                    id: 'Fields' + fieldNo + 'Value',
+                                    type: 'hidden'
+                                });
+                                var data = this.values.split(',');                              
+                                for(var val in data) {
+                                    $("<option />", {value: data[val], text: data[val]}).appendTo(select);
+                                }    
+
+                                select.change(function(){
+                                    if($(this).val()){
+                                        $(input).val($(this).val().join(','));    
+                                    } else {
+                                        $(input).val('');
+                                    }                                    
+                                });
+
+                                container.append(label);
+                                container.append(select);
+                                container.append(input);
                             break;
                         }                                            
                         fieldNo++;

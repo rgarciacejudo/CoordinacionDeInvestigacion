@@ -33,7 +33,8 @@ echo $this->Html->link('Regresar', $this->request->referer(), array(
                     <span><?php echo $value['PublicationsSectionField']['value']; ?></span>
                 <?php } ?>                
             </p>
-        <?php } ?>   
+        <?php } ?>  
+        <?php if ($publication['Publication']['file_path'] !== '') { ?>
         <p><label>Archivo:</label>          
             <?php
             echo $this->Html->link('Ver archivo', array(
@@ -45,5 +46,6 @@ echo $this->Html->link('Regresar', $this->request->referer(), array(
             ));
             ?>            
         </p>
+        <?php } ?>
     </div>
 </div>

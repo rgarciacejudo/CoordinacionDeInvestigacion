@@ -153,10 +153,10 @@ class SectionController extends AppController {
         }
         try{
             if ($this->Section->delete($id)) {
-                $this->Flash->success('La sección fue eliminada satisfactoriamente.', 'success-message');
+                $this->Session->setFlash('La sección fue eliminada satisfactoriamente.', 'success-message');
                 $this->redirect(array('action' => 'index'));
             } 
-        } catch (Exception $e){
+        } catch (Exception $e){			
             $this->Session->setFlash('La sección no se puede ser eliminada ya que hay publicaciones creadas para ésta.', 'info-message');
             $this->redirect(array('action' => 'index'));            
         }

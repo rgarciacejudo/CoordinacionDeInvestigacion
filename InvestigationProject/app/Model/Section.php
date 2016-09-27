@@ -14,7 +14,7 @@ App::uses('AppModel', 'Model');
  */
 class Section extends AppModel {
 
-    public $hasMany = 'SectionsField';       
+    public $hasMany = array('SectionsField' => array('dependent'=> true));
     
     public $validate = array(
         'name' => array(

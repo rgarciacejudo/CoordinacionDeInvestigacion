@@ -226,7 +226,7 @@ CREATE TABLE `sections_fields` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `section_id` int(11) unsigned NOT NULL,
   `name` varchar(30) DEFAULT NULL,
-  `type` enum('Texto','Casilla de verificación','Fecha') DEFAULT NULL,
+  `type` enum('Texto','Casilla de verificación','Fecha','Lista despegable', 'Selección múltiple') DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`,`section_id`),
   KEY `section_id` (`section_id`),

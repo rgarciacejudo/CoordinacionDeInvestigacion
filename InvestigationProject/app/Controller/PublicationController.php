@@ -6,6 +6,7 @@
  * and open the template in the editor.
  */
 App::uses('Section', 'Model');
+App::uses('MembersAcademicGroup', 'Model');
 App::uses('PublicationsSectionField', 'Model');
 
 /**
@@ -48,7 +49,59 @@ class PublicationController extends AppController {
             'fields' => array('Section.id', 'Section.name'),            
             'recursive' => 1
         ));
-        $this->set('section_options', $section_options);
+		
+		
+		$members_db = new MembersAcademicGroup();		
+		$academic_group = $members_db->find('first', array(		
+			'fields' => array('MembersAcademicGroup.academic_group_id'),
+			'conditions' => array('MembersAcademicGroup.member_id' => $this->Session->read('User.member_id')),
+			'recursive' => -1
+		));			
+		
+		$members_ca = $members_db->find('all', array(
+			'joins' => array(                			
+				array('table' => 'members',
+					'alias' => 'Member',
+					'type' => 'INNER',
+					'conditions' => array('MembersAcademicGroup.member_id = Member.id')),
+				array('table' => 'users',
+					'alias' => 'User',
+					'type' => 'INNER',
+					'conditions' => array('User.id = Member.user_id')),
+				array('table' => 'academic_groups',
+					'alias' => 'AcademicGroup',
+					'type' => 'INNER',
+					'conditions' => array('AcademicGroup.id = MembersAcademicGroup.academic_group_id'))),
+			'fields' => array('Member.id', 'User.username', 'Member.img_profile_path', 'Member.name', 'Member.last_name'),
+			'conditions' => array(
+				'MembersAcademicGroup.academic_group_id' => $academic_group['MembersAcademicGroup']['academic_group_id'],
+				'Member.id <> ' . $this->Session->read('User.member_id')),
+			'recursive' => -1
+		));
+		
+		$members_other = $members_db->find('all', array(
+			'joins' => array(                
+				array('table' => 'members',
+					'alias' => 'Member',
+					'type' => 'INNER',
+					'conditions' => array('MembersAcademicGroup.member_id = Member.id')),
+				array('table' => 'users',
+					'alias' => 'User',
+					'type' => 'INNER',
+					'conditions' => array('User.id = Member.user_id')),
+				array('table' => 'academic_groups',
+					'alias' => 'AcademicGroup',
+					'type' => 'INNER',
+					'conditions' => array('AcademicGroup.id = MembersAcademicGroup.academic_group_id'))),
+			'fields' => array('Member.id', 'User.username', 'Member.img_profile_path', 'Member.name', 'Member.last_name'),
+			'conditions' => array('MembersAcademicGroup.academic_group_id <> ' . $academic_group['MembersAcademicGroup']['academic_group_id']),
+			'recursive' => -1
+		));
+		
+		$this->set('members_ca', $members_ca);
+		$this->set('members_other', $members_other);
+        $this->set('section_options', $section_options);						
+		
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
                 $this->request->data['Publication']['member_id'] = $this->Session->read('User.member_id');                                

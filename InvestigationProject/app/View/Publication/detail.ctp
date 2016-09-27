@@ -15,7 +15,7 @@ echo $this->Html->link('Regresar', $this->request->referer(), array(
         <p><label>Fecha de publicación:</label><span><?php echo strftime("%d/%m/%Y", $date); ?></span></p>
         <?php $date = strtotime($publication['Publication']['created']); ?>
         <p><label>Fecha de registro:</label><span><?php echo strftime("%d/%m/%Y", $date); ?></span></p>                
-    </div>
+    </div>	
     <div class="small-12 medium-6 large-6 columns profile-details">
         <h5>Detalle de pulicación</h5>        
         <?php foreach ($publication['Fields'] as $key => $value) { ?>
@@ -48,4 +48,10 @@ echo $this->Html->link('Regresar', $this->request->referer(), array(
         </p>
         <?php } ?>
     </div>
+	<div class="small-12 medium-6 large-6 columns profile-details">
+		<h5>Integrantes de CA que participaron</h5>        
+		<?php foreach ($publication['Members'] as $key => $value) { ?>			
+			<p><?php echo $value['name']. ' ' . $value['last_name'];?></p>
+		<?php } ?>
+	</div>
 </div>

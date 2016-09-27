@@ -264,3 +264,8 @@ select.multiple{
 .bootstrap-tagsinput input{
     width: 100% !important;
 }
+
+.over-member-container{
+	overflow-y: auto;
+	max-height: 300px;
+}

@@ -15,14 +15,20 @@ class Publication extends AppModel {
 
     //put your code here    
     public $hasAndBelongsToMany = array(
-        'Fields' =>
-        array(
+        'Fields' => array(
             'className' => 'SectionsField',
             'joinTable' => 'publications_section_fields',
             'foreignKey' => 'publication_id',
             'associationForeignKey' => 'section_field_id',
             'unique' => true,
-        )
+        ),
+		'Members' => array(
+			'className' => 'Member',
+            'joinTable' => 'publications_members',
+            'foreignKey' => 'publication_id',
+            'associationForeignKey' => 'member_id',
+            'unique' => true,
+		)
     );
     
     public $validate = array(

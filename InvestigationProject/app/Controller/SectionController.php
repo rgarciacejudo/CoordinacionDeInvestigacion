@@ -77,7 +77,11 @@ class SectionController extends AppController {
             $options[$key]['id'] = $u['id'];
             $options[$key]['name'] = $u['name'];
             $options[$key]['type'] = $u['type'];
-            $options[$key]['values'] = $u['values'];
+			if(isset($u['values'])){
+				$options[$key]['values'] = $u['values'];
+			}else{
+				$options[$key]['values'] = '';
+			}
         }
         $json = json_encode($options);
         $this->response->body($json);

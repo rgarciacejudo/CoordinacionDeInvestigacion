@@ -88,7 +88,20 @@
             </span>
         </p>
     </div>    
-    <?php
+	<div class="small-12 medium-12 large-12 columns profile-details">
+    <?php	
+	if(!isset($print) && isset($is_leader) && $user_profile['User']['role'] === 'member'){		
+		echo $this->Form->postLink('borrar del CA »', array(
+			'controller' => 'academic_group',
+			'action' => 'memberadmin',
+			$academic_group_id, 
+			$user_profile['User']['id'],
+			'false', 'true'), 
+			array('confirm' => '¿Desea borrar el miembro del CA?',
+            'class' => 'more-info'));			
+		echo '<br>';
+	}
+	
     if (!isset($detail) && !isset($print)) {
         echo $this->Html->link('ver perfil completo »', array(
             'controller' => 'user',
@@ -99,8 +112,9 @@
         if(!isset($print)){
            echo $this->Html->link('pdf »', array('action' => 'detail', $user_profile['User']['id'], 'print'), array('class' => 'more-info', 'target' => '_blank')); 
         }        
-    }
+    }	
     ?>
+	</div>
     <?php if (isset($detail)) { ?>    
         <div class="columns profile-details">            
             <p style="margin-bottom:4px;"><label>Experiencia Profesional</label></p>   

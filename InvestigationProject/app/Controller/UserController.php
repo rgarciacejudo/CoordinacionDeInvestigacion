@@ -445,6 +445,17 @@ class UserController extends AppController {
             'conditions' => array('AcademicGroup.id' => $id),
             'recursive' => -1          
         ));
+		
+		if($this->Session->read('Auth.User.role') === 'ca_admin'){
+			$isLeader = $academic_db->find('first', array(
+				'fields' => array('AcademicGroup.name', 'AcademicGroup.id'),
+				'conditions' => array('AcademicGroup.user_id' => $this->Session->read('Auth.User.id')),
+				'recursive' => -1          
+			));
+			if(isset($isLeader) && $isLeader['AcademicGroup']['id'] === $id){
+				$this->set('is_leader', true);				
+			}
+		}
         
         $this->set('academic_group_id', $id);
         $this->set('academic_group', $academic);

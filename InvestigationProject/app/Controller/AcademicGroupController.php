@@ -209,7 +209,7 @@ class AcademicGroupController extends AppController {
      * @param type $value
      * @throws NotFoundException
      */
-    public function memberadmin($academic_group_id, $member_id, $value) {
+    public function memberadmin($academic_group_id, $member_id, $value, $html = false) {
         try {
             if (isset($academic_group_id) && isset($member_id) && isset($value)) {
                 switch ($value) {
@@ -224,10 +224,20 @@ class AcademicGroupController extends AppController {
                     case 'false':
                         //Delete member
                         $member_academic_group_db = new MembersAcademicGroup();
-                        echo json_encode($member_academic_group_db->deleteAll(array(
+						$response = $member_academic_group_db->deleteAll(array(
                                     'MembersAcademicGroup.member_id' => $member_id,
                                     'MembersAcademicGroup.academic_group_id' => $academic_group_id
-                        )));
+                        ));
+						if($html === false){
+							echo json_encode($response);
+						}
+						else{
+							$this->Session->setFlash('Se ha borrado el miembro del cuerpo académico', 'success-message');
+							return $this->redirect(array(
+								'controller' => 'user',
+								'action' => 'academicgroupmembers', 
+								$academic_group_id));
+						}                        
                         break;
                     default:
                         throw new NotFoundException(__('Invalid member value'));

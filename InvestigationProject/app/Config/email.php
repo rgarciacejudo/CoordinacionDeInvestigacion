@@ -16,20 +16,20 @@ class EmailConfig {
     public $gmail = array(
         'host' => 'smtp.gmail.com',
         'port' => 587,
-        'username' => 'rgarcia.cejudo@gmail.com',
-        'password' => ',.R1c4rd0GC.,',
+        'username' => 'info.obifi@gmail.com',
+        'password' => ',.Ob1f1.,',
         'transport' => 'Smtp',
-        'from' => array('rgarcia.cejudo@gmail.com' => 'Soporte'),
+        'from' => array('info.obifi@gmail.com' => 'Observatorio de Investigación'),
         'tls' => true
     );
     
     public $default = array(
         'host' => 'ssl://smtp.gmail.com',
         'port' => 465,
-        'username' => 'rgarcia.cejudo@gmail.com',
-        'password' => ',.R1c4rd0GC.,',
+        'username' => 'info.obifi@gmail.com',
+        'password' => ',.Ob1f1.,',
         'transport' => 'Smtp',
-        'from' => array('rgarcia.cejudo@gmail.com' => 'Soporte'),
+        'from' => array('info.obifi@gmail.com' => 'Observatorio de Investigación'),
         'log' => true
     );
 

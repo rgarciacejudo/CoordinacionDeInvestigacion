@@ -65,35 +65,6 @@
         </div>
     </div>
 	<div class="small-12 medium-6 large-6 columns">
-        <h5>Detalle de la publicación</h5>
-        <div class="row">
-            <div class="column">
-                <label>Sección
-                    <?php
-                    echo $this->Form->input('Publication.section_id', array(
-                        'label' => false,
-                        'options' => $section_options,
-                        'empty' => 'sección',
-                        'placeholder' => 'sección',
-                        'class' => 'radius'
-                    ));
-                    ?>
-                </label>
-            </div>
-        </div>
-        <div class="publication-fields"></div>
-        <?php
-        echo $this->Form->end(array(
-            'label' => 'Registrar',
-            'class' => 'button radius small right',
-            'style' => 'margin-top: 1em;',
-            'div' => array(
-                'class' => 'columns'
-            )
-        ));
-        ?>
-    </div>    
-	<div class="small-12 medium-6 large-6 columns">
 		<h5>Integrantes del CA que participaron</h5>
 		<div class="over-member-container">
 		<?php foreach ($members_ca as $key => $member) { ?>
@@ -139,6 +110,35 @@
 		<?php } ?>
 		</div>
 	</div>    
+	<div class="small-12 medium-6 large-6 columns">
+        <h5>Detalle de la publicación</h5>
+        <div class="row">
+            <div class="column">
+                <label>Sección
+                    <?php
+                    echo $this->Form->input('Publication.section_id', array(
+                        'label' => false,
+                        'options' => $section_options,
+                        'empty' => 'sección',
+                        'placeholder' => 'sección',
+                        'class' => 'radius'
+                    ));
+                    ?>
+                </label>
+            </div>
+        </div>
+        <div class="publication-fields"></div>
+        <?php
+        echo $this->Form->end(array(
+            'label' => 'Registrar',
+            'class' => 'button radius small right',
+            'style' => 'margin-top: 1em;',
+            'div' => array(
+                'class' => 'columns'
+            )
+        ));
+        ?>
+    </div>    	
 </div>
 <script type="text/javascript">
     $(document).ready(function() {

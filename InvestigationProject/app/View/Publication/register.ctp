@@ -94,7 +94,7 @@
         ?>
     </div>    
 	<div class="small-12 medium-6 large-6 columns">
-		<h5>Miembros del CA</h5>
+		<h5>Integrantes del CA que participaron</h5>
 		<div class="over-member-container">
 		<?php foreach ($members_ca as $key => $member) { ?>
 			<div class="member-container">
@@ -111,10 +111,13 @@
 				</p>
 			</div>
 		<?php } ?>
+		<?php if (count($members_ca) === 0) { ?>
+		<p>No hay más integrantes</p>
+		<?php } ?>
 		</div>
 	</div>
 	<div class="small-12 medium-6 large-6 columns">
-		<h5>Miembros de otro CA</h5>
+		<h5>Integrantes de otro CA que participaron</h5>
 		<div class="over-member-container">
 		<?php foreach ($members_other as $key => $member) { ?>
 			<div class="member-container">
@@ -130,6 +133,9 @@
 						$member['Member']['last_name'];?>				
 				</p>
 			</div>
+		<?php } ?>
+		<?php if (count($members_other) === 0) { ?>
+		<p>No hay más integrantes</p>
 		<?php } ?>
 		</div>
 	</div>    

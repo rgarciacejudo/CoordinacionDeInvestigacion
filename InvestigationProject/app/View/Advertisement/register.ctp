@@ -18,6 +18,17 @@
             </label>
         </div>
     </div>
+	<div class="row">
+        <div class="column">
+            <label>Permanente
+                <?php
+                echo $this->Form->input('is_permanent', array(
+                    'label' => false
+                ));
+                ?>                
+            </label>
+        </div>
+    </div>   
     <div class="row collapse">        
         <label>Fecha límite de visualización</label>
         <div class="small-3 large-2 columns">
@@ -74,18 +85,7 @@
                 ?>                
             </label>
         </div>
-    </div>      
-    <div class="row">
-        <div class="column">
-            <label>Permanente
-                <?php
-                echo $this->Form->input('is_permanent', array(
-                    'label' => false
-                ));
-                ?>                
-            </label>
-        </div>
-    </div>   
+    </div>          
     <div class="row">
     	<?php
         echo $this->Form->end(array(
@@ -108,5 +108,14 @@
                 'data[Advertisement][file_path]': {required: true}
             }
         });
+		
+		$('#AdvertisementIsPermanent').change(function(){
+			if($(this).prop('checked')){
+				$('#AdvertisementExpirationDate').rules('remove', 'required');
+			}else{
+				$('#AdvertisementExpirationDate').rules('add', 'required');
+			}
+		});
+		
 	});
 </script>

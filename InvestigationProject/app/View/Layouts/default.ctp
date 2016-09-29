@@ -16,11 +16,20 @@
             <figure>
                 <?php
                 echo $this->Html->link(
-                 $this->Html->image('logo_principal.png', array(
+                 $this->Html->image('logo_principal.jpg', array(
                     'alt' => 'Observatorio de Investigación',
                     'width' => '100%')),
                  'http://www.uaemex.mx/', array('escape' => false));
-                 ?> 
+                 ?>
+				<?php
+                echo $this->Html->link(
+                 $this->Html->image('fi-logo.png', array(
+                    'alt' => 'Facultad de Ingeniería',					
+                    'width' => '100%')),
+                 'http://fi.uaemex.mx/portal/inicio/home.php', array(
+					'escape' => false,
+					'class' => 'filogo'));
+                ?>
              </figure>
              <nav class="top-bar" style="margin-top: 5px;" data-topbar>
                 <ul class="title-area">

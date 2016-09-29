@@ -269,3 +269,36 @@ select.multiple{
 	overflow-y: auto;
 	max-height: 300px;
 }
+
+.orbit-container .orbit-slides-container img{
+	margin: 0 auto;
+}
+
+.filogo{
+	position: absolute;
+    top: 31px;
+    left: 72%;
+}
+
+@media(max-width: 1300px){
+	.filogo{		
+		left: 75%;
+	}	
+}
+
+@media(max-width: 992px){
+	.filogo{		
+		left: 80%;
+	}	
+}
+
+@media(max-width: 768px){
+	.filogo{	
+		top: 13px;
+	}
+	
+	.filogo img{
+		height: 45px;
+		width: auto;
+	}
+}

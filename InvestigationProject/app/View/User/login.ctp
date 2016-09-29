@@ -16,7 +16,7 @@
         <p class="text-center">
             Inicia sesión y empieza a llenar tu perfil. 
             <br>
-            Sube tus publicaciones y descubre todo el contenido de investigaciones
+            Sube tu producción y descubre todo el contenido de investigaciones
             que existen.
         </p>
     </div>

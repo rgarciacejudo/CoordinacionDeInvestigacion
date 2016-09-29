@@ -156,8 +156,7 @@
                 <label>Grado académico
                     <?php
                         echo $this->Form->input('Member.grade', array(
-                            'options' => $grade_options,
-                            'empty' => 'Sin definir',
+                            'options' => $grade_options,                            
                             'label' => false,
                             'placeholder' => 'Grado académico',
                             'class' => 'radius'
@@ -282,18 +281,9 @@
                 ?>
             </div>  
         </div>
-    </div>
-    <?php
-    echo $this->Form->end(array(
-        'label' => 'Actualizar',
-        'class' => 'button radius small right',
-        'div' => array(
-            'class' => 'columns'
-        )
-    ));
-    ?>
+    </div>	    
     <div class="small-12 medium-12 large-12 columns"> 
-        <h6>Experiencia</h6>
+        <!--<h6>Experiencia</h6>-->
         <?php
         echo $this->Html->link('Agregar experiencia', array(
             'controller' => 'experience',
@@ -302,6 +292,7 @@
                 )
         );
         ?>
+		<div class="right"><input class="button radius small right" type="submit" value="Actualizar"></div>
         <p></p>                
         <div class="experiences-content">            
             <dl class="accordion" data-accordion>
@@ -340,6 +331,7 @@
             </dl>        
         </div>                
     </div>    
+	</form>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {

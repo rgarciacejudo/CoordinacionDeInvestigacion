@@ -1,11 +1,11 @@
 <li class="has-dropdown <?php echo $this->params['controller'] == 'academic_group' ? 'active' : ''; ?>">
-    <?php echo $this->Html->link('Cuerpos Académicos', array('controller' => 'academic_group', 'action' => 'index')); ?>
+    <a>Cuerpos Académicos</a>
     <ul class="dropdown">        
         <li>
             <?php echo $this->Html->link('Consultar', array('controller' => 'academic_group', 'action' => 'index')); ?>
         </li>
         <li class="has-dropdown">
-            <?php echo $this->Html->link('Líderes C.A.', array('controller' => 'user', 'action' => 'index', 'leaders')); ?>
+            <a>Líderes C.A.</a>
             <ul class="dropdown">               
                 <li>
                     <?php echo $this->Html->link('Consultar', array('controller' => 'user', 'action' => 'index', 'leaders')); ?>
@@ -14,7 +14,7 @@
         </li>
     </ul>
 </li>
-<li <?php
+<!--<li <?php
 echo ($this->params['controller'] == 'section' ?
         'class = "active"' : '');
 ?>>
@@ -26,19 +26,12 @@ echo ($this->params['controller'] == 'section' ?
                 )
         );
         ?>
-</li>
+</li>-->
 <li class="has-dropdown" <?php
 echo ($this->params['controller'] == 'user' ?
         'class = "active"' : '');
 ?>>
-        <?php
-        echo $this->Html->link('Investigadores', array(
-            'controller' => 'user',
-            'action' => 'index',
-            'all'
-                )
-        );
-        ?>
+    <a>Investigadores</a>
     <ul class="dropdown">               
         <li>
             <?php echo $this->Html->link('Todos', 

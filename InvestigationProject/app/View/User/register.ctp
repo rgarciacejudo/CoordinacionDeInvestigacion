@@ -3,9 +3,11 @@
 <div class="small-12 medium-6 large-6 columns center-text">
     <div class="row" style="padding: 0 1em;">
         <p class="text-center">
-            Ingresa los datos solicitados para crear una nueva cuenta de 
-            usuario, los accesos serán enviados a la cuenta para empezar a 
-            utilizar el sistema.
+            Ingresa el correo electrónico que servirá como nombre
+			de usuario para crear la nueva cuenta 
+			(<i>ej. usuario@cualquiera.mx</i>),
+			los accesos serán enviados a éste para empezar a 
+			utilizar el sistema.
         </p>
         <p>
             La cuenta creada tendrá las siguientes características:
@@ -17,16 +19,16 @@
                 <ul>
                     <li>Administrar un cuerpo académico</li>
                     <li>Administrar composición del cuerpo académico</li>
-                    <li>Leer publicaciones</li>
-                    <li>Registrar publicaciones</li>
+                    <li>Leer producción</li>
+                    <li>Registrar producción</li>
                 </ul>
                 <?php
                 break;
             case 'ca_admin':
                 ?>
                 <ul>
-                    <li>Leer publicaciones</li>
-                    <li>Registrar publicaciones</li>
+                    <li>Leer producción</li>
+                    <li>Registrar producción</li>
                 </ul>
                 <?php
                 break;

@@ -53,7 +53,7 @@
         <p><label>Línea de investigación:</label>
             <span>
                 <?php echo empty($user_profile['Member']['research_line']) ? 'No registrada' : 
-                $user_profile['Member']['research_line']; ?>
+                (isset($detail) ? $user_profile['Member']['research_line'] : substr($user_profile['Member']['research_line'], 0, 50) . '...'); ?>
             </span>
         </p>                
         <p><label>SNI:</label><span><?php echo $user_profile['Member']['SNI'] ? 
@@ -81,7 +81,7 @@
     </div>
     <div class="small-12 medium-12 large-12 columns profile-details">
         <p>
-            <label>Acerca de mí:</label>
+            <label>Descripción:</label>
             <span>
                 <?php echo empty($user_profile['Member']['additional_data']) ? 'No registrado' : 
                     $user_profile['Member']['additional_data']; ?>

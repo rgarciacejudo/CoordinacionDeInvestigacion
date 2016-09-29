@@ -24,12 +24,6 @@ class Advertisement extends AppModel {
                 'message' => 'El nombre del link ingresado ya existe.'
             )
         ),        
-        'expiration_date' => array(
-            'required' => array(
-                'rule' => array('notEmpty'),
-                'message' => 'La fecha de visulación es requerida.'
-            )
-        ),
         'file_path' => array(
             'required' => array(
                 'rule' => array('notEmpty'),

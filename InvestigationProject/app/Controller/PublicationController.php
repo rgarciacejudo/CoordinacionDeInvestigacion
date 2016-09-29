@@ -22,7 +22,7 @@ class PublicationController extends AppController {
     );
 
     public function index($filter = 'all', $section_id = null) {
-        $this->set('page_name', 'Publicaciones');
+        $this->set('page_name', 'Producción');
         $publications = null;
         $this->Paginator->settings = $this->paginate;
         switch ($filter) {
@@ -43,7 +43,7 @@ class PublicationController extends AppController {
     }
 
     public function register() {
-        $this->set('page_name', 'Registrar publicación');
+        $this->set('page_name', 'Registrar producto');
         $section_db = new Section();
         $section_options = $section_db->find('list', array(
             'fields' => array('Section.id', 'Section.name'),            
@@ -136,7 +136,7 @@ class PublicationController extends AppController {
     }
 
     public function detail($id = null) {
-        $this->set('page_name', 'Detalle de publicación');
+        $this->set('page_name', 'Detalle de producto');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid publication'));

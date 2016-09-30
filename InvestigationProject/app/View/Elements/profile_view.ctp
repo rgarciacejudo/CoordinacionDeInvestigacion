@@ -84,7 +84,7 @@
             <label>Descripción:</label>
             <span>
                 <?php echo empty($user_profile['Member']['additional_data']) ? 'No registrado' : 
-                    $user_profile['Member']['additional_data']; ?>
+                    (isset($detail) ? $user_profile['Member']['additional_data'] : substr($user_profile['Member']['additional_data'], 0, 50) . '...'); ?>
             </span>
         </p>
     </div>    

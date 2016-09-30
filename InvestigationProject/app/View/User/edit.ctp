@@ -123,7 +123,7 @@
         </div>   
         <div class="row">
             <div class="column">
-                <label>Acerca de mí
+                <label>Descripción
                     <?php
                     echo $this->Form->input('Member.additional_data', array(
                         'label' => false,

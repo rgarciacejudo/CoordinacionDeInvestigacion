@@ -74,7 +74,7 @@
                             <p><label>Nombre:</label><span><?php echo $member['name'] . ' ' . $member['last_name']; ?></span></p>
                         </div>
                         <div class="small-12 medium-6 large-6 columns">
-                            <p><label>Acerca de mí:</label>
+                            <p><label>Descripción:</label>
                                 <span>
                                     <?php echo empty($member['additional_data']) ? 
                                         'No registrado' : substr($member['additional_data'], 0, 50) . '...'; ?>

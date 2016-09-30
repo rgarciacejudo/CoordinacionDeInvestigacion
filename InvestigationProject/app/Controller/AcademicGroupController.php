@@ -253,14 +253,14 @@ class AcademicGroupController extends AppController {
     /**
     * Muestra la producción de un cuerpo académico
     */
-    public function production($id = null, $print = null){
+    /*public function production($id = null, $print = null){
         $this->set('page_name', 'Producción de cuerpo académico');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid academic group'));
         }    
 
-        $fields = array('Member.*', 'Publication.*', 'User.id', 'User.username');
+        $fields = array('Members.*', 'Publications.*', 'User.id', 'User.username');
         $conditions = array('AcademicGroup.id' => $id);
         $joins = array(
             array('table' => 'members_academic_groups',
@@ -291,21 +291,21 @@ class AcademicGroupController extends AppController {
             $this->layout = 'print_layout';
             $this->set('print', true);
             $publications = $this->AcademicGroup->find('all', array(
-                'order' => $order,
-                'fields' => $fields,
+                //'order' => $order,
+                //'fields' => $fields,
                 'conditions' => $conditions,
-                'recursive' => -1,
-                'joins' => $joins
+                'recursive' => 3,
+                //'joins' => $joins
             ));
         }
         else{
             $this->paginate = array(
-                'order' => $order,
+                //'order' => $order,
                 'limit' => 5,
-                'fields' => $fields,
+                //'fields' => $fields,
                 'conditions' => $conditions,
-                'recursive' => -1,
-                'joins' => $joins
+                'recursive' => 3,
+                //'joins' => $joins
             );
 
             $this->Paginator->settings = $this->paginate;    
@@ -313,7 +313,7 @@ class AcademicGroupController extends AppController {
         }
         $this->set('academic_group_id', $id);
         $this->set('membersPublications', $publications);
-    }
+    }*/
 
     /**
      * Indicar para qué funciones se requiere autorización

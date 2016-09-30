@@ -6,18 +6,13 @@ echo $this->Html->link('Regresar', $this->request->referer(), array(
         )
 );
 ?>
-<div class="form-content small-12 medium-12 large-12">
+<div class="form-content small-12 medium-12 large-12">    
     <div class="small-12 medium-6 large-6 columns profile-details">
-        <h5>Información de publicación</h5>       
-        <p><label>Título:</label><span><?php echo $publication['Publication']['title']; ?></span></p>
-        <p><label>Descripción:</label><span><?php echo $publication['Publication']['description']; ?></span></p>       
-        <?php $date = strtotime($publication['Publication']['publish_date']); ?>
-        <p><label>Fecha de publicación:</label><span><?php echo strftime("%d/%m/%Y", $date); ?></span></p>
-        <?php $date = strtotime($publication['Publication']['created']); ?>
-        <p><label>Fecha de registro:</label><span><?php echo strftime("%d/%m/%Y", $date); ?></span></p>                
-    </div>	
-    <div class="small-12 medium-6 large-6 columns profile-details">
-        <h5>Detalle de pulicación</h5>        
+        <h5>Información de publicación</h5>    
+        <p>
+            <label>Publicó:</label>
+            <span><?php echo $publication['Member']['name'] . ' ' . $publication['Member']['last_name']; ?></span>
+        </p>       
         <?php foreach ($publication['Fields'] as $key => $value) { ?>
             <p>
                 <label><?php echo $value['name']; ?>:</label>

@@ -28,7 +28,17 @@ class SectionController extends AppController {
         }
         $this->set('field_types', $enum_types);
         if ($this->request->is('post')) {
-            if (!empty($this->data)) {
+            if (!empty($this->data)) {                
+                if(is_uploaded_file($this->data['Section']['icon']['tmp_name'])){
+                    $path = WWW_ROOT . 'files' . DS . 'sections' . DS;
+                    $ext = '.' . pathinfo($this->data['Section']['icon']['name'], PATHINFO_EXTENSION);
+                    $filename = 'section_' . $this->data['Section']['name'] . $ext;
+                    if(!move_uploaded_file($this->data['Section']['icon']['tmp_name'], $path . $filename)){
+                        $this->Session->setFlash('Ocurrió un error al guardar la imagen de la sección', 'error-message');                        
+                    }else{
+                        $this->request->data['Section']['icon'] = DS . 'files' . DS . 'sections' . DS . $filename;    
+                    }                    
+                }
                 if ($this->Section->saveAll($this->request->data)) {
                     $this->Session->setFlash('Se ha creado la sección ' . $this->data['Section']['name'], 'success-message');
                     return $this->redirect(array('controller' => 'section', 'action' => 'index'));
@@ -127,7 +137,10 @@ class SectionController extends AppController {
         $this->set('field_types', $enum_types);
 
         if ($this->request->is('put')) {            
-            if (!empty($this->data)) {                
+            if (!empty($this->data)) { 
+                if(!$section_field_db->deleteAll(array('SectionsField.section_id' => $id))){
+                    $this->Session->setFlash('No se ha actualizado la sección ' . $this->data['Section']['name'], 'error-message');
+                }
                 if ($this->Section->saveAll($this->request->data)) {
                     $this->Session->setFlash('Se ha actualizado la sección ' . $this->data['Section']['name'], 'success-message');
                     return $this->redirect(array('controller' => 'section', 'action' => 'index'));

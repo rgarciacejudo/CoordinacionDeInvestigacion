@@ -5,6 +5,14 @@
 <div class="section-detail form-content">
     <div class="small-12 medium-6 large-6 columns end profile-details">
 <?php } ?>    
+        <p>
+            <span>
+            <?php echo $this->Html->image($section['Section']['icon'] == null ? 'no_img_section.png' : 
+                $section['Section']['icon'], array(
+            'alt' => $section['Section']['name'],
+            'class' => 'th avatar'));?>
+            </span>
+        </p>
         <p><label>Nombre:</label><span><?php echo $section['Section']['name']; ?></span></p>
         <p><label>Descripción:</label><span><?php echo $section['Section']['description']; ?></span></p>        
         <?php

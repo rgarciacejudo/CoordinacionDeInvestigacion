@@ -6,51 +6,29 @@
 <?php echo $this->Form->create('Publication', array('type' => 'file')); ?>
 <div class="form-content">
     <div class="small-12 medium-6 large-6 columns">
-        <h5>Información de la publicación</h5>
+        <h5>Detalle de la publicación</h5>
         <div class="row">
-            <div class="column">
-                <label>Título
-                    <?php
-                    echo $this->Form->input('Publication.title', array(
-                        'label' => false,
-                        'placeholder' => 'título',
-                        'class' => 'radius'
-                    ));
-                    ?>
-                </label>
+            <div class="column">    
+                <label>Sección</label>
+                <div class="section-container">
+                <?php foreach ($section_options as $key => $section) { ?>                
+                    <input type="radio"
+                        id="PublicationSection<?php echo $section['Section']['id'];?>" 
+                        title="<?php echo $section['Section']['name'];?>"
+                        name="data[Publication][section_id]" 
+                        value="<?php echo $section['Section']['id'];?>" />    
+                    <label for="PublicationSection<?php echo $section['Section']['id'];?>">
+                        <img class="th avatar" style="height:50px;width:50px" 
+                            title="<?php echo $section['Section']['name'];?>"
+                            alt="<?php echo $section['Section']['name'];?>"
+                            src="<?php echo $this->webroot . (!empty($section['Section']['icon']) ? 
+                                $section['Section']['icon'] : '/img/no_img_section.png'); ?>"/>
+                    </label>                                                    
+                <?php } ?>                
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="column">
-                <label>Descripción
-                    <?php
-                    echo $this->Form->input('Publication.description', array(
-                        'label' => false,
-                        'placeholder' => 'descripción',
-                        'class' => 'radius'
-                    ));
-                    ?>
-                </label>
-            </div>
-        </div>
-        <div class="row collapse">            
-            <label>Fecha de publicación</label>
-            <div class="small-3 large-2 columns">
-                <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
-            </div>
-            <?php
-            echo $this->Form->input('Publication.publish_date', array(
-                'type' => 'text',
-                'label' => false,
-                'placeholder' => 'fecha de publicación',
-                'class' => 'radius-right',
-                'type' => 'text',
-                'div' => array(
-                    'class' => 'small-9 large-10 columns'
-                )
-            ));
-            ?>
-        </div>
+        <div class="publication-fields"></div>
         <div class="row">
             <div class="column">
                 <label>Archivo de publicación                    
@@ -62,8 +40,8 @@
                     ?>
                 </label>
             </div>
-        </div>
-    </div>
+        </div>        
+    </div>    
 	<div class="small-12 medium-6 large-6 columns">
 		<h5>Integrantes del CA que participaron</h5>
 		<div class="over-member-container">
@@ -86,49 +64,29 @@
 		<p>No hay más integrantes</p>
 		<?php } ?>
 		</div>
-	</div>
-	<div class="small-12 medium-6 large-6 columns">
-		<h5>Integrantes de otro CA que participaron</h5>
-		<div class="over-member-container">
-		<?php foreach ($members_other as $key => $member) { ?>
-			<div class="member-container">
-				<input type="hidden" value="other" name="data[Members][<?php echo $key + count($members_ca);?>][type]'" />
-				<input type="checkbox" id="Member<?php echo $member['Member']['id'];?>" 
+        <h5>Integrantes de otro CA que participaron</h5>
+        <div class="over-member-container">
+        <?php foreach ($members_other as $key => $member) { ?>
+            <div class="member-container">
+                <input type="hidden" value="otro" name="data[Members][<?php echo $key + count($members_ca);?>][type]'" />
+                <input type="checkbox" id="Member<?php echo $member['Member']['id'];?>" 
                     name="data[Members][<?php echo $key + count($members_ca);?>][member_id]" value="<?php echo $member['Member']['id'];?>"/>
-				<img class="th avatar" style="height:50px;width:50px" 
-					alt="<?php echo $member['User']['username'];?>"
-					src="<?php echo $this->webroot . (!empty($member['Member']['img_profile_path']) ? 
-						$member['Member']['img_profile_path'] : '/img/no_img_profile.png'); ?>"/>
-				<p class="member-username">
-					<?php echo $member['User']['username'] . '<br>' . $member['Member']['name'] . ' ' . 
-						$member['Member']['last_name'];?>				
-				</p>
-			</div>
-		<?php } ?>
-		<?php if (count($members_other) === 0) { ?>
-		<p>No hay más integrantes</p>
-		<?php } ?>
-		</div>
-	</div>    
-	<div class="small-12 medium-6 large-6 columns">
-        <h5>Detalle de la publicación</h5>
-        <div class="row">
-            <div class="column">
-                <label>Sección
-                    <?php
-                    echo $this->Form->input('Publication.section_id', array(
-                        'label' => false,
-                        'options' => $section_options,
-                        'empty' => 'sección',
-                        'placeholder' => 'sección',
-                        'class' => 'radius'
-                    ));
-                    ?>
-                </label>
+                <img class="th avatar" style="height:50px;width:50px" 
+                    alt="<?php echo $member['User']['username'];?>"
+                    src="<?php echo $this->webroot . (!empty($member['Member']['img_profile_path']) ? 
+                        $member['Member']['img_profile_path'] : '/img/no_img_profile.png'); ?>"/>
+                <p class="member-username">
+                    <?php echo $member['User']['username'] . '<br>' . $member['Member']['name'] . ' ' . 
+                        $member['Member']['last_name'];?>               
+                </p>
             </div>
+        <?php } ?>
+        <?php if (count($members_other) === 0) { ?>
+        <p>No hay más integrantes</p>
+        <?php } ?>
         </div>
-        <div class="publication-fields"></div>
-        <?php
+	</div>
+    <?php
         echo $this->Form->end(array(
             'label' => 'Registrar',
             'class' => 'button radius small right',
@@ -137,8 +95,7 @@
                 'class' => 'columns'
             )
         ));
-        ?>
-    </div>    	
+        ?>   
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -151,22 +108,27 @@
                 'data[Publication][publish_date]': {required: true},
                 'data[Publication][file]': {required: true},
                 'data[Publication][section_id]': {required: true},
+            },
+            messages: {
+                'data[Publication][section_id]': {
+                    required: 'Este campo es requerido.'
+                }                
             }
         });
 
-        $("#PublicationSectionId").change(function() {
+        $("input[name='data[Publication][section_id]']").change(function() {
             $('.publication-fields').html('');
             if(!$(this).val()){
                 return;
             }
-            $('#PublicationSectionId').addClass('searching');
+            $('.publication-fields').addClass('searching');
             $.ajax({
                 url: '<?php echo $this->webroot . "section/getfields";?>',
                 data: {
                     id: $(this).val()
                 },
                 error: function(){
-                    $('#PublicationSectionId').removeClass('searching');
+                    $('.publication-fields').removeClass('searching');
                 },
                 success: function(response) {
                     var fieldNo = 0;
@@ -293,7 +255,7 @@
                         }                                            
                         fieldNo++;
                     });
-                    $('#PublicationSectionId').removeClass('searching');
+                    $('.publication-fields').removeClass('searching');
                 }
             });
         });

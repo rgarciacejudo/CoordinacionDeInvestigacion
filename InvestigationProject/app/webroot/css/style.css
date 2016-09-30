@@ -276,29 +276,70 @@ select.multiple{
 
 .filogo{
 	position: absolute;
-    top: 31px;
-    left: 72%;
+    top: 15%;
+    right: 12%;
 }
 
-@media(max-width: 1300px){
-	.filogo{		
-		left: 75%;
-	}	
+.section-container{
+    display: inline-block;
 }
 
-@media(max-width: 992px){
-	.filogo{		
-		left: 80%;
-	}	
+.section-container label{
+    display: inline-block;
+    margin-left: 0.5rem;
+    margin-right: 1rem;
+    margin-bottom: 0;
+    vertical-align: baseline;
 }
 
-@media(max-width: 768px){
-	.filogo{	
-		top: 13px;
-	}
-	
+.section-container label.error{
+    display: block;
+}   
+
+.section-container input[type="radio"]:not(:checked),
+.section-container input[type="radio"]:checked {
+    position: absolute;
+    left: -9999px;
+}
+
+.section-container input[type="radio"]:checked + label img {
+    box-shadow: 0 0 6px 1px #81720f;
+}
+
+.publication-over{
+    height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto; 
+}
+
+@media(max-width: 768px){		
 	.filogo img{
-		height: 45px;
-		width: auto;
+		height: 88px;
+        width: auto;
 	}
+}
+
+@media(max-width: 768px){       
+    .filogo img{
+        height: 88px;
+        width: auto;
+    }
+}
+
+@media(max-width: 667px){       
+    .filogo img{
+        height: 72px;
+    }
+}
+
+@media(max-width: 414px){       
+    .filogo img{
+        height: 45px;
+    }
+}
+
+@media(max-width: 320px){       
+    .filogo img{
+        height: 35px;
+    }
 }

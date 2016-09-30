@@ -30,9 +30,9 @@
                 <br />
                 <?php
                 echo $this->Html->link('ver producción »', array(
-                    'controller' => 'academic_group',
-                    'action' => 'production',
-                    $academic_group['AcademicGroup']['id']), array(
+                    'controller' => 'publication',
+                    'action' => 'index',
+                    'ca', $academic_group['AcademicGroup']['id']), array(
                     'class' => 'more-info'));
                 ?>
             </p>            

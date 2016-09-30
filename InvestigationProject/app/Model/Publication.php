@@ -13,7 +13,9 @@
  */
 class Publication extends AppModel {
 
-    //put your code here    
+    public $belongsTo = array('Member');
+
+
     public $hasAndBelongsToMany = array(
         'Fields' => array(
             'className' => 'SectionsField',
@@ -31,7 +33,7 @@ class Publication extends AppModel {
 		)
     );
     
-    public $validate = array(
+    /*public $validate = array(
         'title' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
@@ -48,6 +50,6 @@ class Publication extends AppModel {
                 'message' => 'La fecha de publicación es requerida.'
             )
         )
-    );
+    );*/
 
 }

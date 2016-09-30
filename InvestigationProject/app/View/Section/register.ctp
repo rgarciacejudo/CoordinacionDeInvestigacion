@@ -3,7 +3,10 @@
 <?php echo $this->Html->css('bootstrap-tagsinput'); ?>
 <?php echo $this->Html->css('linecons'); ?>
 <h4><?php echo $page_name; ?></h4>
-<?php echo $this->Form->create(''); ?>
+<?php echo $this->Form->create('', array(
+    'type' => 'file',
+    'url' => array('controller' => 'section', 'register' => 'img_change')
+)); ?>
 <div class="small-12 medium-6 large-6 medium-centered large-centered columns form-content">
     <h5>Información de la sección</h5>
     <div class="row">
@@ -19,6 +22,18 @@
             </label>
         </div>
     </div>
+    <div class="row">
+        <div class="column">
+            <label>Icono
+                <?php echo $this->Form->input('Section.icon', array(
+                    'label' => false,
+                    'type' => 'file',
+                    'accept' => 'image/x-png, image/gif, image/jpeg'                    
+                )); ?>
+            </label>
+        </div>
+    </div>
+
     <div class="row">
         <div class="column">
             <label>Descripción

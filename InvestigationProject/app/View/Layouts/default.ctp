@@ -13,7 +13,7 @@
 <body>
     <div class="wrapper">   
         <header class="row">
-            <figure>
+            <figure style="position:relative;">
                 <?php
                 echo $this->Html->link(
                  $this->Html->image('logo_principal.jpg', array(
@@ -74,11 +74,7 @@
                         echo $this->params['controller'] == 'user' && ($this->params['action'] == 'edit' or $this->params['action'] != 'manage') ?
                         'active' : '';
                         ?>">
-                        <?php
-                        echo $this->Html->link($this->Session->read('Auth.User.username'), array(
-                            'controller' => 'user',
-                            'action' => 'edit'));
-                            ?>
+                        <a><?php echo $this->Session->read('Auth.User.username'); ?></a>
                             <ul class="dropdown">
                                 <li>
                                     <label style="padding:1em;">

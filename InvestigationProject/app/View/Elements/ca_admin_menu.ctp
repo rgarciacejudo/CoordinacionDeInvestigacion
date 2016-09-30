@@ -31,9 +31,9 @@
         </li>
     </ul>
 </li>
-<li class="<?php echo $controller == 'section' ? 'active' : ''; ?>">
+<!--<li class="<?php echo $controller == 'section' ? 'active' : ''; ?>">
     <?php echo $this->Html->link('Secciones', array('controller' => 'section', 'action' => 'index')); ?>    
-</li>
+</li>-->
 <li class="has-dropdown <?php echo $controller == 'publication' ? 'active' : ''; ?>">
     <a>Producción</a>
     <ul class="dropdown">

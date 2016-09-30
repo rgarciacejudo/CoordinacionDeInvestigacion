@@ -326,7 +326,7 @@ class PublicationController extends AppController {
      */
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('detail');
+        $this->Auth->allow('detail', 'download');
         $this->Auth->deny('register', 'delete', 'edit');
     }
 

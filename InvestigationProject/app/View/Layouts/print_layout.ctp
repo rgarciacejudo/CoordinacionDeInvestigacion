@@ -37,7 +37,7 @@
             if(document.readyState=="complete") {
                 window.close(); 
             } else {           
-                setTimeout(CheckWindowState, 2000)
+                setTimeout(CheckWindowState, 1000)
             }
         }    
 

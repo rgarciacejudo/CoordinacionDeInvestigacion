@@ -2,7 +2,7 @@
 <h4><?php echo $page_name; ?></h4>
 <div class="row">
     <?php foreach ($publications as $key => $value) { ?>
-        <?php echo $this->element('publication_view', array('value' => $value, 'mine' => $mine)); ?>
+        <?php echo $this->element('publication_view', array('value' => $value, 'mine' => isset($mine) ? $mine : false)); ?>
     <?php } ?>   
 </div>
 <div class="">

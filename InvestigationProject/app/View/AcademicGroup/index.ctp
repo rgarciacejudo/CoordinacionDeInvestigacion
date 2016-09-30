@@ -77,7 +77,7 @@
                             <p><label>Acerca de mí:</label>
                                 <span>
                                     <?php echo empty($member['additional_data']) ? 
-                                        'No registrado' : $member['additional_data']; ?>
+                                        'No registrado' : substr($member['additional_data'], 0, 50) . '...'; ?>
                                 </span>
                             </p>
                         </div>                    

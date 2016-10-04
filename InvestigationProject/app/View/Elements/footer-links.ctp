@@ -9,7 +9,7 @@
         <li><a href="#">Sitios Relacionados</a></li>
     </ul>
 </div>
-<div class="small-12 medium-6 large-6 columns">
+<div class="small-12 medium-12 large-6 columns">
     <ul class="footer-nav">
         <li><label>Enlaces</label></li>
         <?php foreach ($footer_links as $key => $link) { ?>            

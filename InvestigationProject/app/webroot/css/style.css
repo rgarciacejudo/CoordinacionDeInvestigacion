@@ -285,11 +285,15 @@ select.multiple{
 }
 
 .section-container label{
-    display: inline-block;
-    margin-left: 0.5rem;
-    margin-right: 1rem;
-    margin-bottom: 0;
-    vertical-align: baseline;
+    margin-right: 0.5rem !important;
+    vertical-align: top !important;
+    max-width: 100px;
+    margin-bottom: 0.5em !important;
+}
+
+.section-container label span{
+    display: block;
+    text-align: center;    
 }
 
 .section-container label.error{

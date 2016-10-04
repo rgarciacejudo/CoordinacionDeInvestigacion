@@ -138,14 +138,19 @@ class SectionController extends AppController {
 
         if ($this->request->is('put')) {            
             if (!empty($this->data)) { 
-                if(!$section_field_db->deleteAll(array('SectionsField.section_id' => $id))){
-                    $this->Session->setFlash('No se ha actualizado la sección ' . $this->data['Section']['name'], 'error-message');
-                }
-                if ($this->Section->saveAll($this->request->data)) {
-                    $this->Session->setFlash('Se ha actualizado la sección ' . $this->data['Section']['name'], 'success-message');
-                    return $this->redirect(array('controller' => 'section', 'action' => 'index'));
-                } else {
-                    $this->Session->setFlash('Ocurrió un error al guardar la sección ' . $this->data['Section']['name'], 'error-message');
+                try {
+                    if(!$section_field_db->deleteAll(array('SectionsField.section_id' => $id))){
+                        $this->Session->setFlash('La sección no se puede ser eliminada ya que hay publicaciones creadas para ésta.', 'info-message');
+                    }
+                    if ($this->Section->saveAll($this->request->data)) {
+                        $this->Session->setFlash('Se ha actualizado la sección ' . $this->data['Section']['name'], 'success-message');
+                        return $this->redirect(array('controller' => 'section', 'action' => 'index'));
+                    } else {
+                        $this->Session->setFlash('Ocurrió un error al guardar la sección ' . $this->data['Section']['name'], 'error-message');
+                    }
+                } catch (Exception $e){         
+                    $this->Session->setFlash('La sección no se puede ser eliminada ya que hay publicaciones creadas para ésta.', 'info-message');
+                    $this->redirect(array('action' => 'index'));            
                 }
             } else {
                 $this->Session->setFlash('Debes proporcionar los datos solicitados.', 'info-message');

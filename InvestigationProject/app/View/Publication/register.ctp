@@ -23,11 +23,13 @@
                             alt="<?php echo $section['Section']['name'];?>"
                             src="<?php echo $this->webroot . (!empty($section['Section']['icon']) ? 
                                 $section['Section']['icon'] : '/img/no_img_section.png'); ?>"/>
+                        <span><?php echo $section['Section']['name'];?></span>
                     </label>                                                    
                 <?php } ?>                
                 </div>
             </div>
         </div>
+        <br>
         <div class="publication-fields"></div>
         <div class="row">
             <div class="column">

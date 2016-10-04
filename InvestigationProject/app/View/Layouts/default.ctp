@@ -147,13 +147,7 @@
                             </ul>
                         </div>    
                         
-                        <?php echo $this->element('footer-links'); ?>                                
-                        <div class="small-12 medium-6 large-3 columns">
-                            <ul class="footer-nav">
-                                <li><label>Dirección</label></li>
-                                <p>Universidad Autónoma del Estado de México Instituto Literario # 100. Col. Centro C.P. 50000. Tel. (01-722) 2262300 Toluca, Estado de México. rectoria@uaemex.mx</p>
-                            </ul>
-                        </div>
+                        <?php echo $this->element('footer-links'); ?>                        
                     </div>
                 </footer>
             </div>

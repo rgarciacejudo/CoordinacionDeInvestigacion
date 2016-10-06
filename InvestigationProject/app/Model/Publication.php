@@ -13,7 +13,7 @@
  */
 class Publication extends AppModel {
 
-    public $belongsTo = array('Member');
+    public $belongsTo = array('Member', 'Section');
 
 
     public $hasAndBelongsToMany = array(
@@ -32,7 +32,7 @@ class Publication extends AppModel {
             'unique' => true,
 		)
     );
-    
+
     /*public $validate = array(
         'title' => array(
             'required' => array(

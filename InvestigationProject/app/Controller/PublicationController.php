@@ -8,6 +8,7 @@
 App::uses('Section', 'Model');
 App::uses('MembersAcademicGroup', 'Model');
 App::uses('PublicationsSectionField', 'Model');
+App::uses('User', 'Model');
 
 /**
  * Description of PublicationController
@@ -18,13 +19,14 @@ class PublicationController extends AppController {
 
     public $components = array('Paginator');
     public $paginate = array(
-        'limit' => 16        
+        'limit' => 16
     );
 
     public function index($filter = 'all', $identifier = null) {
         $this->set('page_name', 'Producción');
         $publications = null;
-        $this->Paginator->settings = $this->paginate;        
+        $this->Paginator->settings = $this->paginate;
+        $this->Paginator->settings['order'] = array('FIELD(Publication.section_id) ASC');
         switch ($filter) {
             case 'all':
             default:
@@ -46,7 +48,7 @@ class PublicationController extends AppController {
                     array('table' => 'members_academic_groups',
                         'alias' => 'MemberAcademicGroup',
                         'type' => 'INNER',
-                        'conditions' => array('MemberAcademicGroup.member_id = Publication.member_id', 
+                        'conditions' => array('MemberAcademicGroup.member_id = Publication.member_id',
                             'MemberAcademicGroup.academic_group_id' => $identifier)));
                 $this->Paginator->settings['joins'] = $joins;
                 $publications = $this->Paginator->paginate('Publication');
@@ -59,20 +61,20 @@ class PublicationController extends AppController {
         $this->set('page_name', 'Registrar producto');
         $section_db = new Section();
         $section_options = $section_db->find('all', array(
-            'fields' => array('Section.id', 'Section.name', 'Section.icon'),            
+            'fields' => array('Section.id', 'Section.name', 'Section.icon'),
             'recursive' => 1
         ));
-		
-		
-		$members_db = new MembersAcademicGroup();		
-		$academic_group = $members_db->find('first', array(		
+
+
+		$members_db = new MembersAcademicGroup();
+		$academic_group = $members_db->find('first', array(
 			'fields' => array('MembersAcademicGroup.academic_group_id'),
 			'conditions' => array('MembersAcademicGroup.member_id' => $this->Session->read('User.member_id')),
 			'recursive' => -1
-		));			
-		
+		));
+
 		$members_ca = $members_db->find('all', array(
-			'joins' => array(                			
+			'joins' => array(
 				array('table' => 'members',
 					'alias' => 'Member',
 					'type' => 'INNER',
@@ -91,9 +93,9 @@ class PublicationController extends AppController {
 				'Member.id <> ' . $this->Session->read('User.member_id')),
 			'recursive' => -1
 		));
-		
+
 		$members_other = $members_db->find('all', array(
-			'joins' => array(                
+			'joins' => array(
 				array('table' => 'members',
 					'alias' => 'Member',
 					'type' => 'INNER',
@@ -110,14 +112,14 @@ class PublicationController extends AppController {
 			'conditions' => array('MembersAcademicGroup.academic_group_id <> ' . $academic_group['MembersAcademicGroup']['academic_group_id']),
 			'recursive' => -1
 		));
-		
+
 		$this->set('members_ca', $members_ca);
 		$this->set('members_other', $members_other);
-        $this->set('section_options', $section_options);						
-		
+        $this->set('section_options', $section_options);
+
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
-                $this->request->data['Publication']['member_id'] = $this->Session->read('User.member_id');                                
+                $this->request->data['Publication']['member_id'] = $this->Session->read('User.member_id');
                 if (is_uploaded_file($this->request->data['Publication']['file_path']['tmp_name'])) {
                     $filename = basename($this->request->data['Publication']['file_path']['name']);
                     $path = WWW_ROOT . DS . 'files' . DS . 'publications' . DS . 'member_' . $this->Session->read('User.member_id') . DS;
@@ -126,11 +128,11 @@ class PublicationController extends AppController {
                     }
                     move_uploaded_file(
                             $this->data['Publication']['file_path']['tmp_name'], $path . $filename
-                    );                    
+                    );
                     $this->request->data['Publication']['file_path'] = $path . $filename;
                 } else {
                     $this->request->data['Publication']['file_path'] = '';
-                }          
+                }
 
                 if ($this->Publication->saveAll($this->request->data)) {
                     $this->Session->setFlash('Se ha creado la publicación', 'success-message');
@@ -155,8 +157,10 @@ class PublicationController extends AppController {
             throw new NotFoundException(__('Invalid publication'));
         }
 
-        $this->Publication->recursive = 1;
+        $this->Publication->recursive = 2;
         $publication = $this->Publication->findById($id);
+
+
         if (!$publication) {
             throw new NotFoundException(__('Invalid publication'));
         }
@@ -188,26 +192,26 @@ class PublicationController extends AppController {
      */
     public function edit($id = null){
         $this->set('page_name', 'Editar producto');
-        
+
         if (!$id) {
             throw new NotFoundException(__('Invalid product'));
-        }               
+        }
 
         $section_db = new Section();
-        $members_db = new MembersAcademicGroup();       
+        $members_db = new MembersAcademicGroup();
         $section_options = $section_db->find('all', array(
-            'fields' => array('Section.id', 'Section.name', 'Section.icon'),            
+            'fields' => array('Section.id', 'Section.name', 'Section.icon'),
             'recursive' => 1
         ));
 
-        $academic_group = $members_db->find('first', array(     
+        $academic_group = $members_db->find('first', array(
             'fields' => array('MembersAcademicGroup.academic_group_id'),
             'conditions' => array('MembersAcademicGroup.member_id' => $this->Session->read('User.member_id')),
             'recursive' => -1
-        ));         
-        
+        ));
+
         $members_ca = $members_db->find('all', array(
-            'joins' => array(                           
+            'joins' => array(
                 array('table' => 'members',
                     'alias' => 'Member',
                     'type' => 'INNER',
@@ -220,23 +224,23 @@ class PublicationController extends AppController {
                     'alias' => 'PublicationMembers',
                     'type' => 'LEFT',
                     'conditions' => array(
-                        'PublicationMembers.member_id = Member.id', 
+                        'PublicationMembers.member_id = Member.id',
                         'PublicationMembers.type = "ca"',
                         'PublicationMembers.publication_id' => $id)),
                 array('table' => 'academic_groups',
                     'alias' => 'AcademicGroup',
                     'type' => 'INNER',
                     'conditions' => array('AcademicGroup.id = MembersAcademicGroup.academic_group_id'))),
-            'fields' => array('Member.id', 'User.username', 'Member.img_profile_path', 
+            'fields' => array('Member.id', 'User.username', 'Member.img_profile_path',
                 'Member.name', 'Member.last_name', 'PublicationMembers.id'),
             'conditions' => array(
                 'MembersAcademicGroup.academic_group_id' => $academic_group['MembersAcademicGroup']['academic_group_id'],
                 'Member.id <> ' . $this->Session->read('User.member_id')),
             'recursive' => -1
         ));
-        
+
         $members_other = $members_db->find('all', array(
-            'joins' => array(                
+            'joins' => array(
                 array('table' => 'members',
                     'alias' => 'Member',
                     'type' => 'INNER',
@@ -249,23 +253,23 @@ class PublicationController extends AppController {
                     'alias' => 'PublicationMembers',
                     'type' => 'LEFT',
                     'conditions' => array(
-                        'PublicationMembers.member_id = Member.id', 
+                        'PublicationMembers.member_id = Member.id',
                         'PublicationMembers.type = "otro"',
                         'PublicationMembers.publication_id' => $id)),
                 array('table' => 'academic_groups',
                     'alias' => 'AcademicGroup',
                     'type' => 'INNER',
                     'conditions' => array('AcademicGroup.id = MembersAcademicGroup.academic_group_id'))),
-            'fields' => array('Member.id', 'User.username', 'Member.img_profile_path', 
+            'fields' => array('Member.id', 'User.username', 'Member.img_profile_path',
                 'Member.name', 'Member.last_name', 'PublicationMembers.id'),
             'conditions' => array(
                 'MembersAcademicGroup.academic_group_id <> ' . $academic_group['MembersAcademicGroup']['academic_group_id'],
                 'Member.id <> ' . $this->Session->read('User.member_id')),
             'recursive' => -1
-        ));        
-        
-        if ($this->request->is('put')) {                    
-            if (!empty($this->data)) {       
+        ));
+
+        if ($this->request->is('put')) {
+            if (!empty($this->data)) {
                 if (is_uploaded_file($this->request->data['Publication']['file_path']['tmp_name'])) {
                     $filename = basename($this->request->data['Publication']['file_path']['name']);
                     $path = WWW_ROOT . DS . 'files' . DS . 'publications' . DS . 'member_' . $this->Session->read('User.member_id') . DS;
@@ -274,12 +278,12 @@ class PublicationController extends AppController {
                     }
                     move_uploaded_file(
                             $this->data['Publication']['file_path']['tmp_name'], $path . $filename
-                    );                    
+                    );
                     $this->request->data['Publication']['file_path'] = $path . $filename;
                 } else {
                     unset($this->request->data['Publication']['file_path']);
-                }                       
-                if ($this->Publication->save($this->request->data)) {                    
+                }
+                if ($this->Publication->save($this->request->data)) {
                     $this->Session->setFlash('Se ha actualizado el producto', 'success-message');
                     return $this->redirect(array('controller' => 'publication', 'action' => 'index', 'mine'));
                 } else {
@@ -291,7 +295,7 @@ class PublicationController extends AppController {
             }
             return $this->redirect(array('controller' => 'publication', 'action' => 'index', 'mine'));
         }
-        
+
         $publication = $this->Publication->find('first', array(
             'conditions' => array('Publication.id' => $id),
             'fields' => array('Publication.*'),
@@ -301,10 +305,10 @@ class PublicationController extends AppController {
         $this->set('members_ca', $members_ca);
         $this->set('members_other', $members_other);
         $this->set('publication', $publication);
-        
+
         if (!$this->request->data) {
             $this->request->data = $publication;
-        } 
+        }
     }
 
     /**

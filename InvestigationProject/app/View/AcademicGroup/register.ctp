@@ -22,10 +22,10 @@
     </div>
     <div class="row">
         <div class="column">
-            <label>Líder               
+            <label>Líder
                 <?php
                 echo $this->Form->input('user_id', array(
-                    'label' => false,                    
+                    'label' => false,
                     'class' => 'radius',
                     'options' => array(),
                     'empty' => 'líder'
@@ -76,19 +76,19 @@
         $(document).ready(function() {
             $('#AcademicGroupRegisterForm').validate({
                 rules: {
-                    'data[AcademicGroup][name]': {required: true},                    
+                    'data[AcademicGroup][name]': {required: true},
                     'data[AcademicGroup][user_id]': {required: true},
                     'data[AcademicGroup][level]': {required: true},
                 }
             });
 
-            function usersResultFormat(state){                
+            function usersResultFormat(state){
                 if(!state.id) return state.text;
                 return $('<img style="height: 50px; width:50px; display:inline-block;" class="th avatar" src="<?php echo $this->webroot; ?>' +
                 state.image + '"/>' + '<p style="display:inline-block;vertical-align:middle;margin:0;margin-left:1em;">' + state.text + '<br/>' + state.name + '</p>');
             }
 
-            function usersSelectionFormat(state){                
+            function usersSelectionFormat(state){
                 if(!state.id) return state.text;
                 return $('<p style="display:inline-block;vertical-align:middle;margin:0;margin-left:0.25em;">' + state.text + '</p>');
             }
@@ -96,11 +96,15 @@
 
             var users = getUsers();
 
+            if(users.length === 0){
+              alert('No hay líderes de CA disponibles, antes de crear un CA registre a un líder.');
+            }
+
             $('#AcademicGroupUserId').select2({
                 data: users,
                 placeholder: 'líder',
                 templateSelection: usersSelectionFormat,
-                templateResult: usersResultFormat,             
+                templateResult: usersResultFormat,
                 language:{
                     noResults: function(){
                         return 'No hay resultados.';
@@ -123,6 +127,6 @@
                 });
                 return users;
             }
-        
+
         });
     </script>

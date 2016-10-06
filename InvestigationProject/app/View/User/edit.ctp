@@ -5,10 +5,10 @@
 <?php echo $this->Html->css('jquery-ui/smoothness/jquery-ui'); ?>
 <?php echo $this->Html->css('linecons'); ?>
 <h4><?php echo $page_name; ?></h4>
-<div class="form-content">    
+<div class="form-content">
     <div class="row">
         <div class="small-12 medium-6 large-6 columns">
-            <h6>Cuenta</h6>                   
+            <h6>Cuenta</h6>
             <?php
             echo $this->Form->create('UserImage', array(
                 'type' => 'file',
@@ -31,7 +31,7 @@
                         'hidden' => '1'
                     ));
                     ?>
-                </figure>                
+                </figure>
             </label>
             <?php
             echo $this->Form->end(array(
@@ -43,7 +43,7 @@
             ));
             ?>
         </div>
-        <div class="small-12 medium-6 large-6 columns">            
+        <div class="small-12 medium-6 large-6 columns">
             <label>Usuario
                 <?php
                 echo $this->Form->input('User.username', array(
@@ -53,7 +53,7 @@
                     'readonly' => '1'
                 ));
                 ?>
-            </label>               
+            </label>
             <?php
             echo $this->Html->link('Cambiar contraseña', array(
                 'controller' => 'user',
@@ -63,14 +63,14 @@
                     )
             );
             ?>
-        </div>        
-    </div>           
-    <?php echo $this->Form->create(); ?>    
-    <div class="small-12 medium-6 large-6 columns">        
+        </div>
+    </div>
+    <?php echo $this->Form->create(); ?>
+    <div class="small-12 medium-6 large-6 columns">
         <h6>Información personal</h6>
         <div class="row">
             <div class="column">
-                <label>Nombre(s)                
+                <label>Nombre(s)
                     <?php
                     echo $this->Form->input('Member.name', array(
                         'label' => false,
@@ -120,7 +120,7 @@
                     ?>
                 </label>
             </div>
-        </div>   
+        </div>
         <div class="row">
             <div class="column">
                 <label>Descripción
@@ -134,9 +134,10 @@
                     ?>
                 </label>
             </div>
-        </div>     
-    </div>               
-    <div class="small-12 medium-6 large-6 columns">      
+        </div>
+    </div>
+    <?php if ($this->Session->read('Auth.User.role') !== 'super_admin') : ?>
+      <div class="small-12 medium-6 large-6 columns">
         <div class="row">
             <div class="column">
                 <label>Líneas de investigación
@@ -156,7 +157,7 @@
                 <label>Grado académico
                     <?php
                         echo $this->Form->input('Member.grade', array(
-                            'options' => $grade_options,                            
+                            'options' => $grade_options,
                             'label' => false,
                             'placeholder' => 'Grado académico',
                             'class' => 'radius'
@@ -192,12 +193,12 @@
                     ?>
                 </label>
             </div>
-        </div>   
+        </div>
         <div class="sni-container hide">
-            <div class="row collapse">                        
+            <div class="row collapse">
                 <label>SNI - Fecha de Inicio</label>
                 <div class="small-3 large-2 columns">
-                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
+                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span>
                 </div>
                 <?php
                 echo $this->Form->input('Member.SNI_start_date', array(
@@ -210,12 +211,12 @@
                         'class' => 'small-9 large-10 columns'
                     )
                 ));
-                ?> 
+                ?>
             </div>
-            <div class="row collapse">                        
+            <div class="row collapse">
                 <label>SNI - Fecha de Fin</label>
                 <div class="small-3 large-2 columns">
-                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
+                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span>
                 </div>
                 <?php
                 echo $this->Form->input('Member.SNI_end_date', array(
@@ -228,9 +229,9 @@
                         'class' => 'small-9 large-10 columns'
                     )
                 ));
-                ?> 
+                ?>
             </div>
-        </div>        
+        </div>
         <div class="row">
             <div class="column">
                 <label>PRODEP</label>
@@ -245,10 +246,10 @@
             </div>
         </div>
         <div class="promep-container hide" >
-            <div class="row collapse">            
+            <div class="row collapse">
                 <label>PRODEP - Fecha de Inicio</label>
                 <div class="small-3 large-2 columns">
-                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
+                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span>
                 </div>
                 <?php
                 echo $this->Form->input('Member.PROMEP_start_date', array(
@@ -262,11 +263,11 @@
                     )
                 ));
                 ?>
-            </div>   
-            <div class="row collapse">            
+            </div>
+            <div class="row collapse">
                 <label>PRODEP - Fecha de Fin</label>
                 <div class="small-3 large-2 columns">
-                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span> 
+                    <span aria-hidden="true" class="radius-left prefix li_calendar"></span>
                 </div>
                 <?php
                 echo $this->Form->input('Member.PROMEP_end_date', array(
@@ -279,11 +280,13 @@
                     )
                 ));
                 ?>
-            </div>  
+            </div>
         </div>
-    </div>	    
-    <div class="small-12 medium-12 large-12 columns"> 
+    </div>
+    <?php endif ?>
+    <div class="small-12 medium-12 large-12 columns">
         <!--<h6>Experiencia</h6>-->
+        <?php if ($this->Session->read('Auth.User.role') !== 'super_admin') : ?>
         <?php
         echo $this->Html->link('Agregar experiencia', array(
             'controller' => 'experience',
@@ -292,18 +295,19 @@
                 )
         );
         ?>
+      <?php endif ?>
 		<div class="right"><input class="button radius small right" type="submit" value="Actualizar"></div>
-        <p></p>                
-        <div class="experiences-content">            
+        <p></p>
+        <div class="experiences-content">
             <dl class="accordion" data-accordion>
             <?php foreach ($experiences as $key => $value) { ?>
-                <?php $activityId = 'Actividad' . ($key + 1); ?>                
+                <?php $activityId = 'Actividad' . ($key + 1); ?>
                     <dd class="accordion-navigation">
                         <?php
                         echo $this->Form->postLink($this->Html->tag('span', NULL, array(
                                 'class' => 'li_trash delete-experience',
                                 'aria-hidden' => 'true',
-                            )), 
+                            )),
                             array(
                                 'controller' => 'experience',
                                 'action' => 'delete',
@@ -312,7 +316,7 @@
                                     , '¿Estás seguro de eliminar esta experiencia?'
                             );
                         ?>
-                        <a href="#<?php echo $activityId; ?>"><?php echo $value['Institution']['name']; ?></a>                      
+                        <a href="#<?php echo $activityId; ?>"><?php echo $value['Institution']['name']; ?></a>
                         <div id="<?php echo $activityId; ?>" class="content">
                             <p class="no-margin experience-title"><?php echo 'De ' . $value['Experience']['from_date'] . ' a ' . $value['Experience']['to_date']; ?></p>
                             <p class="no-margin"><?php echo $value['Experience']['activities']; ?></p>
@@ -324,13 +328,13 @@
                                         ), array(
                                     'class' => 'button secondary tiny radius'
                                 ));
-                                ?></div>                          
+                                ?></div>
                         </div>
-                    </dd>                                        
-            <?php } ?>     
-            </dl>        
-        </div>                
-    </div>    
+                    </dd>
+            <?php } ?>
+            </dl>
+        </div>
+    </div>
 	</form>
 </div>
 <script type="text/javascript">

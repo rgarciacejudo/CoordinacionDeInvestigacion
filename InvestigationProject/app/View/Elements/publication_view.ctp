@@ -1,9 +1,9 @@
-<div class="small-12 medium-3 large-3 columns end profile-details">
+<div class="small-12 medium-12 large-12 columns end profile-details">
     <div class="form-content" style="margin-bottom: 1em;">
         <div class="publication-over">
             <p>
                 <label>Publicó:</label>
-                <span><?php echo $value['Member']['name'] . ' ' . $value['Member']['last_name']; ?></span>
+                <?php echo $value['Member']['name'] . ' ' . $value['Member']['last_name']; ?></span>
             </p>
             <?php foreach ($value['Fields'] as $key => $field) { ?>
                 <p>
@@ -18,13 +18,13 @@
                         <span><?php echo strftime("%d/%m/%Y", $date); ?></span>
                     <?php } else { ?>
                         <span><?php echo $field['PublicationsSectionField']['value']; ?></span>
-                    <?php } ?>                
+                    <?php } ?>
                 </p>
-            <?php } ?>  
+            <?php } ?>
         </div>
-        <?php if ($value['Publication']['file_path'] !== '') { ?>
-        <p><label>Archivo:</label>          
-            <?php        
+        <!--<?php if ($value['Publication']['file_path'] !== '') { ?>
+        <p>
+            <?php
             echo $this->Html->link('Ver archivo', array(
                 'controller' => 'publication',
                 'action' => 'download',
@@ -32,15 +32,15 @@
                 'class' => 'button radius tiny secondary',
                 'style' => 'margin-top: 1em;'
             ));
-            ?>            
+            ?>
         </p>
-        <?php } ?>
+        <?php } ?>-->
         <?php if(isset($mine) && $mine === true){
             echo $this->Html->link('editar »', array(
                 'controller' => 'publication',
                 'action' => 'edit', $value['Publication']['id']), array(
                 'class' => 'more-info'));
-            echo '<br>';            
+            echo '<br>';
             echo $this->Form->postLink('borrar »', array(
                 'controller' => 'publication',
                 'action' => 'delete', $value['Publication']['id']), array(

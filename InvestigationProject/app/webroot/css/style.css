@@ -12,8 +12,8 @@ body .wrapper > section.container {
     padding-bottom: 298px;
 }
 
-footer {    
-    width: 100% !important;    
+footer {
+    width: 100% !important;
     position: absolute;
     bottom: 0px;
     left: 0px;
@@ -48,7 +48,7 @@ footer{
     text-align: center;
     padding: 1em;
     font-size: 11px;
-    color: white; }	
+    color: white; }
 .footer-nav li{
     list-style: none;
     margin: 1em; }
@@ -76,7 +76,7 @@ footer{
 }
 
 h4{
-    margin-bottom: 1em; 
+    margin-bottom: 1em;
     padding-left: 1em;
 }
 
@@ -137,7 +137,7 @@ h4{
     padding: 7px !important;
 }
 
-.experiences-content{    
+.experiences-content{
     overflow: scroll;
 }
 
@@ -145,7 +145,7 @@ h4{
     margin-bottom: 0;
 }
 
-.profile-details label{    
+.profile-details label{
     font-weight: bold;
     margin-bottom: -5px;
     cursor: default;
@@ -162,7 +162,7 @@ h4{
 }
 
 .members-list{
-    padding: 1em; 
+    padding: 1em;
     height: 310px;
     overflow: scroll;
 }
@@ -222,7 +222,7 @@ a.del-exp{
 
 .select2-container--default .select2-selection--single{
     height: 37px !important;
-    padding-top: 4px !important; 
+    padding-top: 4px !important;
 }
 
 .error-message{
@@ -293,12 +293,12 @@ select.multiple{
 
 .section-container label span{
     display: block;
-    text-align: center;    
+    text-align: center;
 }
 
 .section-container label.error{
     display: block;
-}   
+}
 
 .section-container input[type="radio"]:not(:checked),
 .section-container input[type="radio"]:checked {
@@ -311,38 +311,46 @@ select.multiple{
 }
 
 .publication-over{
-    height: 200px;
+    max-height: 200px;
     overflow-x: hidden;
-    overflow-y: auto; 
+    overflow-y: auto;
 }
 
-@media(max-width: 768px){		
+.publication-over p{
+  line-height: 1;
+}
+
+.publication-over label{
+  display: inline-block;
+}
+
+@media(max-width: 768px){
 	.filogo img{
 		height: 88px;
         width: auto;
 	}
 }
 
-@media(max-width: 768px){       
+@media(max-width: 768px){
     .filogo img{
         height: 88px;
         width: auto;
     }
 }
 
-@media(max-width: 667px){       
+@media(max-width: 667px){
     .filogo img{
         height: 72px;
     }
 }
 
-@media(max-width: 414px){       
+@media(max-width: 414px){
     .filogo img{
         height: 45px;
     }
 }
 
-@media(max-width: 320px){       
+@media(max-width: 320px){
     .filogo img{
         height: 35px;
     }

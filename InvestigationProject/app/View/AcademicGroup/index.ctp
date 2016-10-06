@@ -1,6 +1,6 @@
 <h4><?php echo $page_name; ?></h4>
 <?php setlocale(LC_ALL, 'es_ES'); ?>
-<?php foreach ($academic_groups as $key => $academic_group) { ?>   
+<?php foreach ($academic_groups as $key => $academic_group) { ?>
     <div class="form-content" style="margin-bottom: 1em;">
         <div class="small-12 medium-6 large-6 columns  profile-details">
             <p><label>Nombre:</label><span><?php echo $academic_group['AcademicGroup']['name']; ?></span></p>
@@ -35,9 +35,18 @@
                     'ca', $academic_group['AcademicGroup']['id']), array(
                     'class' => 'more-info'));
                 ?>
-            </p>            
+                <?php if ($authUser["role"] === 'super_admin') :
+                  echo "<br />";
+                  echo $this->Form->postLink('borrar »', array(
+                      'controller' => 'academic_group',
+                      'action' => 'delete',
+                      $academic_group['AcademicGroup']['id']),  array(
+                      'confirm' => '¿Desea borrar permanentemente el CA?',
+                      'class' => 'more-info'));
+                  endif ?>
+            </p>
             <p>
-                <?php                
+                <?php
                 if (isset($this->params['pass'][0]) && $this->params['pass'][0] === 'admin' && $authUser["role"] === 'ca_admin') {
                     echo "<br />";
                     echo $this->Html->link('administrar »', array(
@@ -47,8 +56,8 @@
                         'class' => 'more-info'));
                 }
                 ?>
-            </p>            
-        </div> 
+            </p>
+        </div>
         <?php if(isset($isMembersDetail)){ ?>
         <div class="small-12 medium-12 large-12 columns profile-details" style="padding:0.5em; border:1px solid gainsboro;border-radius: 5px;">
             <p><label>Miembros:</label></p>
@@ -66,9 +75,9 @@
                                 'style' => 'height: 50px;width: 50px;',
                                 'class' => 'th avatar')
                             );
-                            ?>        
+                            ?>
                         </figure>
-                    </div>   
+                    </div>
                     <div class="small-9 medium-10 large-10 columns">
                         <div class="small-12 medium-6 large-6 columns">
                             <p><label>Nombre:</label><span><?php echo $member['name'] . ' ' . $member['last_name']; ?></span></p>
@@ -76,11 +85,11 @@
                         <div class="small-12 medium-6 large-6 columns">
                             <p><label>Descripción:</label>
                                 <span>
-                                    <?php echo empty($member['additional_data']) ? 
+                                    <?php echo empty($member['additional_data']) ?
                                         'No registrado' : substr($member['additional_data'], 0, 50) . '...'; ?>
                                 </span>
                             </p>
-                        </div>                    
+                        </div>
                     </div>
                     <?php
                     echo $this->Html->link('ver perfil completo »', array(
@@ -88,9 +97,9 @@
                         'action' => 'detail',
                         $member['user_id']), array(
                         'class' => 'more-info'));
-                    ?>    
+                    ?>
                 </div>
-            <?php } ?>               
+            <?php } ?>
         </div>
         <?php } ?>
     </div>
@@ -114,13 +123,13 @@
         echo $this->Paginator->next('Siguiente »', array(
             'tag' => 'li'
         ));
-        ?> 
+        ?>
     </ul>
 </div>
 <div class="large-6 medium-6 columns">
     <label style="float: right;"><?php
         echo $this->Paginator->counter(array(
-            'format' => 'Página {:page} de {:pages}, mostrando {:current} registros de 
+            'format' => 'Página {:page} de {:pages}, mostrando {:current} registros de
              {:count}.'
         ));
         ?>

@@ -15,7 +15,7 @@ App::uses('AppModel', 'Model');
 class Section extends AppModel {
 
     public $hasMany = array('SectionsField' => array('dependent'=> true));
-    
+
     public $validate = array(
         'name' => array(
             'required' => array(
@@ -33,6 +33,6 @@ class Section extends AppModel {
                 'message' => 'La descripción de la sección es requerida.'
             )
         )
-    );       
+    );
 
 }

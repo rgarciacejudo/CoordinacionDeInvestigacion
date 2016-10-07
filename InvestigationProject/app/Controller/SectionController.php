@@ -28,16 +28,18 @@ class SectionController extends AppController {
         }
         $this->set('field_types', $enum_types);
         if ($this->request->is('post')) {
-            if (!empty($this->data)) {                
+            if (!empty($this->data)) {
                 if(is_uploaded_file($this->data['Section']['icon']['tmp_name'])){
                     $path = WWW_ROOT . 'files' . DS . 'sections' . DS;
                     $ext = '.' . pathinfo($this->data['Section']['icon']['name'], PATHINFO_EXTENSION);
                     $filename = 'section_' . $this->data['Section']['name'] . $ext;
                     if(!move_uploaded_file($this->data['Section']['icon']['tmp_name'], $path . $filename)){
-                        $this->Session->setFlash('Ocurrió un error al guardar la imagen de la sección', 'error-message');                        
+                        $this->Session->setFlash('Ocurrió un error al guardar la imagen de la sección', 'error-message');
                     }else{
-                        $this->request->data['Section']['icon'] = DS . 'files' . DS . 'sections' . DS . $filename;    
-                    }                    
+                        $this->request->data['Section']['icon'] = DS . 'files' . DS . 'sections' . DS . $filename;
+                    }
+                }else{
+                  $this->request->data['Section']['icon'] = NULL;
                 }
                 if ($this->Section->saveAll($this->request->data)) {
                     $this->Session->setFlash('Se ha creado la sección ' . $this->data['Section']['name'], 'success-message');
@@ -136,8 +138,8 @@ class SectionController extends AppController {
         }
         $this->set('field_types', $enum_types);
 
-        if ($this->request->is('put')) {            
-            if (!empty($this->data)) { 
+        if ($this->request->is('put')) {
+            if (!empty($this->data)) {
                 try {
                     if(!$section_field_db->deleteAll(array('SectionsField.section_id' => $id))){
                         $this->Session->setFlash('La sección no se puede ser eliminada ya que hay publicaciones creadas para ésta.', 'info-message');
@@ -148,9 +150,13 @@ class SectionController extends AppController {
                     } else {
                         $this->Session->setFlash('Ocurrió un error al guardar la sección ' . $this->data['Section']['name'], 'error-message');
                     }
-                } catch (Exception $e){         
-                    $this->Session->setFlash('La sección no se puede ser eliminada ya que hay publicaciones creadas para ésta.', 'info-message');
-                    $this->redirect(array('action' => 'index'));            
+                } catch (Exception $e){
+                    if ($this->Section->saveAll($this->request->data)) {
+                        $this->Session->setFlash('Se ha actualizado la sección ' . $this->data['Section']['name'], 'success-message');
+                        return $this->redirect(array('controller' => 'section', 'action' => 'index'));
+                    }
+                    $this->Session->setFlash('La sección no se puede ser modificada ya que hay publicaciones creadas para ésta.', 'info-message');
+                    $this->redirect(array('action' => 'index'));
                 }
             } else {
                 $this->Session->setFlash('Debes proporcionar los datos solicitados.', 'info-message');
@@ -159,7 +165,7 @@ class SectionController extends AppController {
 
         if (!$this->request->data) {
             $this->request->data = $section;
-        }    
+        }
     }
 
     public function delete($id = null){
@@ -173,10 +179,10 @@ class SectionController extends AppController {
             if ($this->Section->delete($id)) {
                 $this->Session->setFlash('La sección fue eliminada satisfactoriamente.', 'success-message');
                 $this->redirect(array('action' => 'index'));
-            } 
-        } catch (Exception $e){			
+            }
+        } catch (Exception $e){
             $this->Session->setFlash('La sección no se puede ser eliminada ya que hay publicaciones creadas para ésta.', 'info-message');
-            $this->redirect(array('action' => 'index'));            
+            $this->redirect(array('action' => 'index'));
         }
     }
 

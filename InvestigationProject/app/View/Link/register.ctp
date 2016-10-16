@@ -1,6 +1,6 @@
 <?php echo $this->Html->script('jquery.validate.min'); ?>
 <h4><?php echo $page_name; ?></h4>
-<?php echo $this->Form->create(''); ?>
+<?php echo $this->Form->create('Link', array('type' => 'file')); ?>
 <div class="small-12 medium-6 large-6 medium-centered large-centered columns form-content">
     <div class="row">
         <div class="column">
@@ -11,7 +11,7 @@
                     'placeholder' => 'nombre',
                     'class' => 'radius'
                 ));
-                ?>                
+                ?>
             </label>
         </div>
     </div>
@@ -27,7 +27,7 @@
                 ?>
             </label>
         </div>
-    </div>    
+    </div>
     <div class="row">
         <div class="column">
             <label>URL
@@ -40,7 +40,20 @@
                 ?>
             </label>
         </div>
-    </div>    
+    </div>
+    <div class="row">
+        <div class="column">
+            <label>Imagen
+                <?php
+                echo $this->Form->input('image', array(
+                    'type' => 'file',
+                    'label' => false,
+                    'class' => 'radius'
+                ));
+                ?>
+            </label>
+        </div>
+    </div>
     <div class="row">
     	<?php
         echo $this->Form->end(array(
@@ -50,7 +63,7 @@
                 'class' => 'small-6 columns'
             )
         ));
-        ?>    
+        ?>
     </div>
 </div>
 <script type="text/javascript">

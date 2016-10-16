@@ -44,24 +44,33 @@ class AppController extends Controller {
             'authorize' => array('Controller'),
             'unauthorizedRedirect' => array('controller' => 'home', 'action' => 'index'),
             'flash' => array('element' => 'alert-message', 'key' => 'auth', 'params' => array())
-            
+
     ));
 
     public function beforeFilter(){
         $this->Auth->allow('index');
         //Obtener los links del pie de página
         if(!$this->Cookie->check('footerLinks')){
-            $this->loadModel('Link');        
+            $this->loadModel('Link');
             $links = $this->Link->find('all');
             $this->Cookie->write('footerLinks', $links);
-            $this->set('footer_links', $links);            
+            $this->set('footer_links', $links);
         } else {
-            $this->set('footer_links', $this->Cookie->read('footerLinks'));            
+            $this->set('footer_links', $this->Cookie->read('footerLinks'));
         }
-    }  
-    
-    public function isAuthorized($user = null) {       
-        // Default allow        
+
+        if(!$this->Cookie->check('addressInfo')){
+          $this->loadModel('Value');
+          $address = $this->Value->find('first', array('conditions' => array('name' => 'address')));
+          $this->Cookie->write('addressInfo', $address);
+          $this->set('address_info', $address);
+        } else {
+            $this->set('address_info', $this->Cookie->read('addressInfo'));
+        }
+    }
+
+    public function isAuthorized($user = null) {
+        // Default allow
         return true;
     }
 }

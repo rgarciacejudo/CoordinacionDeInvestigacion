@@ -11,7 +11,7 @@
     <?php echo $this->Html->script('research-observatory'); ?>
 </head>
 <body>
-    <div class="wrapper">   
+    <div class="wrapper">
         <header class="row">
             <figure style="position:relative;">
                 <?php
@@ -24,7 +24,7 @@
 				<?php
                 echo $this->Html->link(
                  $this->Html->image('fi-logo.png', array(
-                    'alt' => 'Facultad de Ingeniería',					
+                    'alt' => 'Facultad de Ingeniería',
                     'width' => '100%')),
                  'http://fi.uaemex.mx/portal/inicio/home.php', array(
 					'escape' => false,
@@ -47,7 +47,7 @@
 
                     <section class="top-bar-section">
                         <ul class="left">
-                            <?php if ($this->Session->read('Auth.User.id') == null) { ?>                       
+                            <?php if ($this->Session->read('Auth.User.id') == null) { ?>
                             <?php echo $this->element('public_menu'); ?>
                             <?php
                         } else {
@@ -68,7 +68,7 @@
                             }
                         }
                         ?>
-                        <li class="divider" style="margin: 0 0.5em;"></li>                            
+                        <li class="divider" style="margin: 0 0.5em;"></li>
                         <?php if ($this->Session->read('Auth.User.id') != null) { ?>
                         <li class="has-dropdown <?php
                         echo $this->params['controller'] == 'user' && ($this->params['action'] == 'edit' or $this->params['action'] != 'manage') ?
@@ -119,7 +119,7 @@
                                             'controller' => 'user',
                                             'action' => 'logout'));
                                     }
-                                    ?>                                
+                                    ?>
                                 </li>
                             </ul>
                         </section>
@@ -128,26 +128,28 @@
                 </header>
                 <section class="row container">
                     <div class="off-canvas-wrap docs-wrap" data-offcanvas>
-                        <div class="inner-wrap">                        
-                            <section class="main-section">                        
-                                <?php echo $this->Session->flash(); ?> 
+                        <div class="inner-wrap">
+                            <section class="main-section">
+                                <?php echo $this->Session->flash(); ?>
                                 <?php echo $this->Session->flash('auth'); ?>
-                                <?php echo $this->fetch('content'); ?>                            
+                                <?php echo $this->fetch('content'); ?>
                             </section>
                             <a class="exit-off-canvas"></a>
                         </div>
                     </div>
                 </section>
                 <footer>
-                    <div class="row">                           
+                    <div class="row">
                         <div class="small-12 medium-6 large-3 columns">
                             <ul class="footer-nav">
                                 <li><label>Contacto</label></li>
-                                <p>Dra. Rosa María Valdovinos Rosas<br> Facultad de Ingeniería<br> Cerro de Coatepec s/n, Ciudad Univesitaria Toluca, México.<br> Tel. (722) 2140855 ext. 1212</p>
+                                <p>
+                                  <?php echo $address_info['Value']['value']; ?>
+                                </p>
                             </ul>
-                        </div>    
-                        
-                        <?php echo $this->element('footer-links'); ?>                        
+                        </div>
+
+                        <?php echo $this->element('footer-links'); ?>
                     </div>
                 </footer>
             </div>
@@ -162,7 +164,7 @@
                 $('.wrapper > section.container').css('padding-bottom', $('footer > .row').height());
                 $('footer').css('height', $('footer > .row').height());
             });
-            </script>	        
+            </script>
             <?php echo $this->element('sql_dump'); ?>
         </body>
         </html>

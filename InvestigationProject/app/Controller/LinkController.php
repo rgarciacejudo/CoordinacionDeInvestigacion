@@ -18,58 +18,79 @@ class LinkController extends AppController {
     );
 
     /**
-     * Función para crear un link   
+     * Función para crear un link
      */
     public function register() {
         $this->set('page_name', 'Registrar link');
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
-                if ($this->Link->save($this->request->data)) {
-                    $this->Cookie->delete('footerLinks');
-                    $this->Session->setFlash('Se ha creado el link ' .
-                            $this->data['Link']['name'], 'success-message');
-                    return $this->redirect('register');
+                if (is_uploaded_file($this->request->data['Link']['image']['tmp_name'])) {
+                  $filename = basename($this->request->data['Link']['image']['name']);
+                  $path = WWW_ROOT . 'files' . DS . 'links' . DS;
+                  if (!is_dir($path)) {
+                      mkdir($path);
+                  }
+                  if(move_uploaded_file($this->data['Link']['image']['tmp_name'], $path . $filename)){
+                      $this->request->data['Link']['image'] = '/files/links/' . $filename;
+                      if ($this->Link->save($this->request->data)) {
+                          $this->Cookie->delete('footerLinks');
+                          $this->Session->setFlash('Se ha creado el link ' .
+                                  $this->data['Link']['name'], 'success-message');
+                          return $this->redirect('register');
+                      }
+                    }
+                    $this->Session->setFlash('Ocurrió un error al crear el cuerpo académico.', 'alert-message');
                 }
-                $this->Session->setFlash('Ocurrió un error al crear el cuerpo académico.', 'alert-message');
             } else {
                 $this->Session->setFlash('Debes proporcionar los datos solicitados.', 'info-message');
             }
         }
     }
-    
+
     /**
      * Administra un link
      * @param type $id
      */
     public function admin($id = null){
         $this->set('page_name', 'Administrar link');
-        
+
         if (!$id) {
             throw new NotFoundException(__('Invalid link'));
-        }               
-        
+        }
+
         if ($this->request->is('put')) {
-            if (!empty($this->data)) {                              
-                if ($this->Link->save($this->request->data)) {
-                    $this->Session->setFlash('Se ha actualizado el link ' . $this->data['Link']['name'], 'success-message');
-                    return $this->redirect('index');
-                } else {
-                    $this->Session->setFlash('Ocurrió un error al guardar el link ' . $this->data['Link']['name'], 'error-message');
+            if (!empty($this->data)) {
+                if (is_uploaded_file($this->request->data['Link']['image']['tmp_name'])) {
+                  $filename = basename($this->request->data['Link']['image']['name']);
+                  $path = WWW_ROOT . 'files' . DS . 'links' . DS;
+                  if (!is_dir($path)) {
+                      mkdir($path);
+                  }
+                  if(move_uploaded_file($this->data['Link']['image']['tmp_name'], $path . $filename)){
+                    $this->request->data['Link']['image'] = '/files/links/' . $filename;
+                    if ($this->Link->save($this->request->data)) {
+                        $this->Cookie->delete('footerLinks');
+                        $this->Session->setFlash('Se ha actualizado el link ' . $this->data['Link']['name'], 'success-message');
+                        return $this->redirect('index');
+                    } else {
+                        $this->Session->setFlash('Ocurrió un error al guardar el link ' . $this->data['Link']['name'], 'error-message');
+                    }
+                  }
                 }
             } else {
                 $this->Session->setFlash('Debes proporcionar los datos solicitados.', 'info-message');
             }
         }
-        
+
         $link = $this->Link->find('first', array(
             'conditions' => array('Link.id' => $id),
             'fields' => array('Link.*'),
             'recursive' => -1));
         $this->set('link', $link);
-        
+
         if (!$this->request->data) {
             $this->request->data = $link;
-        } 
+        }
     }
 
     /**
@@ -87,7 +108,7 @@ class LinkController extends AppController {
     }
 
     /**
-     * Función para listar los links   
+     * Función para listar los links
      */
     public function index() {
         $this->set('page_name', 'Links');

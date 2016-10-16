@@ -17,7 +17,7 @@
         </li>
         <li>
             <?php echo $this->Html->link('Consultar', array('controller' => 'academic_group', 'action' => 'index')); ?>
-        </li>        
+        </li>
     </ul>
 </li>
 <li class="has-dropdown <?php echo $controller == 'section' ? 'active' : ''; ?>">
@@ -28,7 +28,7 @@
         </li>
         <li>
             <?php echo $this->Html->link('Consultar', array('controller' => 'section', 'action' => 'index')); ?>
-        </li>        
+        </li>
     </ul>
 </li>
 <li class="has-dropdown <?php echo $controller == 'link' || $controller == 'advertisement' ? 'active' : ''; ?>">
@@ -51,5 +51,19 @@
                 </li>
             </ul>
         </li>
+    </ul>
+</li>
+<li class="has-dropdown <?php echo $controller == 'value' ? 'active' : ''; ?>">
+    <a>Información de Contacto</a>
+    <ul class="dropdown">
+        <?php if(!$address_info) : ?>
+          <li>
+              <?php echo $this->Html->link('Registrar', array('controller' => 'value', 'action' => 'register')); ?>
+          </li>
+        <?php else : ?>
+          <li>
+              <?php echo $this->Html->link('Editar', array('controller' => 'value', 'action' => 'admin', $address_info['Value']['id'], 'address')); ?>
+          </li>
+        <?php endif ?>
     </ul>
 </li>

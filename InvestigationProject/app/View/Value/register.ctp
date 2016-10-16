@@ -1,8 +1,15 @@
 <?php echo $this->Html->script('jquery.validate.min'); ?>
 <h4><?php echo $page_name; ?></h4>
-<?php echo $this->Form->create('Link', array('type' => 'file')); ?>
+<?php echo $this->Form->create(''); ?>
 <div class="small-12 medium-6 large-6 medium-centered large-centered columns form-content">
-    <?php echo $this->Form->input('id', array('type' => 'hidden')); ?>
+  <?php if ($type === 'address') : ?>
+    <?php
+    echo $this->Form->input('name', array(
+      'type' => 'hidden',
+      'value' => 'address'
+    ));
+    ?>
+  <?php else : ?>
     <div class="row">
         <div class="column">
             <label>Nombre
@@ -16,38 +23,12 @@
             </label>
         </div>
     </div>
+  <?php endif ?>
     <div class="row">
         <div class="column">
-            <label>Texto de link
+            <label>Información <?php  echo $type === 'address' ? "de contacto" : ""; ?>
                 <?php
-                echo $this->Form->input('display_name', array(
-                    'label' => false,
-                    'placeholder' => 'texto de link',
-                    'class' => 'radius'
-                ));
-                ?>
-            </label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="column">
-            <label>URL
-                <?php
-                echo $this->Form->input('url', array(
-                    'label' => false,
-                    'placeholder' => 'url',
-                    'class' => 'radius'
-                ));
-                ?>
-            </label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="column">
-            <label>Imagen
-                <?php
-                echo $this->Form->input('image', array(
-                    'type' => 'file',
+                echo $this->Form->input('value', array(
                     'label' => false,
                     'class' => 'radius'
                 ));
@@ -58,7 +39,7 @@
     <div class="row">
     	<?php
         echo $this->Form->end(array(
-            'label' => 'Actualizar',
+            'label' => 'Registrar',
             'class' => 'button radius small',
             'div' => array(
                 'class' => 'small-6 columns'
@@ -69,11 +50,10 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function () {
-		$('#LinkAdminForm').validate({
+		$('#ValueRegisterForm').validate({
             rules: {
                 'data[Link][name]': {required: true},
-                'data[Link][display_name]': {required: true},
-                'data[Link][url]': {required: true}
+                'data[Link][value]': {required: true}
             }
         });
 	});

@@ -39,7 +39,7 @@ figure{
 }
 
 footer{
-    background: #103B1B;
+    background: #1d5d33;
     margin-top: 1em;
 }
 
@@ -49,6 +49,9 @@ footer{
     padding: 1em;
     font-size: 11px;
     color: white; }
+.footer-nav img{
+  width: 50px;
+}
 .footer-nav li{
     list-style: none;
     margin: 1em; }

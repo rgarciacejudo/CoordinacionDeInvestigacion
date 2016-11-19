@@ -89,8 +89,7 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
                     name="data[Members][<?php echo $key;?>][member_id]"
                     value="<?php echo $member['Member']['id'];?>"
                     <?php echo isset($member['PublicationMembers']) && $member['PublicationMembers']['id'] !== null ? 'checked' : '';?> />
-				<img class="th avatar" style="height:50px;width:50px"
-					alt="<?php echo $member['User']['username'];?>"
+				<img class="th avatar" style="height:50px;width:50px"					
 					src="<?php echo $this->webroot . (!empty($member['Member']['img_profile_path']) ?
 						$member['Member']['img_profile_path'] : '/img/no_img_profile.png'); ?>"/>
 				<p class="member-username">
@@ -112,8 +111,7 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
                     name="data[Members][<?php echo $key + count($members_ca);?>][member_id]"
                     value="<?php echo $member['Member']['id'];?>"
                     <?php echo isset($member['PublicationMembers']) && $member['PublicationMembers']['id'] !== null ? 'checked' : '';?> />
-                <img class="th avatar" style="height:50px;width:50px"
-                    alt="<?php echo $member['User']['username'];?>"
+                <img class="th avatar" style="height:50px;width:50px"                    
                     src="<?php echo $this->webroot . (!empty($member['Member']['img_profile_path']) ?
                         $member['Member']['img_profile_path'] : '/img/no_img_profile.png'); ?>"/>
                 <p class="member-username">

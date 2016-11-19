@@ -37,6 +37,7 @@
         <?php $date = strtotime($user_profile['User']['created']); ?>
         <p><label>Fecha de registro:</label><span><?php echo strftime("%d/%m/%Y", $date); ?></span></p>           
     </div>
+    <?php if($user_profile['User']['role'] !== 'super_admin') : ?>
     <div class="small-12 medium-3 large-3 columns profile-details">        
         <p><label>Grado académico:</label>
             <span>
@@ -65,6 +66,7 @@
             ' a: ' . strftime("%d/%m/%Y", strtotime($user_profile['Member']['PROMEP_end_date'])) : 'No'; 
         ?></span></p>
     </div>
+    <?php endif; ?>
     <div class="small-12 medium-3 large-3 columns profile-details">
         <p><label>Dirección:</label>
             <span>
@@ -113,9 +115,17 @@
            echo $this->Html->link('pdf »', array('action' => 'detail', $user_profile['User']['id'], 'print'), array('class' => 'more-info', 'target' => '_blank')); 
         }        
     }	
+    if($this->Session->read('Auth.User.role') == 'super_admin' && $user_profile['User']['role'] === 'ca_admin'){
+        echo '<br>';
+        echo $this->Form->postLink('borrar »', array(
+                'controller' => 'user',
+                'action' => 'delete', $user_profile['User']['id']), array(
+                'confirm' => '¿Desea borrar permanentemente el líder académico?',
+                'class' => 'more-info'));
+    }
     ?>
 	</div>
-    <?php if (isset($detail)) { ?>    
+    <?php if (isset($detail) && $user_profile['User']['role'] !== 'super_admin') { ?>    
         <div class="columns profile-details">            
             <p style="margin-bottom:4px;"><label>Experiencia Profesional</label></p>   
             <?php if(count($user_profile['Member']['Experience']) == 0) {  ?>

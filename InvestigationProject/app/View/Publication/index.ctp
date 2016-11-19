@@ -12,6 +12,7 @@
         <?php echo $this->element('publication_view', array('value' => $value, 'mine' => isset($mine) ? $mine : false)); ?>
     <?php } ?>
 </div>
+<?php if(count($publications) > 0) : ?>
 <div class="">
     <div class="large-6 medium-6 columns">
         <ul class="pagination" role="menubar" aria-label="Pagination">
@@ -39,3 +40,6 @@
         </label>
     </div>
 </div>
+<?php else: ?>
+<p>Este cuerpo aún no cuenta con producción</p>
+<?php endif; ?>

@@ -3,7 +3,7 @@
 <div class="row">
     <div class="large-12 medium-12 columns">
         <?php     
-    	echo $this->Html->link('Regresar', $this->request->referer(), array(
+    	echo $this->Html->link('Regresar', array('controller'=>'academic_group', 'action'=>'index'), array(
             'class' => 'button secondary tiny radius',
             'style' => 'margin-bottom: 1em;'
         	)

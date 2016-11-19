@@ -110,6 +110,34 @@ class UserController extends AppController {
             }
         }
     }
+    
+    /**
+    * Función para eliminar un usuario
+    */
+    public function delete($id = null) {
+        if (!$id) {
+            throw new NotFoundException(__('Invalid user'));
+        }
+        
+        $user = $this->User->findById($id);
+        
+        if (!$user) {
+            throw new NotFoundException(__('Invalid user'));
+        }                               
+        
+        try {
+            $member_db = new Member();
+            if($member_db->delete($user["Member"]["id"])){
+                if ($this->User->delete($id)) {
+                    $this->Session->setFlash('Se ha eliminado el líder de CA.', 'success-message');
+                    return $this->redirect(array('controller' => 'user', 'action' => 'index', 'leaders'));
+                }   
+            }            
+        } catch (Exception $e){
+            $this->Session->setFlash('El usaurio no se puede ser eliminado ya que tiene asignado un cuerpo académico.', 'info-message');
+            $this->redirect(array('action' => 'index', 'action' => 'index', 'leaders'));
+        }    
+    }
 
     /**
      * Función que genera una cadena aleatoria con longitud mínima de 10 char.
@@ -478,8 +506,9 @@ class UserController extends AppController {
      */
     public function isAuthorized($user = null) {
 
-        if (in_array($this->request->params, array('register', 'admin', 'memberadmin')) &&
-                $user['role'] !== 'ca_admin') {
+        if ((in_array($this->request->params, array('register', 'admin', 'memberadmin')) &&
+                $user['role'] !== 'ca_admin') || in_array($this->request->params, array('delete')) &&
+                $user['role'] !== 'super_admin') {
             return false;
         }
 

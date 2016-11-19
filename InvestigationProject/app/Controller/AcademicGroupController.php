@@ -88,6 +88,7 @@ class AcademicGroupController extends AppController {
                 $this->Session->setFlash('Debes proporcionar los datos solicitados.', 'info-message');
             }
         }
+        $this->Session->setFlash('Recuerda que debes registrar un líder antes de crear un cuerpo académico.', 'info-message');
     }
 
     /**

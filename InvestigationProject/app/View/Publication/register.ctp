@@ -51,7 +51,7 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
         </div>
     </div>
 	<div class="small-12 medium-6 large-6 columns">
-		<h5>Integrantes del CA que participaron</h5>
+		<h5>Integrantes o autores del CA que participaron</h5>
 		<div class="over-member-container">
 		<?php foreach ($members_ca as $key => $member) { ?>
 			<div class="member-container">
@@ -71,7 +71,7 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
 		<p>No hay más integrantes</p>
 		<?php } ?>
 		</div>
-        <h5>Integrantes de otro CA que participaron</h5>
+        <h5>Integrantes o autores de otro CA que participaron</h5>
         <div class="over-member-container">
         <?php foreach ($members_other as $key => $member) { ?>
             <div class="member-container">

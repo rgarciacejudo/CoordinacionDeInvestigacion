@@ -44,7 +44,7 @@ echo $this->Html->link('Regresar', $this->request->referer(), array(
         <?php } ?>
     </div>
 	<div class="small-12 medium-6 large-6 columns profile-details">
-		<h5>Integrantes de CA que participaron</h5>
+		<h5>Integrantes o autores de CA que participaron</h5>
 		<?php foreach ($publication['Members'] as $key => $value) { ?>
 			<p><span><?php echo $value['name']. ' ' . $value['last_name'] . ' ('. $value['User']['username'] .')'; ?></span></p>
 		<?php } ?>

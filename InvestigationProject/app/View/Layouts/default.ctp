@@ -6,7 +6,7 @@
     <title><?php echo $page_name; ?>  - Observatorio de Investigaci&oacute;n</title>
     <link rel="shortcut icon" href="http://www.uaemex.mx/images/uniaemex.png">
     <meta description="Investigaci&oacute;n">
-    <?php echo $this->Html->css(array('foundation', 'normalize', 'style')); ?>
+    <?php echo $this->Html->css(array('foundation', 'normalize', 'style?'.time())); ?>
     <?php echo $this->Html->script(array('vendor/modernizr', 'vendor/jquery', 'vendor/fastclick', 'foundation.min')); ?>
     <?php echo $this->Html->script('research-observatory'); ?>
 </head>
@@ -157,7 +157,7 @@
             $(document).foundation();
             $(document).ready(function(){
                 $('.wrapper > section.container').css('padding-bottom', $('footer > .row').height());
-                $('footer').css('height', $('footer > .row').height());
+                $('footer').css('height', $('footer > .row').height());                
             });
 
             $(window).resize(function(){

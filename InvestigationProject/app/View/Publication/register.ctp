@@ -12,7 +12,7 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
 ?>
 <?php echo $this->Form->create('Publication', array('type' => 'file')); ?>
 <div class="form-content">
-    <div class="small-12 medium-6 large-6 columns">
+    <div class="small-12 medium-12 large-12 columns text-center">
         <h5>Detalle de la publicación</h5>
         <div class="row">
             <div class="column">
@@ -35,23 +35,25 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
                 </div>
             </div>
         </div>
-        <br>
-        <div class="publication-fields"></div>
-        <div class="row">
-            <div class="column">
-                <label>Archivo de publicación
-                    <?php
-                    echo $this->Form->input('file_path', array(
-                        'label' => false,
-                        'type' => 'file'
-                    ));
-                    ?>
-                </label>
-            </div>
-        </div>
     </div>
-	<div class="small-12 medium-6 large-6 columns">
-		<h5>Integrantes o autores del CA que participaron</h5>
+    <div class="large-offset-3 large-6 medium-offset-2 medium-8 small-12 columns hidden authors-container">
+        <h5 class="text-center">Autores</h5>
+        <div class="authors-cards">
+            <div class="panel" data-author="0">
+                <a class="me font-small">Yo</a> | <a href="#" data-reveal-id="myCaModal" class="font-small">De CA</a> | <a href="#" data-reveal-id="otherCaModal" class="font-small">Otro CA</a>                
+                <?php
+                echo $this->Form->input('Authors.0.author', array(
+                    'label' => 'Nombre',
+                    'placeholder' => 'nombre',
+                    'id' => null
+                ));
+                ?>   
+                <a class="font-small add-author">Agregar autor</a>
+            </div>
+        </div>        
+    </div>
+    <div class="large-offset-3 large-6 medium-offset-2 medium-8 small-12 columns hidden members-container">
+		<h5 class="text-center">Integrantes del CA que participaron</h5>
 		<div class="over-member-container">
 		<?php foreach ($members_ca as $key => $member) { ?>
 			<div class="member-container">
@@ -71,7 +73,7 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
 		<p>No hay más integrantes</p>
 		<?php } ?>
 		</div>
-        <h5>Integrantes o autores de otro CA que participaron</h5>
+        <h5 class="text-center">Integrantes de otro CA que participaron</h5>
         <div class="over-member-container">
         <?php foreach ($members_other as $key => $member) { ?>
             <div class="member-container">
@@ -92,6 +94,40 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
         <?php } ?>
         </div>
 	</div>
+    <div class="large-offset-3 large-6 medium-offset-2 medium-8 small-12 columns">
+        <br>
+        <div class="publication-fields"></div>
+        <div class="row">
+            <div class="column">
+                <label>Archivo de publicación
+                    <?php
+                    echo $this->Form->input('file_path', array(
+                        'label' => false,
+                        'type' => 'file'
+                    ));
+                    ?>
+                </label>
+            </div>
+        </div>
+        <div class="row collapse">
+            <label>Fecha de Finalización / Obtención / Publicación</label>
+            <div class="small-3 large-2 columns">
+                <span aria-hidden="true" class="radius-left prefix li_calendar"></span>
+            </div>
+            <?php
+            echo $this->Form->input('publication_date', array(
+                'label' => false,
+                'placeholder' => 'fecha de finalización / obtención / publicación',
+                'class' => 'radius-right',
+                'readonly' => 'readonly',
+                'type' => 'text',
+                'div' => array(
+                    'class' => 'small-9 large-10 columns'
+                )
+            ));
+            ?>
+        </div>
+    </div>	
     <?php
         echo $this->Form->end(array(
             'label' => 'Registrar',
@@ -103,15 +139,119 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
         ));
         ?>
 </div>
+
+<!-- Modals -->
+<div id="myCaModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <h2 id="modalTitle">Miembros de CA</h2>    
+    <?php foreach ($members_ca as $key => $member) { ?>                
+        <div class="member-container">
+            <input value="<?php echo $member['Member']['name'] . ' ' .
+                    $member['Member']['last_name']; ?>" name="autor" type="radio" id="Member<?php echo $member['Member']['id'];?>" />        
+            <p class="member-username">
+                <?php echo $member['User']['username'] . '<br>' . $member['Member']['name'] . ' ' .
+                    $member['Member']['last_name'];?>
+            </p>
+        </div>
+    <?php } ?>
+    <?php if (count($members_ca) === 0) { ?>
+    <p>No hay más integrantes</p>
+    <?php } else { ?>
+        <button class="my-ca button radius small right">Agregar</button>
+    <?php } ?>   
+</div>
+
+<div id="otherCaModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle2" aria-hidden="true" role="dialog">
+    <h2 id="modalTitle2">Miembros de otro CA</h2>    
+    <?php foreach ($members_other as $key => $member) { ?>        
+        <div class="member-container">
+            <input value="<?php echo $member['Member']['name'] . ' ' .
+                    $member['Member']['last_name']; ?>" name="member" type="radio" id="Member<?php echo $member['Member']['id'];?>" />        
+            <p class="member-username">
+                <?php echo $member['User']['username'] . '<br>' . $member['Member']['name'] . ' ' .
+                    $member['Member']['last_name'];?>
+            </p>
+        </div>
+    <?php } ?>
+    <?php if (count($members_other) === 0) { ?>
+    <p>No hay más integrantes</p>
+    <?php } else { ?>
+        <button class="other-ca button radius small right">Agregar</button>
+    <?php } ?>
+</div>
+
+
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#PublicationPublishDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+        $("#PublicationPublicationDate").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});        
+
+        $('.my-ca').click(myCA);
+        $('.other-ca').click(otherCA);
+        $('.font-small').click(setAuthor);
+        $('.add-author').click(addAuthor);
+        $('.me').click(me);
+
+        var authorData = 0;
+        var modelId = 0;
+
+        function me() {
+            var $author = $('[data-author="' + authorData + '"]');
+            $author.find('input').val('<?php echo $this->Session->read('User.name') . ' ' . $this->Session->read('User.last_name') ?>');
+        }
+
+        function setAuthor() {         
+            authorData = $(this).parent().data('author');
+        }
+
+        function addAuthor() {            
+            //Clone DOM      
+            var $panel =  $('[data-author]:first');            
+            var $clon = $panel.clone();
+            //Add close button
+            var $close = $('<a>', {
+                class: 'more-info'
+            });
+            $close.html('X');            
+            $close.click(function(){
+                $clon.remove();
+            });
+            $clon.prepend($close);
+            //Set attrs
+            $clon.attr('data-author', ++modelId);
+            $clon.find('input').val('');
+            $clon.find('input').attr('name', 'data[Authors][' + modelId + '][author]');
+            $('.authors-cards').append($clon);
+            //Events
+            $('.font-small').unbind('click');
+            $('.me').unbind('click');
+            $('.add-author').unbind('click');
+            $('.my-ca').unbind('click');
+            $('.other-ca').unbind('click');
+            $('.font-small').click(setAuthor);
+            $('.me').click(me);                    
+            $('.add-author').click(addAuthor);
+            $('.my-ca').click(myCA);
+            $('.other-ca').click(otherCA);
+        }       
+
+        function myCA() {
+            var $author = $('[data-author="' + authorData + '"]');
+            $author.find('input').val($('input[name="autor"]:checked').val());
+            $('#myCaModal').foundation('reveal', 'close');
+            $('input[name="autor"]').prop('checked', false);
+        }
+
+        function otherCA() {
+            var $author = $('[data-author="' + authorData + '"]');
+            $author.find('input').val($('input[name="member"]:checked').val());            
+            $('#otherCaModal').foundation('reveal', 'close');
+            $('input[name="member"]').prop('checked', false);
+        }
 
         $('#PublicationRegisterForm').validate({
             rules: {
                 'data[Publication][title]': {required: true},
                 'data[Publication][description]': {required: true},
-                'data[Publication][publish_date]': {required: true},
+                'data[Publication][publication_date]': {required: true},
                 'data[Publication][file]': {required: true},
                 'data[Publication][section_id]': {required: true},
             },
@@ -137,8 +277,21 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
                     $('.publication-fields').removeClass('searching');
                 },
                 success: function(response) {
+                    //show authors & members
+                    if(response.authors === '1') {
+                        $('.authors-container').removeClass('hidden');
+                    } else {
+                        $('.authors-container').addClass('hidden');
+                    }
+
+                    if(response.members === '1') {
+                        $('.members-container').removeClass('hidden');
+                    } else {
+                        $('.members-container').addClass('hidden');
+                    }
+
                     var fieldNo = 0;
-                    $.each(response, function() {
+                    $.each(response.fields, function() {
                         var container = $('.publication-fields');
                         var label = $('<label>', {});
                         label.html(this.name);
@@ -262,6 +415,9 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
                         fieldNo++;
                     });
                     $('.publication-fields').removeClass('searching');
+                    $('select.multiple').each(function() {
+                        $(this).attr('size', $(this).children().length);
+                    });
                 }
             });
         });

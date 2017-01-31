@@ -95,7 +95,10 @@ class SectionController extends AppController {
 				$options[$key]['values'] = '';
 			}
         }
-        $json = json_encode($options);
+        $json = json_encode(array(
+            'fields' => $options, 
+            'authors' => $fields['Section']['with_authors'], 
+            'members' => $fields['Section']['with_members']));
         $this->response->body($json);
     }
 

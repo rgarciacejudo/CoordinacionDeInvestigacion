@@ -26,7 +26,7 @@ class PublicationController extends AppController {
         $this->set('page_name', 'Producción');
         $publications = null;
         $this->Paginator->settings = $this->paginate;
-        $this->Paginator->settings['order'] = array('FIELD(Publication.section_id) ASC');
+        $this->Paginator->settings['order'] = array('Section.name' => 'ASC', 'Publication.publication_date' => 'DESC');
         switch ($filter) {
             case 'all':
             default:
@@ -47,9 +47,9 @@ class PublicationController extends AppController {
                 $joins = array(
                     array('table' => 'members_academic_groups',
                         'alias' => 'MemberAcademicGroup',
-                        'type' => 'INNER',
+                        'type' => 'INNER',                        
                         'conditions' => array('MemberAcademicGroup.member_id = Publication.member_id',
-                            'MemberAcademicGroup.academic_group_id' => $identifier)));
+                            'MemberAcademicGroup.academic_group_id' => $identifier)));                
                 $this->Paginator->settings['joins'] = $joins;
                 $publications = $this->Paginator->paginate('Publication');
                 break;
@@ -198,11 +198,7 @@ class PublicationController extends AppController {
         }
 
         $section_db = new Section();
-        $members_db = new MembersAcademicGroup();
-        $section_options = $section_db->find('all', array(
-            'fields' => array('Section.id', 'Section.name', 'Section.icon'),
-            'recursive' => 1
-        ));
+        $members_db = new MembersAcademicGroup();        
 
         $academic_group = $members_db->find('first', array(
             'fields' => array('MembersAcademicGroup.academic_group_id'),
@@ -288,8 +284,7 @@ class PublicationController extends AppController {
                     return $this->redirect(array('controller' => 'publication', 'action' => 'index', 'mine'));
                 } else {
                     $this->Session->setFlash('Ocurrió un error al guardar el producto', 'error-message');
-                }
-                var_dump($this->data);
+                }                
             } else {
                 $this->Session->setFlash('Debes proporcionar los datos solicitados.', 'info-message');
             }
@@ -300,6 +295,12 @@ class PublicationController extends AppController {
             'conditions' => array('Publication.id' => $id),
             'fields' => array('Publication.*'),
             'recursive' => 1));
+
+        $section_options = $section_db->find('first', array(
+            'fields' => array('Section.id', 'Section.name', 'Section.icon', 'Section.with_authors', 'Section.with_members'),
+            'conditions' => array('Section.id' => $publication['Publication']['section_id']),
+            'recursive' => -1
+        ));
 
         $this->set('section_options', $section_options);
         $this->set('members_ca', $members_ca);
@@ -323,6 +324,14 @@ class PublicationController extends AppController {
             $this->Session->setFlash('Se ha eliminado el producto.', 'success-message');
             return $this->redirect(array('controller' => 'publication', 'action' => 'index', 'mine'));
         }
+    }
+
+    /**
+    *
+    *
+    */
+    public function report() {
+
     }
 
     /**

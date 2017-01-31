@@ -15,6 +15,14 @@ class Publication extends AppModel {
 
     public $belongsTo = array('Member', 'Section');
 
+    public $hasMany = array(
+        'Authors' => array(
+            'className' => 'PublicationsAuthor',
+            'joinTable' => 'publications_authors',
+            'foreignKey' => 'publication_id',
+            'unique' => true
+        )
+    );
 
     public $hasAndBelongsToMany = array(
         'Fields' => array(

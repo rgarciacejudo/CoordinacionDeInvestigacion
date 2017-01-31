@@ -38,10 +38,12 @@ class UserController extends AppController {
                 if ($this->Auth->login()) {
                     $member_db = new Member();
                     $member_id = $member_db->find('first', array(
-                        'fields' => array('Member.id'),
+                        'fields' => array('Member.id', 'Member.name', 'Member.last_name'),
                         'conditions' => array('Member.user_id' => $this->Auth->user('id'))
                     ));
                     $this->Session->write('User.member_id', $member_id['Member']['id']);
+                    $this->Session->write('User.name', $member_id['Member']['name']);
+                    $this->Session->write('User.last_name', $member_id['Member']['last_name']);
                     return $this->redirect($this->Auth->redirect());
                 }
                 $this->Session->setFlash('Usuario o contraseña incorrectos, favor de verificar.', 'info-message');

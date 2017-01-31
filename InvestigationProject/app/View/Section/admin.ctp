@@ -33,6 +33,26 @@
             </label>
         </div>
     </div>
+    <div class="row">
+        <div class="column">
+            <?php
+            echo $this->Form->input('Section.with_authors', array(
+                'label' => 'Mostrar autores',
+                'type' => 'checkbox'
+            ));
+            ?>            
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">            
+            <?php
+            echo $this->Form->input('Section.with_members', array(
+                'label' => 'Mostrar integrantes',
+                'type' => 'checkbox'
+            ));
+            ?>            
+        </div>
+    </div>
     <h5>Estructrura de la sección</h5>
     <a id="add_field" class="button tiny success radius local-action">Agregar campo
         <span style="position: relative; top: 1px;" aria-hidden="true" class="li_tag"></span>

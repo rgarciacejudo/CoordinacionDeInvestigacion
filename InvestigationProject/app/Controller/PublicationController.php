@@ -327,11 +327,11 @@ class PublicationController extends AppController {
     }
 
     /**
-    *
+    * Función para la generación de reportes
     *
     */
     public function report() {
-
+        $this->set('page_name', 'Reportes');
     }
 
     /**
@@ -339,7 +339,7 @@ class PublicationController extends AppController {
      */
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('detail', 'download');
+        $this->Auth->allow('detail', 'download', 'report');
         $this->Auth->deny('register', 'delete', 'edit');
     }
 

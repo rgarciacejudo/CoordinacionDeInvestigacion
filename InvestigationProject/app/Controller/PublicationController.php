@@ -331,7 +331,78 @@ class PublicationController extends AppController {
     *
     */
     public function report() {
-        $this->set('page_name', 'Reportes');
+        $this->set('page_name', 'Reportes');        
+
+        if ($this->request->is('post')) {
+            if (!empty($this->data)) {                
+
+                $this->Paginator->settings = $this->paginate;
+                $this->Paginator->settings['order'] = array('Section.name' => 'ASC', 'Publication.publication_date' => 'DESC');
+
+                $conditions = array(
+                    'YEAR(Publication.publication_date)' => $this->data['Report']['year']
+                );
+
+                if(isset($this->data['Members'])) {
+                    $member_ids = array();
+                    foreach($this->data['Members'] as $key => $value) {
+                        array_push($member_ids, $value['member_id']);
+                    }
+                    $conditions['Member.id'] = $member_ids;
+                }
+
+                if(isset($this->data['Sections'])) {
+                    $section_ids = array();
+                    foreach($this->data['Sections'] as $key => $value) {
+                        array_push($section_ids, $value['id']);
+                    }
+                    $conditions['Section.id'] = $section_ids;
+                }
+                
+                if($this->data['Report']['print'] === '1') {
+                    $this->layout = 'print_layout';
+                    $this->set('print', true);
+                }
+                
+                $this->Paginator->settings['conditions'] = $conditions;
+                $publications = $this->Paginator->paginate('Publication');
+                $this->set('publications', $publications);
+         
+                if (!$this->request->data) {
+                    $this->request->data = $this->data;
+                }
+            }
+        }
+
+        $members_db = new MembersAcademicGroup();
+
+        $members = $members_db->find('all', array(
+			'joins' => array(
+				array('table' => 'members',
+					'alias' => 'Member',
+					'type' => 'INNER',
+					'conditions' => array('MembersAcademicGroup.member_id = Member.id')),
+				array('table' => 'users',
+					'alias' => 'User',
+					'type' => 'INNER',
+					'conditions' => array('User.id = Member.user_id')),
+				array('table' => 'academic_groups',
+					'alias' => 'AcademicGroup',
+					'type' => 'INNER',
+					'conditions' => array('AcademicGroup.id = MembersAcademicGroup.academic_group_id'))),
+			'fields' => array('Member.id', 'User.username', 'Member.name', 'Member.last_name'),
+            'order' => array('Member.name' => 'ASC', 'Member.last_name' => 'ASC'),
+			'recursive' => -1
+		));
+
+        $section_db = new Section();
+        $sections = $section_db->find('all', array(
+            'fields' => array('Section.id', 'Section.name'),
+            'recursive' => -1
+        ));
+	
+        $this->set('sections', $sections);
+		$this->set('members', $members);        
     }
 
     /**

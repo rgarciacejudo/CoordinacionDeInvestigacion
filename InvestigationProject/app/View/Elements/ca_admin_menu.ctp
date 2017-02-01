@@ -8,6 +8,9 @@
         <li>
             <?php echo $this->Html->link('Consultar', array('controller' => 'academic_group', 'action' => 'index')); ?>
         </li>
+        <li>
+            <?php echo $this->Html->link('Reportes', array('controller' => 'publication', 'action' => 'report')); ?>
+        </li>
         <li class="has-dropdown">
             <a>Investigadores</a>
             <ul class="dropdown">

@@ -1,9 +1,14 @@
-<div class="small-12 medium-12 large-12 columns end profile-details">
+<?php if(!isset($print)) : ?>
+<div class="small-12 medium-12 large-12 columns end profile-details">    
     <div class="form-content" style="margin-bottom: 1em;">
         <div class="publication-over">
             <p>
                 <label>Publicó:</label>
-                <?php echo $value['Member']['name'] . ' ' . $value['Member']['last_name']; ?></span>
+                <span><?php echo $value['Member']['name'] . ' ' . $value['Member']['last_name']; ?></span>
+            </p>
+            <p>
+                <label>Fecha de Finalización / Obtención / Publicación:</label>
+                <span><?php echo strftime("%d/%m/%Y", strtotime($value['Publication']['publication_date'])); ?></span>
             </p>
             <?php foreach ($value['Fields'] as $key => $field) { ?>
                 <p>
@@ -56,5 +61,40 @@
             ), array(
             'class' => 'more-info'));
         ?>
-    </div>
+    </div>    
 </div>
+<?php else: ?>
+    <tr>    
+        <td><?php echo $value['Member']['name'] . ' ' . $value['Member']['last_name']; ?></td>
+        <td><?php echo strftime("%d/%m/%Y", strtotime($value['Publication']['publication_date'])); ?></td>
+        <?php if($value['Section']['with_authors'] === '1') : ?>
+        <td>            
+            <?php foreach ($value['Authors'] as $key => $author) {
+                echo $author['author'] . ($key + 1 < count($value['Authors']) ? ', ' : '');
+            } ?>
+        </td>        
+        <?php endif; ?>
+        <?php if($value['Section']['with_members'] === '1') : ?>
+        <td>
+            <?php foreach ($value['Members'] as $key => $member) {
+                echo $member['name']. ' ' . $member['last_name'];
+            } ?>
+        </td>
+        <?php endif; ?>
+        <?php foreach ($value['Fields'] as $key => $field) { ?>
+            <td>                    
+                <?php if ($field['type'] === "Casilla de verificación") { ?>
+                    <?php
+                        echo $field['PublicationsSectionField']['value'] === "on" ?
+                                "Habilitado" : "No habilitado";
+                    ?>
+                <?php } else if ($field['type'] === "Fecha") { ?>
+                    <?php $date = strtotime($field['PublicationsSectionField']['value']); ?>
+                    <?php echo strftime("%d/%m/%Y", $date); ?>
+                <?php } else { ?>
+                    <?php echo $field['PublicationsSectionField']['value']; ?>
+                <?php } ?>
+            </td>
+        <?php } ?>
+    </tr>
+<?php endif; ?>

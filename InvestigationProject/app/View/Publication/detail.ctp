@@ -13,6 +13,10 @@ echo $this->Html->link('Regresar', $this->request->referer(), array(
             <label>Publicó:</label>
             <span><?php echo $publication['Member']['name'] . ' ' . $publication['Member']['last_name']; ?></span>
         </p>
+        <p>
+            <label>Fecha de Finalización / Obtención / Publicación:</label>
+            <span><?php echo strftime("%d/%m/%Y", strtotime($publication['Publication']['publication_date'])); ?></span>
+        </p>
         <?php foreach ($publication['Fields'] as $key => $value) { ?>
             <p>
                 <label><?php echo $value['name']; ?>:</label>
@@ -44,9 +48,20 @@ echo $this->Html->link('Regresar', $this->request->referer(), array(
         <?php } ?>
     </div>
 	<div class="small-12 medium-6 large-6 columns profile-details">
-		<h5>Integrantes o autores de CA que participaron</h5>
-		<?php foreach ($publication['Members'] as $key => $value) { ?>
-			<p><span><?php echo $value['name']. ' ' . $value['last_name'] . ' ('. $value['User']['username'] .')'; ?></span></p>
-		<?php } ?>
+        <?php if($publication['Section']['with_authors'] === '1') : ?>
+            <h5>Autores</h5>        
+            <?php foreach ($publication['Authors'] as $key => $value) { ?>
+                <p><span><?php echo $value['author']; ?></span></p>
+            <?php } ?>
+        <?php endif; ?>
+        <?php if($publication['Section']['with_members'] === '1') : ?>
+            <h5>Integrantes de CA que participaron</h5>
+            <?php foreach ($publication['Members'] as $key => $value) { ?>
+                <p><span><?php echo $value['name']. ' ' . $value['last_name'] . ' ('. $value['User']['username'] .')'; ?></span></p>
+            <?php } ?>
+            <?php if(count($publication['Members']) === 0) : ?>
+            <span>No hay integrantes</span>
+            <?php endif; ?>
+        <?php endif; ?>
 	</div>
 </div>

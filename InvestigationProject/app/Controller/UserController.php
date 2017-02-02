@@ -495,6 +495,73 @@ class UserController extends AppController {
     }
 
     /**
+    * Listar miembros de CA
+    */
+    public function adminca() {
+        $this->set('page_name', 'Administrar datos de miembros de cuerpo académico');
+
+        if($this->Session->read('Auth.User.role') === 'ca_admin'){
+            $AcademicGroup = new AcademicGroup();
+            $members = $AcademicGroup->find('all', array(
+            'conditions' => array('AcademicGroup.user_id' => $this->Session->read('Auth.User.id')),
+            'fields' => array('Member.*','User.*'),
+            'joins' => array(                
+                array('table' => 'members_academic_groups',
+                    'alias' => 'MembersAcademicGroup',
+                    'type' => 'INNER',
+                    'conditions' => array('MembersAcademicGroup.academic_group_id = AcademicGroup.id')
+                ),
+                array('table' => 'members',
+                    'alias' => 'Member',
+                    'type' => 'INNER',
+                    'conditions' => array('MembersAcademicGroup.member_id = Member.id')
+                ),
+                array('table' => 'users',
+                    'alias' => 'User',
+                    'type' => 'INNER',
+                    'conditions' => array('User.id = Member.user_id')
+                )
+            ),
+            'recursive' => 1));
+
+            $this->set('members', $members);
+        }
+    }
+
+    /**
+    * Administrar nombre de miebros de CA
+    */
+    public function edituser($id = null) {
+        $this->set('page_name', 'Editar Usuario');
+
+        if (!$id) {
+            throw new NotFoundException(__('Invalid user'));
+        }
+        
+        $user = $this->User->findById($id);
+        
+        if (!$user) {
+            throw new NotFoundException(__('Invalid user'));
+        } 
+
+        if ($this->request->is('post') || $this->request->is('put')) {
+            if (!empty($this->data)) {
+                $Member = new Member();                
+                $Member->id = $id;
+                $Member->set('name', $this->data['Member']['name']);
+                $Member->set('last_name', $this->data['Member']['last_name']);                
+                if ($Member->save()) {
+                    $this->Session->setFlash('Se han actualizado los datos.', 'success-message');
+                    return $this->redirect('adminca');
+                }
+                $this->Session->setFlash('No se ha podido realizar el cambio.', 'alert-message');
+            }
+        }
+
+        $this->set('user', $user);                              
+    }
+
+    /**
      * Indicar para qué funciones se requiere autorización
      */
     public function beforeFilter() {
@@ -510,7 +577,7 @@ class UserController extends AppController {
      */
     public function isAuthorized($user = null) {
 
-        if ((in_array($this->request->params, array('register', 'admin', 'memberadmin')) &&
+        if ((in_array($this->request->params, array('register', 'admin', 'adminca', 'edituser')) &&
                 $user['role'] !== 'ca_admin') || in_array($this->request->params, array('delete')) &&
                 $user['role'] !== 'super_admin') {
             return false;

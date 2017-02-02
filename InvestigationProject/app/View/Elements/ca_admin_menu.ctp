@@ -17,6 +17,9 @@
                 <li>
                     <?php echo $this->Html->link('Registrar', array('controller' => 'user', 'action' => 'register')); ?>
                 </li>
+                <li>
+                    <?php echo $this->Html->link('Administrar de CA', array('controller' => 'user', 'action' => 'adminca')); ?>
+                </li>
                 <li class="has-dropdown">
                     <a>Consultar</a>
                     <ul class="dropdown">

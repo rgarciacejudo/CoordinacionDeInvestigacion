@@ -11,6 +11,12 @@
         <div class="small-12 medium-6 large-4 columns">
             <label><b>Investigadores</b></label>
             <div class="over-member-container">
+                <?php
+                echo $this->Form->input('allmembers', array(
+                    'label' => 'Todos',
+                    'type' => 'checkbox'
+                ));
+                ?>
                 <?php foreach ($members as $key => $member) { ?>
                     <div class="member-container">                        
                         <input type="checkbox" id="Member<?php echo $member['Member']['id'];?>"
@@ -30,6 +36,12 @@
         <div class="small-12 medium-6 large-4 columns">
             <label><b>Secciones</b></label>
             <div class="over-member-container">
+                <?php
+                echo $this->Form->input('allsections', array(
+                    'label' => 'Todas',
+                    'type' => 'checkbox'
+                ));
+                ?>
                 <?php foreach ($sections as $key => $section) { ?>
                     <div class="member-container">                        
                         <input type="checkbox" id="Section<?php echo $section['Section']['id'];?>"

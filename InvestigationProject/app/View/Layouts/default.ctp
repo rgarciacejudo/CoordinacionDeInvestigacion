@@ -17,17 +17,20 @@
                 <?php
                 echo $this->Html->link(
                  $this->Html->image('logo_principal.jpg', array(
-                    'alt' => 'Observatorio de Investigación',
+                    'alt' => 'Observatorio de Investigación',                    
                     'width' => '100%')),
-                 'http://www.uaemex.mx/', array('escape' => false));
+                 'http://www.uaemex.mx/', array(
+                     'escape' => false, 
+                     'target' => '_blank'));
                  ?>
 				<?php
                 echo $this->Html->link(
                  $this->Html->image('fi-logo.png', array(
-                    'alt' => 'Facultad de Ingeniería',
+                    'alt' => 'Facultad de Ingeniería',                    
                     'width' => '100%')),
                  'http://fi.uaemex.mx/portal/inicio/home.php', array(
 					'escape' => false,
+                    'target' => '_blank',
 					'class' => 'filogo'));
                 ?>
              </figure>

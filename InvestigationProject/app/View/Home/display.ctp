@@ -1,11 +1,11 @@
 <ul class="example-orbit" data-orbit>
   <?php foreach ($advertisements as $key => $ad) { ?>
   <li>
-    <a href="<?php echo $ad['Advertisement']['url']; ?>">    
+    <a target="_blank" href="<?php echo $ad['Advertisement']['url']; ?>">    
       <?php echo $this->Html->image($ad['Advertisement']['file_path'], array(
               'alt' => $ad['Advertisement']['name'])); ?>
       <div class="orbit-caption">      
-        <a href="<?php echo $ad['Advertisement']['url']; ?>">
+        <a target="_blank" href="<?php echo $ad['Advertisement']['url']; ?>">
           <?php echo $ad['Advertisement']['name']; ?>. 
           <span><?php echo $ad['Advertisement']['description']; ?></span>
         </a>

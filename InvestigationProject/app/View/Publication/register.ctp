@@ -228,10 +228,10 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
             $clon.prepend($close);
             //Set attrs
             $clon.attr('data-author', ++modelId);
-            $clon.find('input:text').val('');
-            $clon.find('input:text').attr('name', 'data[Authors][' + modelId + '][author]');
-            $clon.find('input:hidden').val('');
-            $clon.find('input:hidden').attr('name', 'data[Authors][' + modelId + '][member_id]');
+            $clon.find('input[type="text"]').val('');
+            $clon.find('input[type="text"]').attr('name', 'data[Authors][' + modelId + '][author]');
+            $clon.find('input[type="hidden"]').val('');
+            $clon.find('input[type="hidden"]').attr('name', 'data[Authors][' + modelId + '][member_id]');
             $('.authors-cards').append($clon);
             //Events
             $('.font-small').unbind('click');
@@ -249,7 +249,7 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
         function myCA() {
             var $author = $('[data-author="' + authorData + '"]');
             $author.find('input:text').val($('input[name="autor"]:checked').val());
-            $author.find('input:hidden').val($('input[name="autor"]:checked').data('member'));
+            $author.find('input:hidden  ').val($('input[name="autor"]:checked').data('member'));
             $('#myCaModal').foundation('reveal', 'close');
             $('input[name="autor"]').prop('checked', false);
         }

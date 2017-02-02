@@ -162,12 +162,8 @@
     $(document).ready(function() {
         $('#ReportReportForm').validate({
             rules: {
-                'data[Report][year]': {required: true}
-            },
-            messages: {
-                'data[Report][year]': {
-                    required: 'Este campo es requerido.'
-                }
+                'data[Report][from]': {required: true},
+                'data[Report][to]': {required: true}
             }
         });
         

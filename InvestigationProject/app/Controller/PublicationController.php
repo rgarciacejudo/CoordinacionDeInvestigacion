@@ -353,8 +353,28 @@ class PublicationController extends AppController {
                     $member_ids = array();
                     foreach($this->data['Members'] as $key => $value) {
                         array_push($member_ids, $value['member_id']);
-                    }
-                    $conditions['Member.id'] = $member_ids;
+                    }                    
+
+                    $conditions['OR'] = array(
+                        array('Member.id' => $member_ids),
+                        array('PublicationsMember.member_id' => $member_ids),
+                        array('PublicationsAuthor.member_id' => $member_ids)
+                    );
+                    
+                    $joins = array(
+                        array('table' => 'publications_members',
+                            'alias' => 'PublicationsMember',
+                            'type' => 'LEFT',
+                            'conditions' => array('PublicationsMember.publication_id = Publication.id')),
+                        array('table' => 'publications_authors',
+                            'alias' => 'PublicationsAuthor',
+                            'type' => 'LEFT',
+                            'conditions' => array('PublicationsAuthor.publication_id = Publication.id'))
+                    );
+
+                    $this->Paginator->settings['joins'] = $joins;
+                    $this->Paginator->settings['group'] = array('Publication.id');
+
                 }
 
                 if(isset($this->data['Sections'])) {

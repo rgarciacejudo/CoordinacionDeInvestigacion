@@ -42,6 +42,12 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
             <div class="panel" data-author="0">
                 <a class="me font-small">Yo</a> | <a href="#" data-reveal-id="myCaModal" class="font-small">De CA</a> | <a href="#" data-reveal-id="otherCaModal" class="font-small">Otro CA</a>                
                 <?php
+                echo $this->Form->input('Authors.0.member_id', array(
+                    'label' => false,
+                    'type' => 'hidden'
+                ));
+                ?>   
+                <?php
                 echo $this->Form->input('Authors.0.author', array(
                     'label' => 'Nombre',
                     'placeholder' => 'nombre',
@@ -147,7 +153,9 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
     <?php foreach ($members_ca as $key => $member) { ?>                
         <div class="member-container">
             <input value="<?php echo $member['Member']['name'] . ' ' .
-                    $member['Member']['last_name']; ?>" name="autor" type="radio" id="Member<?php echo $member['Member']['id'];?>" />        
+                    $member['Member']['last_name']; ?>" name="autor" type="radio" 
+                    data-member="<?php echo $member['Member']['id'];?>"
+                    id="Member<?php echo $member['Member']['id'];?>" />        
             <p class="member-username">
                 <?php echo $member['User']['username'] . '<br>' . $member['Member']['name'] . ' ' .
                     $member['Member']['last_name'];?>
@@ -166,7 +174,9 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
     <?php foreach ($members_other as $key => $member) { ?>        
         <div class="member-container">
             <input value="<?php echo $member['Member']['name'] . ' ' .
-                    $member['Member']['last_name']; ?>" name="member" type="radio" id="Member<?php echo $member['Member']['id'];?>" />        
+                    $member['Member']['last_name']; ?>" name="member" type="radio" 
+                    data-member="<?php echo $member['Member']['id'];?>"
+                    id="Member<?php echo $member['Member']['id'];?>" />        
             <p class="member-username">
                 <?php echo $member['User']['username'] . '<br>' . $member['Member']['name'] . ' ' .
                     $member['Member']['last_name'];?>
@@ -218,8 +228,10 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
             $clon.prepend($close);
             //Set attrs
             $clon.attr('data-author', ++modelId);
-            $clon.find('input').val('');
-            $clon.find('input').attr('name', 'data[Authors][' + modelId + '][author]');
+            $clon.find('input:text').val('');
+            $clon.find('input:text').attr('name', 'data[Authors][' + modelId + '][author]');
+            $clon.find('input:hidden').val('');
+            $clon.find('input:hidden').attr('name', 'data[Authors][' + modelId + '][member_id]');
             $('.authors-cards').append($clon);
             //Events
             $('.font-small').unbind('click');
@@ -237,13 +249,15 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
         function myCA() {
             var $author = $('[data-author="' + authorData + '"]');
             $author.find('input').val($('input[name="autor"]:checked').val());
+            $author.find('input').val($('input[name="autor"]:checked').data('member'));
             $('#myCaModal').foundation('reveal', 'close');
             $('input[name="autor"]').prop('checked', false);
         }
 
         function otherCA() {
             var $author = $('[data-author="' + authorData + '"]');
-            $author.find('input').val($('input[name="member"]:checked').val());            
+            $author.find('input:text').val($('input[name="member"]:checked').val());            
+            $author.find('input:hidden').val($('input[name="member"]:checked').data('member'));            
             $('#otherCaModal').foundation('reveal', 'close');
             $('input[name="member"]').prop('checked', false);
         }

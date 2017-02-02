@@ -20,7 +20,8 @@ class Publication extends AppModel {
             'className' => 'PublicationsAuthor',
             'joinTable' => 'publications_authors',
             'foreignKey' => 'publication_id',
-            'unique' => true
+            'unique' => true,
+            'dependent'=> true
         )
     );
 
@@ -31,6 +32,7 @@ class Publication extends AppModel {
             'foreignKey' => 'publication_id',
             'associationForeignKey' => 'section_field_id',
             'unique' => true,
+            'dependent'=> true
         ),
 		'Members' => array(
 			'className' => 'Member',
@@ -38,6 +40,7 @@ class Publication extends AppModel {
             'foreignKey' => 'publication_id',
             'associationForeignKey' => 'member_id',
             'unique' => true,
+            'dependent'=> true
 		)
     );
 

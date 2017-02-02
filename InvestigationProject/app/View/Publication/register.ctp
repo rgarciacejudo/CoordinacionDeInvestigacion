@@ -94,7 +94,7 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
         <?php } ?>
         </div>
 	</div>
-    <div class="large-offset-3 large-6 medium-offset-2 medium-8 small-12 columns">
+    <div class="large-offset-3 large-6 medium-offset-2 medium-8 small-12 columns publication-detail hidden">
         <br>
         <div class="publication-fields"></div>
         <div class="row">
@@ -131,8 +131,9 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
     <?php
         echo $this->Form->end(array(
             'label' => 'Registrar',
-            'class' => 'button radius small right',
+            'class' => 'button radius small right hidden',
             'style' => 'margin-top: 1em;',
+            'id' => 'submitButton',
             'div' => array(
                 'class' => 'columns'
             )
@@ -263,6 +264,10 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
         });
 
         $("input[name='data[Publication][section_id]']").change(function() {
+
+            $('#submitButton').removeClass('hidden');
+            $('.publication-detail').removeClass('hidden');
+
             $('.publication-fields').html('');
             if(!$(this).val()){
                 return;

@@ -2,9 +2,6 @@
 <?php echo $this->Html->script('jquery.validate.min'); ?>
 <?php echo $this->Html->script('jquery-ui'); ?>
 <?php echo $this->Html->css('jquery-ui/smoothness/jquery-ui'); ?>
-<style>
-    .ui-datepicker-calendar,.ui-datepicker-month { display: none; }​    
-</style>
 <h4><?php echo $page_name; ?></h4>
 <?php if(!isset($print)) : ?>
 <?php echo $this->Form->create('Report', array('type' => 'file')); ?>
@@ -49,11 +46,16 @@
             </div>            
         </div>
         <div class="small-12 medium-6 large-4 columns">
-            <label><b>Año</b></label>
+            <label><b>Fecha de</b></label>
             <?php
-                echo $this->Form->input('year', array(
-                    'label' => false,
-                    'placeholder' => 'año'
+                echo $this->Form->input('from', array(
+                    'label' => false
+                ));
+            ?>
+            <label><b>a</b></label>
+            <?php
+                echo $this->Form->input('to', array(
+                    'label' => false
                 ));
             ?>
             <?php
@@ -153,7 +155,7 @@
         <?php echo $this->element('publication_view', array('value' => $value, 'mine' => isset($mine) ? $mine : false, 'print' => true)); ?>
     <?php } ?>    
 <?php endif; ?>
-<?php if (count($publications) === 0) { ?>
+<?php if (isset($publications) && count($publications) === 0) { ?>
 <p>No hay publicaciones para los criterios ingresados.</p>
 <?php } ?>
 <script type="text/javascript">
@@ -168,16 +170,8 @@
                 }
             }
         });
-
-        $("#ReportYear").datepicker({
-            changeMonth: false,
-            changeYear: true,
-            showButtonPanel: true,            
-            dateFormat: 'yy',
-            onClose: function(dateText, inst) { 
-                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                $(this).datepicker('setDate', new Date(year, 0, 1));
-            }
-        });  
+        
+        $("#ReportFrom").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+        $("#ReportTo").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
     });
 </script>

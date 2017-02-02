@@ -74,6 +74,20 @@
         <div class="row">
             <div class="small-6 large-6 columns">              
                 <label>Nombre de campo
+				<span class="input-false" style="
+					border-radius: 3px;
+					border: 1px solid #cccccc;
+					box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+					color: rgba(0, 0, 0, 0.75);
+					display: block;
+					font-size: 11px;
+					margin: 0 0 1rem 0;
+					padding: 0.2rem 0.5em;
+					height: 2.3125rem;
+					width: 100%;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				">Fecha de Finalización / Obtención / Publicación</span>
                     <?php
                     echo $this->Form->input('SectionsField.0.name', array(
                         'label' => false,
@@ -85,6 +99,20 @@
             </div>
             <div class="small-5 large-5 columns">              
                 <label>Tipo de campo
+					<span class="input-false" style="
+						border-radius: 3px;
+						border: 1px solid #cccccc;
+						box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+						color: rgba(0, 0, 0, 0.75);
+						display: block;
+						font-size: 14px;
+						margin: 0 0 1rem 0;
+						padding: 0.5em;
+						height: 2.3125rem;
+						width: 100%;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					">Fecha</span>
                     <?php
                     echo $this->Form->input('SectionsField.0.type', array(
                         'options' => $field_types,

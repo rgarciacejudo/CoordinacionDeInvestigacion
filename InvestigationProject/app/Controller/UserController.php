@@ -243,6 +243,8 @@ class UserController extends AppController {
             if (!$this->User->saveAll($this->data)) {
                 $this->Session->setFlash('Ocurrió un error al guardar tu infromación.', 'error-message');
             } else {
+                $this->Session->write('User.name', $this->request->data['Member']['name']);
+                $this->Session->write('User.last_name', $this->request->data['Member']['last_name']);
                 $this->Session->setFlash('Se ha actualizado tu información.', 'success-message');
             }
         }

@@ -320,10 +320,15 @@ class PublicationController extends AppController {
         if (!$id) {
             throw new NotFoundException(__('Invalid product'));
         }
-        if ($this->Publication->delete($id)) {
-            $this->Session->setFlash('Se ha eliminado el producto.', 'success-message');
-            return $this->redirect(array('controller' => 'publication', 'action' => 'index', 'mine'));
-        }
+        try {
+            if ($this->Publication->delete($id)) {
+                $this->Session->setFlash('Se ha eliminado el producto.', 'success-message');
+                return $this->redirect(array('controller' => 'publication', 'action' => 'index', 'mine'));
+            }
+        } catch (Exception $e){
+            $this->Session->setFlash('La publicación no se puede ser eliminada.', 'info-message');
+            $this->redirect(array('action' => 'index'));
+        }        
     }
 
     /**
@@ -340,7 +345,8 @@ class PublicationController extends AppController {
                 $this->Paginator->settings['order'] = array('Section.name' => 'ASC', 'Publication.publication_date' => 'DESC');
 
                 $conditions = array(
-                    'YEAR(Publication.publication_date)' => $this->data['Report']['year']
+                    'Publication.publication_date >=' => $this->data['Report']['from'],
+                    'Publication.publication_date <=' => $this->data['Report']['to'],
                 );
 
                 if(isset($this->data['Members'])) {

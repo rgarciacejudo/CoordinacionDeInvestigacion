@@ -248,8 +248,8 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
 
         function myCA() {
             var $author = $('[data-author="' + authorData + '"]');
-            $author.find('input').val($('input[name="autor"]:checked').val());
-            $author.find('input').val($('input[name="autor"]:checked').data('member'));
+            $author.find('input:text').val($('input[name="autor"]:checked').val());
+            $author.find('input:hidden').val($('input[name="autor"]:checked').data('member'));
             $('#myCaModal').foundation('reveal', 'close');
             $('input[name="autor"]').prop('checked', false);
         }

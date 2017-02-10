@@ -497,10 +497,10 @@ class UserController extends AppController {
     /**
     * Listar miembros de CA
     */
-    public function adminca() {
-        $this->set('page_name', 'Administrar datos de miembros de cuerpo académico');
+    public function adminca() {        
 
         if($this->Session->read('Auth.User.role') === 'ca_admin'){
+            $this->set('page_name', 'Administrar datos de miembros de cuerpo académico');
             $AcademicGroup = new AcademicGroup();
             $members = $AcademicGroup->find('all', array(
             'conditions' => array('AcademicGroup.user_id' => $this->Session->read('Auth.User.id')),
@@ -523,6 +523,14 @@ class UserController extends AppController {
                 )
             ),
             'recursive' => 1));
+
+            $this->set('members', $members);
+        } else if($this->Session->read('Auth.User.role') === 'super_admin') {
+            $this->set('page_name', 'Administrar datos de líderes de cuerpo académico');
+            $members = $this->User->find('all', array(
+                'conditions' => array('User.role' => 'ca_admin'),
+                'fields' => array('Member.*', 'User.*')
+            ));
 
             $this->set('members', $members);
         }
@@ -578,7 +586,7 @@ class UserController extends AppController {
     public function isAuthorized($user = null) {
 
         if ((in_array($this->request->params, array('register', 'admin', 'adminca', 'edituser')) &&
-                $user['role'] !== 'ca_admin') || in_array($this->request->params, array('delete')) &&
+                $user['role'] !== 'ca_admin') || in_array($this->request->params, array('delete', 'adminca')) &&
                 $user['role'] !== 'super_admin') {
             return false;
         }

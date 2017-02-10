@@ -8,6 +8,9 @@
                     <?php echo $this->Html->link('Registrar', array('controller' => 'user', 'action' => 'register')); ?>
                 </li>
                 <li>
+                    <?php echo $this->Html->link('Administrar', array('controller' => 'user', 'action' => 'adminca')); ?>
+                </li>
+                <li>
                     <?php echo $this->Html->link('Consultar', array('controller' => 'user', 'action' => 'index', 'leaders')); ?>
                 </li>                
             </ul>

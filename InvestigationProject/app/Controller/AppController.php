@@ -67,6 +67,10 @@ class AppController extends Controller {
         } else {
             $this->set('address_info', $this->Cookie->read('addressInfo'));
         }
+
+        if($this->request->params['action'] !== 'report') {
+            $this->Session->delete('Report.criteria');
+        }
     }
 
     public function isAuthorized($user = null) {

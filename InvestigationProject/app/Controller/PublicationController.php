@@ -338,66 +338,68 @@ class PublicationController extends AppController {
     public function report() {
         $this->set('page_name', 'Reportes');        
 
-        if ($this->request->is('post')) {
-            if (!empty($this->data)) {                
+        $this->Paginator->settings = $this->paginate;
 
-                $this->Paginator->settings = $this->paginate;
-                $this->Paginator->settings['order'] = array('Section.name' => 'ASC', 'Publication.publication_date' => 'DESC');
+        if ($this->request->is('post') || $this->Session->read('Report.criteria')) {
+            if (!empty($this->data)) {
+                $this->Session->write('Report.criteria', $this->data);
+            } else {
+                $this->data = $this->Session->read('Report.criteria');
+            }
+                
+            $this->Paginator->settings['order'] = array('Section.name' => 'ASC', 'Publication.publication_date' => 'DESC');
 
-                $conditions = array(
-                    'Publication.publication_date >=' => $this->data['Report']['from'],
-                    'Publication.publication_date <=' => $this->data['Report']['to'],
+            $conditions = array(
+                'Publication.publication_date >=' => $this->data['Report']['from'],
+                'Publication.publication_date <=' => $this->data['Report']['to'],
+            );
+
+            if(isset($this->data['Members'])) {
+                $member_ids = array();
+                foreach($this->data['Members'] as $key => $value) {
+                    array_push($member_ids, $value['member_id']);
+                }                    
+
+                $conditions['OR'] = array(
+                    array('Member.id' => $member_ids),
+                    array('PublicationsMember.member_id' => $member_ids),
+                    array('PublicationsAuthor.member_id' => $member_ids)
+                );
+                
+                $joins = array(
+                    array('table' => 'publications_members',
+                        'alias' => 'PublicationsMember',
+                        'type' => 'LEFT',
+                        'conditions' => array('PublicationsMember.publication_id = Publication.id')),
+                    array('table' => 'publications_authors',
+                        'alias' => 'PublicationsAuthor',
+                        'type' => 'LEFT',
+                        'conditions' => array('PublicationsAuthor.publication_id = Publication.id'))
                 );
 
-                if(isset($this->data['Members'])) {
-                    $member_ids = array();
-                    foreach($this->data['Members'] as $key => $value) {
-                        array_push($member_ids, $value['member_id']);
-                    }                    
+                $this->Paginator->settings['joins'] = $joins;
+                $this->Paginator->settings['group'] = array('Publication.id');
 
-                    $conditions['OR'] = array(
-                        array('Member.id' => $member_ids),
-                        array('PublicationsMember.member_id' => $member_ids),
-                        array('PublicationsAuthor.member_id' => $member_ids)
-                    );
-                    
-                    $joins = array(
-                        array('table' => 'publications_members',
-                            'alias' => 'PublicationsMember',
-                            'type' => 'LEFT',
-                            'conditions' => array('PublicationsMember.publication_id = Publication.id')),
-                        array('table' => 'publications_authors',
-                            'alias' => 'PublicationsAuthor',
-                            'type' => 'LEFT',
-                            'conditions' => array('PublicationsAuthor.publication_id = Publication.id'))
-                    );
-
-                    $this->Paginator->settings['joins'] = $joins;
-                    $this->Paginator->settings['group'] = array('Publication.id');
-
-                }
-
-                if(isset($this->data['Sections'])) {
-                    $section_ids = array();
-                    foreach($this->data['Sections'] as $key => $value) {
-                        array_push($section_ids, $value['id']);
-                    }
-                    $conditions['Section.id'] = $section_ids;
-                }
-                
-                if($this->data['Report']['print'] === '1') {
-                    $this->layout = 'print_layout';
-                    $this->set('print', true);
-                }
-                
-                $this->Paginator->settings['conditions'] = $conditions;
-                $publications = $this->Paginator->paginate('Publication');
-                $this->set('publications', $publications);
-         
-                if (!$this->request->data) {
-                    $this->request->data = $this->data;
-                }
             }
+
+            if(isset($this->data['Sections'])) {
+                $section_ids = array();
+                foreach($this->data['Sections'] as $key => $value) {
+                    array_push($section_ids, $value['id']);
+                }
+                $conditions['Section.id'] = $section_ids;
+            }
+            
+            if($this->data['Report']['print'] === '1') {
+                $this->layout = 'print_layout';
+                $this->set('print', true);
+            }
+            
+            $this->Paginator->settings['conditions'] = $conditions;
+            $publications = $this->Paginator->paginate('Publication');
+            $this->set('publications', $publications);
+                    
+            $this->request->data = $this->data;
         }
 
         $members_db = new MembersAcademicGroup();
@@ -437,7 +439,7 @@ class PublicationController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('detail', 'download', 'report');
-        $this->Auth->deny('register', 'delete', 'edit');
+        $this->Auth->deny('register', 'delete', 'edit');        
     }
 
     /**

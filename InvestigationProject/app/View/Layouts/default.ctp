@@ -146,6 +146,7 @@
                         <div class="small-12 medium-6 large-3 columns">
                             <ul class="footer-nav">
                                 <li><label>Contacto</label></li>
+                                <p style="margin-bottom:0;line-height:1;"><a style="font-size:14px;" href="mailto:info.obifi@gmail.com">info.obifi@gmail.com</a></p>
                                 <p>
                                   <?php echo $address_info['Value']['value']; ?>
                                 </p>

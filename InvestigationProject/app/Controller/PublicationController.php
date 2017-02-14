@@ -35,8 +35,29 @@ class PublicationController extends AppController {
             case 'mine':
                 $this->set('page_name', 'Mi Producción');
                 $this->set('mine', true);
-                $this->Paginator->settings['conditions'] = array('Publication.member_id' => $this->Session->read('User.member_id'));
-                $publications = $this->Paginator->paginate('Publication');
+                $conditions = array();
+                $member_id = $this->Session->read('User.member_id');
+
+                $joins = array(
+                    array('table' => 'publications_members',
+                        'alias' => 'PublicationsMember',
+                        'type' => 'LEFT',
+                        'conditions' => array('PublicationsMember.publication_id = Publication.id')),
+                    array('table' => 'publications_authors',
+                        'alias' => 'PublicationsAuthor',
+                        'type' => 'LEFT',
+                        'conditions' => array('PublicationsAuthor.publication_id = Publication.id'))
+                );
+                
+                $conditions['OR'] = array(
+                    array('Publication.member_id' => $member_id),
+                    array('PublicationsMember.member_id' => $member_id),
+                    array('PublicationsAuthor.member_id' => $member_id)
+                );
+                $this->Paginator->settings['conditions'] = $conditions;
+                $this->Paginator->settings['joins'] = $joins;
+                $this->Paginator->settings['group'] = array('Publication.id');
+                $publications = $this->Paginator->paginate('Publication');                                
                 break;
             case 'section':
                 $this->Paginator->settings['conditions'] = array('Publication.section_id' => $identifier);

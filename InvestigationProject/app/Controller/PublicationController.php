@@ -454,6 +454,36 @@ class PublicationController extends AppController {
 		$this->set('members', $members);        
     }
 
+    public function validatefield() {
+        $sectionFieldId = isset($_GET["sectionFieldId"]) ? $_GET["sectionFieldId"] : '';
+        $value = isset($_GET["value"]) ? $_GET["value"] : '';
+        $this->autoRender = false;
+        $this->response->type('json');
+
+        $result = $this->Publication->find('all', array(
+            'joins' => array(
+                array('table' => 'publications_section_fields',
+                    'alias' => 'PublicationSectionField',
+                    'type' => 'INNER',
+                    'conditions' => array('PublicationSectionField.publication_id = Publication.id')
+                ),
+                array('table' => 'sections_fields',
+                    'alias' => 'SectionField',
+                    'type' => 'INNER',
+                    'conditions' => array('SectionField.id = PublicationSectionField.section_field_id')
+                ),
+            ),
+            'conditions' => array(
+                'SectionField.id' => $sectionFieldId,
+                'PublicationSectionField.value LIKE' => '%' . $value . '%'
+            ),
+            'recursive' => 1,
+        ));
+
+        $json = json_encode($result);
+        $this->response->body($json);
+    }
+
     /**
      * Indicar para qué funciones se requiere autorización
      */

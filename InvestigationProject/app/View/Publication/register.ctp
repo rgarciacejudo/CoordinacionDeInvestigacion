@@ -169,6 +169,12 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
     <?php } ?>   
 </div>
 
+<div id="validateModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle2" aria-hidden="true" role="dialog">
+    <h2 id="modalTitle2">Publicaciones Similares</h2>    
+    <div class="similar-container"></div>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
 <div id="otherCaModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle2" aria-hidden="true" role="dialog">
     <h2 id="modalTitle2">Miembros de otro CA</h2>    
     <?php foreach ($members_other as $key => $member) { ?>        
@@ -190,6 +196,22 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
     <?php } ?>
 </div>
 
+<style>
+.similar-container label {
+    color: gray;
+}
+.similar-container label.title {
+    color: #968411;
+    font-weight: bold;
+}    
+.similar-container p {
+    margin-bottom: 0;
+    line-height: 1;
+}
+.similar-container h5 {
+    font-weight: bold;
+}
+</style>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -346,7 +368,7 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
                                     'aria-hidden': 'true',
                                     class: 'radius-left prefix li_calendar'
                                 });
-
+                                
                                 dateIcon.click(function(){
                                     $($($(this).parent()).next().children()[0]).datepicker('show');
                                 });
@@ -377,6 +399,39 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
                                 });
                                 container.append(label);
                                 container.append(input);
+
+                                var that = this;
+                                input.blur(function(){
+                                    if($(this).val() !== '') {
+                                        $.ajax({
+                                            url: '<?php echo $this->webroot . "publication/validatefield";?>',
+                                            data: {
+                                                sectionFieldId: that.id,
+                                                value: $(this).val()
+                                            },
+                                            error: function(){
+                                                $('.publication-fields').removeClass('searching');                                            
+                                            },
+                                            success: function(response) {
+                                                if(response.length > 0) {
+                                                    var htmlcontent = `<label class="title">Se han encontrado ${response.length} publicación(es) similar(es), revísalas antes de continuar para no duplicar información.</label>`;
+                                                    $.each(response, function(id) {
+                                                        htmlcontent += `<div><h5>Detalle Publicación ${id + 1}</h5>`; 
+                                                        $.each(this.Fields, function() {
+                                                            htmlcontent += `
+                                                                <label>${this.name}</label>
+                                                                <p>${this.PublicationsSectionField.value}</p>
+                                                            `
+                                                        });
+                                                        htmlcontent += '</div>';                                                        
+                                                    });                                                
+                                                    $('.similar-container').html(htmlcontent);
+                                                    $('#validateModal').foundation('reveal', 'open');                                                    
+                                                }                                                
+                                            }
+                                        });
+                                    }
+                                });
                             break;
                             case 'Casilla de verificación':
                                 var input = $('<input>', {

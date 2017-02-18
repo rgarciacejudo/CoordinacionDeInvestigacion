@@ -414,7 +414,7 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
                                             },
                                             success: function(response) {
                                                 if(response.length > 0) {
-                                                    var htmlcontent = `<label class="title">Se han encontrado ${response.length} publicación(es) similar(es), revísalas antes de continuar para no duplicar información.</label>`;
+                                                    var htmlcontent = `<label class="title">Se han encontrado ${response.length} publicación(es) similar(es), revísala(s) antes de continuar para no duplicar información.</label>`;
                                                     $.each(response, function(id) {
                                                         htmlcontent += `<div><h5>Detalle Publicación ${id + 1}</h5>`; 
                                                         $.each(this.Fields, function() {

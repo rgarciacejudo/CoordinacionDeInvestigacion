@@ -11,6 +11,7 @@
     <?php echo $this->Html->script('research-observatory'); ?>
 </head>
 <body>
+    <?php echo $this->element('google-analytics'); ?>
     <div class="wrapper">
         <header class="row">
             <figure style="position:relative;">
@@ -136,6 +137,10 @@
                                 <?php echo $this->Session->flash(); ?>
                                 <?php echo $this->Session->flash('auth'); ?>
                                 <?php echo $this->fetch('content'); ?>
+                                
+                                <!-- For Social Share -->
+                                <div id="share"></div>
+
                             </section>
                             <a class="exit-off-canvas"></a>
                         </div>

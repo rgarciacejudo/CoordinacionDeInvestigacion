@@ -186,6 +186,12 @@ class PublicationController extends AppController {
             throw new NotFoundException(__('Invalid publication'));
         }
 
+        foreach ($publication['Fields'] as $key => $value) {
+            if(strpos($value['name'], 'Título') !== false){
+                $this->set('page_name', $value['PublicationsSectionField']['value']);
+            }
+        }
+
         $this->set('publication', $publication);
     }
 

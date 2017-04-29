@@ -365,6 +365,10 @@ select.multiple {
     font-size: 12px;
 }
 
+#share {
+    float: right;
+}
+
 @media(max-width: 768px) {
     .filogo img {
         height: 88px;

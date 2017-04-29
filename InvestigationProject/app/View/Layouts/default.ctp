@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $page_name; ?>  - Observatorio de Investigaci&oacute;n</title>
     <link rel="shortcut icon" href="http://www.uaemex.mx/images/uniaemex.png">
-    <meta description="Investigaci&oacute;n">
+    <meta name="description" content="<?php echo $page_description; ?>" lang="es-MX">
+    <meta name="keywords" content="<?php echo $page_keywords; ?>">
+    <meta name="robots" content="index,follow,noarchive">
+    <meta http-equiv="content-language" content="es-MX">
     <?php echo $this->Html->css(array('foundation', 'normalize', 'style?'.time())); ?>
     <?php echo $this->Html->script(array('vendor/modernizr', 'vendor/jquery', 'vendor/fastclick', 'foundation.min')); ?>
     <?php echo $this->Html->script('research-observatory'); ?>
@@ -136,11 +139,10 @@
                             <section class="main-section">
                                 <?php echo $this->Session->flash(); ?>
                                 <?php echo $this->Session->flash('auth'); ?>
-                                <?php echo $this->fetch('content'); ?>
-                                
                                 <!-- For Social Share -->
                                 <div id="share"></div>
 
+                                <?php echo $this->fetch('content'); ?>
                             </section>
                             <a class="exit-off-canvas"></a>
                         </div>

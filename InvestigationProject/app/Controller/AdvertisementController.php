@@ -25,6 +25,8 @@ class AdvertisementController extends AppController {
      */
     public function register() {
         $this->set('page_name', 'Registrar anuncio');
+        $this->set('page_description', 'Registrar anuncio');
+
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
                 if (is_uploaded_file($this->request->data['Advertisement']['file_path']['tmp_name'])) {
@@ -56,6 +58,8 @@ class AdvertisementController extends AppController {
      */
     public function admin($id = null){
         $this->set('page_name', 'Administrar anuncio');
+        $this->set('page_description', 'Administrar anuncio');
+        $this->set('page_keywords', 'Administrar,Anuncio,Observatorio de Investigación');
         
         if (!$id) {
             throw new NotFoundException(__('Invalid advertisement'));
@@ -104,6 +108,9 @@ class AdvertisementController extends AppController {
      */
     public function index() {
         $this->set('page_name', 'Anuncios');
+        $this->set('page_description', 'Listado de anuncios');
+        $this->set('page_keywords', 'Listado,Anuncio,Observatorio de Investigación');
+
         $this->Paginator->settings = $this->paginate;
         $advertisements = $this->Paginator->paginate('Advertisement');
         $this->set('advertisements', $advertisements);

@@ -22,6 +22,9 @@ class LinkController extends AppController {
      */
     public function register() {
         $this->set('page_name', 'Registrar link');
+        $this->set('page_description', 'Registro de links');
+        $this->set('page_keywords', 'Registro,Link,Observatorio de Investigación');
+
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
                 if (is_uploaded_file($this->request->data['Link']['image']['tmp_name'])) {
@@ -53,6 +56,8 @@ class LinkController extends AppController {
      */
     public function admin($id = null){
         $this->set('page_name', 'Administrar link');
+        $this->set('page_description', 'Administrar links');
+        $this->set('page_keywords', 'Administrar,Link,Observatorio de Investigación');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid link'));
@@ -112,6 +117,9 @@ class LinkController extends AppController {
      */
     public function index() {
         $this->set('page_name', 'Links');
+        $this->set('page_description', 'Listado de links');
+        $this->set('page_keywords', 'Listado,Link,Observatorio de Investigación');
+
         $this->Paginator->settings = $this->paginate;
         $links = $this->Paginator->paginate('Link');
         $this->set('links', $links);

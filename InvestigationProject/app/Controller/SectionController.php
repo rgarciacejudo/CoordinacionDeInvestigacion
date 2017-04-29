@@ -20,6 +20,9 @@ class SectionController extends AppController {
      */
     public function register() {
         $this->set('page_name', 'Registrar sección');
+        $this->set('page_description', 'Registro de secciones');
+        $this->set('page_keywords', 'Registro,Sección,Observatorio de Investigación');
+
         $section_field_db = new SectionsField();
         $type = $section_field_db->getColumnType('type');
         preg_match('/^enum\((.*)\)$/', $type, $matches);
@@ -55,6 +58,9 @@ class SectionController extends AppController {
 
     public function index($filter = 'all') {
         $this->set('page_name', 'Secciones');
+        $this->set('page_description', 'Listado de secciones');
+        $this->set('page_keywords', 'Listado,Sección,Observatorio de Investigación');
+
         $sections = null;
         switch ($filter) {
             case 'all':
@@ -107,6 +113,8 @@ class SectionController extends AppController {
     */
     public function detail($id = null){
         $this->set('page_name', 'Detale de sección');
+        $this->set('page_description', 'Detalle de secciones');
+        $this->set('page_keywords', 'Detalle,Sección,Observatorio de Investigación');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid section'));
@@ -122,6 +130,8 @@ class SectionController extends AppController {
 
     public function admin($id = null){
         $this->set('page_name', 'Administrar sección');
+        $this->set('page_description', 'Administrar secciones');
+        $this->set('page_keywords', 'Administrar,Sección,Observatorio de Investigación');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid section'));

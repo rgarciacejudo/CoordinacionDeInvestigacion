@@ -9,3 +9,4 @@ if(!isset($print)){
 }
 ?>
 <?php echo $this->element('profile_view', array('user_profile' => $user, 'detail' => true)); ?>
+<?php echo $this->element('socials'); ?>

@@ -29,6 +29,9 @@ class AcademicGroupController extends AppController {
      */
     public function register() {
         $this->set('page_name', 'Registrar cuerpo académico');
+        $this->set('page_description', 'Registrar cuerpo académico');
+        $this->set('page_keywords', 'Registro,Cuerpo académico,Observatorio de Investigación');
+
         $user_db = new User();
         $users = $user_db->find('all', array(
             'order' => array(
@@ -97,6 +100,9 @@ class AcademicGroupController extends AppController {
      */
     public function index($filter = 'all') {
         $this->set('page_name', 'Cuerpos académicos');
+        $this->set('page_description', 'Listado de cuerpos académicos');
+        $this->set('page_keywords', 'Listado,Cuerpo académico,Observatorio de Investigación');
+
         $academic_groups = null;
         $this->Paginator->settings = $this->paginate;
         if(is_numeric($filter)){
@@ -122,6 +128,8 @@ class AcademicGroupController extends AppController {
      */
     public function admin($id = null) {
         $this->set('page_name', 'Administrar cuerpo académico');
+        $this->set('page_description', 'Administrar cuerpo académico');
+        $this->set('page_keywords', 'Administrar,Cuerpo académico,Observatorio de Investigación');
 
         if($this->Session->read('Auth.User.role') === 'ca_admin'){
             $academic_group = $this->AcademicGroup->find('first', array(

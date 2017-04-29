@@ -24,6 +24,9 @@ class PublicationController extends AppController {
 
     public function index($filter = 'all', $identifier = null) {
         $this->set('page_name', 'Producción');
+        $this->set('page_description', 'Producción académica');
+        $this->set('page_keywords', 'Listado,Producción académica,Observatorio de Investigación');
+
         $publications = null;
         $this->Paginator->settings = $this->paginate;
         $this->Paginator->settings['order'] = array('Section.name' => 'ASC', 'Publication.publication_date' => 'DESC');
@@ -80,6 +83,9 @@ class PublicationController extends AppController {
 
     public function register() {
         $this->set('page_name', 'Registrar producto');
+        $this->set('page_description', 'Registrar producción académica');
+        $this->set('page_keywords', 'Registro,Producción académica,Observatorio de Investigación');
+
         $section_db = new Section();
         $section_options = $section_db->find('all', array(
             'fields' => array('Section.id', 'Section.name', 'Section.icon'),
@@ -173,6 +179,8 @@ class PublicationController extends AppController {
 
     public function detail($id = null) {
         $this->set('page_name', 'Detalle de producto');
+        $this->set('page_description', 'Detalle de producción académica');
+        $this->set('page_keywords', 'Detalle,Producción académica,Observatorio de Investigación');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid publication'));
@@ -189,6 +197,7 @@ class PublicationController extends AppController {
         foreach ($publication['Fields'] as $key => $value) {
             if(strpos($value['name'], 'Título') !== false){
                 $this->set('page_name', $value['PublicationsSectionField']['value']);
+                $this->set('page_description', $value['PublicationsSectionField']['value']);
             }
         }
 
@@ -197,6 +206,8 @@ class PublicationController extends AppController {
 
     public function download($id) {
         $this->set('page_name', 'Descargar publicación');
+        $this->set('page_description', 'Descargar producción académica');
+        $this->set('page_keywords', 'Descarga,Producción académica,Observatorio de Investigación');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid publication'));
@@ -219,6 +230,8 @@ class PublicationController extends AppController {
      */
     public function edit($id = null){
         $this->set('page_name', 'Editar producto');
+        $this->set('page_description', 'Editar producción académica');
+        $this->set('page_keywords', 'Editar,Producción académica,Observatorio de Investigación');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid product'));
@@ -363,7 +376,9 @@ class PublicationController extends AppController {
     *
     */
     public function report() {
-        $this->set('page_name', 'Reportes');        
+        $this->set('page_name', 'Reportes');  
+        $this->set('page_description', 'Reporte de producción académica');
+        $this->set('page_keywords', 'Reporte,Producción académica,Observatorio de Investigación');   
 
         $this->Paginator->settings = $this->paginate;
 

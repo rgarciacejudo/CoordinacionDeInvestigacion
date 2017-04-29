@@ -29,6 +29,9 @@ class UserController extends AppController {
      */
     public function login() {
         $this->set('page_name', 'Iniciar sesión');
+        $this->set('page_description', 'Inicio de sesión');
+        $this->set('page_keywords', 'Inicio de sesión,Usuario,Observatorio de Investigación');
+
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
                 if ($this->data['User']['username'] === null or $this->data['User']['password'] === null) {
@@ -57,6 +60,9 @@ class UserController extends AppController {
      * Función para registrar usuarios
      */
     public function register() {
+        $this->set('page_description', 'Registro de usuarios');        
+        $this->set('page_keywords', 'Registro,Usuario,Observatorio de Investigación');
+
         switch ($this->Session->read('Auth.User.role')) {
             case 'super_admin':
                 $this->set('page_name', 'Registar líder cuerpo académico');
@@ -167,6 +173,9 @@ class UserController extends AppController {
      */
     public function manage() {
         $this->set('page_name', 'Administrar cuenta');
+        $this->set('page_description', 'Administrar cuenta');
+        $this->set('page_keywords', 'Administrar,Usuario,Observatorio de Investigación');
+
         if ($this->request->is('post') || $this->request->is('put')) {
             if (!empty($this->data)) {
                 if ($this->data['User']['password'] === null or
@@ -202,6 +211,9 @@ class UserController extends AppController {
      */
     public function edit() {
         $this->set('page_name', 'Mi perfil');
+        $this->set('page_description', 'Mi perfil');
+        $this->set('page_keywords', 'Perfil,Usuario,Observatorio de Investigación');
+
         $user_member = $this->User->find('first', array(
             'conditions' => array(
                 'Member.user_id' => $this->Auth->user('id')),
@@ -286,6 +298,9 @@ class UserController extends AppController {
      */
     public function view($id = null) {
         $this->set('page_name', 'Perfil de usuario');
+        $this->set('page_description', 'Perfil de usuario');  
+        $this->set('page_keywords', 'Ver información,Usuario,Observatorio de Investigación');      
+
         $user_member = null;
         //Si el parámetro id es nulo intenta mostrar el perfil del usuario que inició sesión
         if (!$id) {
@@ -333,6 +348,8 @@ class UserController extends AppController {
      */
     public function detail($id = null, $print = null) {
         $this->set('page_name', 'Perfil de usuario');
+        $this->set('page_description', 'Detalle de perfil de usuario');
+        $this->set('page_keywords', 'Detalle información,Usuario,Observatorio de Investigación');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid user'));
@@ -354,6 +371,9 @@ class UserController extends AppController {
      */
     public function recover() {
         $this->set('page_name', 'Recuperar contraseña');
+        $this->set('page_description', 'Recuperar contraseña');
+        $this->set('page_keywords', 'Recuperar,Usuario,Observatorio de Investigación');
+
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
                 $user_id = $this->User->find('first', array(
@@ -423,6 +443,8 @@ class UserController extends AppController {
     */
     public function academicgroupmembers($id = null, $print = null){
         $this->set('page_name', 'Miembros de cuerpo académico');
+        $this->set('page_description', 'Miembros de cuerpo académico');
+        $this->set('page_keywords', 'Usuario,Cuerpo académico,Observatorio de Investigación');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid academic group'));
@@ -497,7 +519,9 @@ class UserController extends AppController {
     /**
     * Listar miembros de CA
     */
-    public function adminca() {        
+    public function adminca() {   
+        $this->set('page_description', 'Administrar usuarios de cuerpos académicos');   
+        $this->set('page_keywords', 'Cuerpos académicos,Usuarios,Observatorio de Investigación');  
 
         if($this->Session->read('Auth.User.role') === 'ca_admin'){
             $this->set('page_name', 'Administrar datos de miembros de cuerpo académico');
@@ -541,6 +565,8 @@ class UserController extends AppController {
     */
     public function edituser($id = null) {
         $this->set('page_name', 'Editar Usuario');
+        $this->set('page_description', 'Editar usuario');
+        $this->set('page_keywords', 'Editar,Usuario,Observatorio de Investigación');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid user'));

@@ -13,6 +13,9 @@ class HomeController extends AppController {
      */
     public function index() {
       $this->set('page_name', 'Bienvenido');
+      $this->set('page_description', 'Bienvenido al Observatorio de Investigación');
+      $this->set('page_keywords', 'Inicio,Bienvenida,Observatorio de Investigación');
+
       return $this->redirect('display');
     }
 
@@ -21,6 +24,9 @@ class HomeController extends AppController {
     */
     public function display() {
     	$this->set('page_name', 'Inicio');
+        $this->set('page_description', 'Bienvenido al Observatorio de Investigación');
+        $this->set('page_keywords', 'Inicio,Bienvenida,Observatorio de Investigación');
+
         $adv_db = new Advertisement();
         $advertisements = $adv_db->find('all', array(
             'conditions' => array('OR' => array(

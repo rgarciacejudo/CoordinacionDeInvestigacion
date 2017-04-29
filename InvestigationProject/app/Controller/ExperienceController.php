@@ -12,6 +12,9 @@ class ExperienceController extends AppController {
      */
     public function register() {
         $this->set('page_name', 'Registrar experiencia');
+        $this->set('page_description', 'Registro de experiencias');
+        $this->set('page_keywords', 'Registro,Experiencia,Observatorio de Investigación');
+
         if ($this->request->is('post')) {
             if (!empty($this->data)) {
                 if ($this->data['Experience']['institution_id'] === null or $this->data['Experience']['institution_id'] === '') {
@@ -49,6 +52,8 @@ class ExperienceController extends AppController {
      */
     public function edit($id = null) {
         $this->set('page_name', 'Editar experiencia');
+        $this->set('page_description', 'Editar experiencia');
+        $this->set('page_keywords', 'Editar,Experiencia,Observatorio de Investigación');
 
         if (!$id) {
             throw new NotFoundException(__('Invalid experience'));

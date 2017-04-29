@@ -10,6 +10,9 @@ class ValueController extends AppController {
    * Función para crear un link
    */
   public function register($type = 'address') {
+      $this->set('page_description', 'Registro de información');
+      $this->set('page_keywords', 'Registro,Dirección,Información,Observatorio de Investigación');
+
       switch ($type) {
         case 'address':
           $this->set('page_name', 'Registrar dirección');
@@ -39,6 +42,8 @@ class ValueController extends AppController {
    */
   public function admin($id = null, $type = 'address'){
       $this->set('page_name', 'Administrar información');
+      $this->set('page_description', 'Administrar información');
+      $this->set('page_keywords', 'Administrar,Dirección,Información,Observatorio de Investigación');
 
       if (!$id) {
           throw new NotFoundException(__('Invalid information'));

@@ -162,6 +162,26 @@ class PublicationController extends AppController {
                 }
 
                 if ($this->Publication->saveAll($this->request->data)) {
+
+                    $publication = '';
+                    foreach ($this->request->data['Publication']['Fields'] as $key => $value) {
+                        if (strpos($value['name'], 'Título') !== false) {
+                            $publication = $value[$key]['value'];
+                            break;
+                        }
+                    }
+
+                    $Email = new CakeEmail('gmail');
+                    $Email->template('new_production')
+                        ->viewVars(array(
+                            'from_username' => $this->Session->read('Auth.User.username'),
+                            'publication' => $publication,
+                            'publication_id' => $this->Publication->getLastInsertId()
+                        ))
+                        ->to($user_id['User']['username'])
+                        ->subject('Nuevo producto!')
+                        ->emailFormat('html')
+                        ->send();
                     $this->Session->setFlash('Se ha creado la publicación', 'success-message');
                     return $this->redirect(array(
                                 'controller' => 'publication',

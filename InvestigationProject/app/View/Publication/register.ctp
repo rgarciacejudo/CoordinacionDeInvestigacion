@@ -322,13 +322,13 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
                     if(response.authors === '1') {
                         $('.authors-container').removeClass('hidden');
                     } else {
-                        $('.authors-container').addClass('hidden');
+                        $('.authors-container').remove();
                     }
 
                     if(response.members === '1') {
                         $('.members-container').removeClass('hidden');
                     } else {
-                        $('.members-container').addClass('hidden');
+                        $('.members-container').remove();
                     }
 
                     var fieldNo = 0;

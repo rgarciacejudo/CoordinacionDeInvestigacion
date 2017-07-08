@@ -246,10 +246,10 @@ class UserController extends AppController {
             $this->request->data['User']['id'] = $user_member['User']['id'];
             $this->request->data['User']['username'] = $user_member['User']['username'];
             $this->request->data['Member']['id'] = $user_member['Member']['id'];
-            if ($this->request->data['Member']['PROMEP'] !== '1') {
+            if (isset($this->request->data['Member']['PROMEP']) && $this->request->data['Member']['PROMEP'] !== '1') {
                 $this->request->data['Member']['PROMEP_validity_date'] = null;
             }
-            if ($this->request->data['Member']['SNI'] === '') {
+            if (isset($this->request->data['Member']['PROMEP']) && $this->request->data['Member']['SNI'] === '') {
                 $this->request->data['Member']['SNI_validity_date'] = null;
             }
             if (!$this->User->saveAll($this->data)) {

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?php echo $page_name; ?>  - Observatorio de Investigaci&oacute;n</title>
+        <title><?php echo $page_name; ?>  - <?php echo $app_name ?></title>
         <link rel="shortcut icon" href="http://www.uaemex.mx/images/uniaemex.png">
         <meta description="Investigaci&oacute;n">
         <?php echo $this->Html->css(array('foundation', 'normalize', 'style')); ?> 
@@ -18,7 +18,7 @@
                             <figure>
                                 <?php
                                 echo $this->Html->image('logo_principal.png', array(
-                                        'alt' => 'Observatorio de Investigación',
+                                        'alt' => $app_name,
                                         'width' => '100%'));
                                 ?> 
                             </figure>                                                 

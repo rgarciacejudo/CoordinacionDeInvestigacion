@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_name; ?>  - Observatorio de Investigaci&oacute;n</title>
+    <title><?php echo $page_name; ?>  - <?php echo $app_name; ?></title>
     <link rel="shortcut icon" href="http://www.uaemex.mx/images/uniaemex.png">
     <meta name="description" content="<?php echo $page_description; ?>" lang="es-MX">
     <meta name="keywords" content="<?php echo $page_keywords; ?>">
@@ -21,7 +21,7 @@
                 <?php
                 echo $this->Html->link(
                  $this->Html->image('logo_principal.jpg', array(
-                    'alt' => 'Observatorio de Investigación',                    
+                    'alt' => $app_name,
                     'width' => '100%')),
                  'http://www.uaemex.mx/', array(
                      'escape' => false, 
@@ -42,7 +42,7 @@
                 <ul class="title-area">
                     <li class="name">
                         <h1><?php
-                        echo $this->Html->link('Observatorio de Investigación', array(
+                        echo $this->Html->link($app_name, array(
                             'controller' => 'home',
                             'action' => 'display'
                             ));

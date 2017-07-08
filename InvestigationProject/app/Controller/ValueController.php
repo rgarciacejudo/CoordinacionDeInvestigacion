@@ -54,6 +54,7 @@ class ValueController extends AppController {
       if ($this->request->is('put')) {
           if (!empty($this->data)) {
               if ($this->Value->save($this->request->data)) {
+                  $this->Cookie->delete('addressInfo');
                   $this->Session->setFlash('Se ha actualizado la información.', 'success-message');
                   return $this->redirect(array('controller' => 'home', 'action' => 'display'));
               } else {

@@ -128,6 +128,32 @@ class SectionController extends AppController {
         $this->set('detail', $detail);
     }
 
+    public function img_change() {  
+        if ($this->request->is('post') || $this->request->is('put')) {
+            if (!empty($this->data)) {
+                if(is_uploaded_file($this->data['Section']['icon']['tmp_name'])){
+                    $path = WWW_ROOT . 'files' . DS . 'sections' . DS;
+                    $ext = '.' . pathinfo($this->data['Section']['icon']['name'], PATHINFO_EXTENSION);
+                    $filename = 'section_' . $this->data['Section']['name'] . $ext;
+                    if(!move_uploaded_file($this->data['Section']['icon']['tmp_name'], $path . $filename)){
+                        $this->Session->setFlash('Ocurrió un error al guardar la imagen de la sección', 'error-message');
+                        return;
+                    } else {
+                        $this->request->data['Section']['icon'] = DS . 'files' . DS . 'sections' . DS . $filename;
+                    }
+                    $this->Section->id = $this->request->data['Section']['id'];
+                    $this->Section->saveField('icon', $this->request->data['Section']['icon']);
+                } else {
+                  $this->request->data['Section']['icon'] = NULL;
+                  $this->Session->setFlash('Ocurrió un error al guardar la imagen de la sección', 'error-message');
+                  return;
+                }
+            }
+        }
+        $this->Session->setFlash('Cambio realizado', 'success-message');
+        return $this->redirect(array('action' => 'admin', $this->data['Section']['id']));
+    }
+
     public function admin($id = null){
         $this->set('page_name', 'Administrar sección');
         $this->set('page_description', 'Administrar secciones');

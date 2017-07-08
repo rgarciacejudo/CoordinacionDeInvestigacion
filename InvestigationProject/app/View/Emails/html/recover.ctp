@@ -20,7 +20,7 @@
             </p>
             <p>
                 <span style="font-weight: bold;">Accede al sitio desde:</span>
-                <?php echo $this->Html->link('Observatorio de Investigación de la FI UAEMEX', FULL_BASE_URL.$this->webroot.'home/display'); 
+                <?php echo $this->Html->link(Configure::read('App.name') . ' de la FI UAEMEX', FULL_BASE_URL.$this->webroot.'home/display'); 
                 ?>                
             </p>
         </div>

@@ -71,6 +71,8 @@ class AppController extends Controller {
         if($this->request->params['action'] !== 'report') {
             $this->Session->delete('Report.criteria');
         }
+
+        $this->set('app_name', Configure::read('App.name'));
     }
 
     public function isAuthorized($user = null) {

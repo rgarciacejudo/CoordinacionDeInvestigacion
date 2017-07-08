@@ -388,3 +388,8 @@ Cache::config('_cake_model_', array(
 
 
 Configure::write('Config.language', 'esp');
+
+/**
+* Environment configuration
+*/
+Configure::write('App.name','Coordinación de Investigación');

@@ -19,7 +19,7 @@ class EmailConfig {
         'username' => 'info.obifi@gmail.com',
         'password' => ',.Ob1f1.,',
         'transport' => 'Smtp',
-        'from' => array('info.obifi@gmail.com' => 'Observatorio de Investigación'),
+        'from' => '',
         'tls' => true
     );
     
@@ -29,8 +29,13 @@ class EmailConfig {
         'username' => 'info.obifi@gmail.com',
         'password' => ',.Ob1f1.,',
         'transport' => 'Smtp',
-        'from' => array('info.obifi@gmail.com' => 'Observatorio de Investigación'),
+        'from' => '',
         'log' => true
     );
+
+    public function __construct() {
+        $this->gmail['from'] = array('info.obifi@gmail.com' => Configure::read('App.name'));
+        $this->default['from'] = array('info.obifi@gmail.com' => Configure::read('App.name'));
+    }
 
 }

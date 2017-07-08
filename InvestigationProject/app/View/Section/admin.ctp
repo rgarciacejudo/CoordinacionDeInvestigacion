@@ -3,10 +3,46 @@
 <?php echo $this->Html->css('bootstrap-tagsinput'); ?>
 <?php echo $this->Html->css('linecons'); ?>
 <h4><?php echo $page_name; ?></h4>
-<?php echo $this->Form->create(''); ?>
 <div class="small-12 medium-6 large-6 medium-centered large-centered columns form-content">
     <h5>Información de la sección</h5>
+    <?php
+        echo $this->Form->create('UserImage', array(
+            'type' => 'file',
+            'url' => array('controller' => 'section', 'action' => 'img_change')
+        ));        
+    ?>
     <?php echo $this->Form->input('Section.id', array('type' => 'hidden')); ?>
+    <?php echo $this->Form->input('Section.name', array('type' => 'hidden')); ?>
+    <div class="row">
+        <div class="column">
+            <label>Icono                
+                <figure class="text-center">
+                    <img class="th avatar" style="height:50px;width:50px"
+                                title="<?php echo $section['Section']['name'];?>"                            
+                                src="<?php echo $this->webroot . (!empty($section['Section']['icon']) ?
+                                    $section['Section']['icon'] : '/img/no_img_section.png'); ?>"/>                    
+                    <span id="selected_file">Seleccione un archivo y guarde el cambio</span>
+                    <?php echo $this->Form->input('Section.icon', array(
+                        'label' => false,
+                        'type' => 'file',
+                        'accept' => 'image/x-png, image/gif, image/jpeg',
+                        'hidden' => 1
+                    )); ?>
+                </figure>
+            </label>
+        </div>
+    </div>
+    <?php
+        echo $this->Form->end(array(
+            'label' => 'Guardar Cambio',
+            'class' => 'button tiny radius',
+            'div' => array(
+                'class' => 'text-center'
+            )
+        ));
+        ?>
+    <?php echo $this->Form->create(''); ?>
+    <?php echo $this->Form->input('Section.id', array('type' => 'hidden')); ?>    
     <div class="row">
         <div class="column">
             <label>Nombre

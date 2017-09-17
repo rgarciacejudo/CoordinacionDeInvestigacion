@@ -167,8 +167,10 @@
             <script>
             $(document).foundation();
             $(document).ready(function(){
-                $('.wrapper > section.container').css('padding-bottom', $('footer > .row').height());
-                $('footer').css('height', $('footer > .row').height());                
+                setTimeout(function() {
+					$('.wrapper > section.container').css('padding-bottom', $('footer > .row').height());
+					$('footer').css('height', $('footer > .row').height());                
+				}, 500);              
             });
 
             $(window).resize(function(){

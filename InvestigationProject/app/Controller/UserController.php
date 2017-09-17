@@ -323,16 +323,22 @@ class UserController extends AppController {
         switch ($filter) {
             case 'all':
                 $this->set('page_name', 'Investigadores');
+                $this->set('page_description', 'Listado de investigadores');  
+                $this->set('page_keywords', 'Ver información,Usuario,Observatorio de Investigación');  
                 $users = $this->Paginator->paginate('User');
                 break;
             case 'leaders':
                 $this->Paginator->settings['conditions'] = array('User.role' => 'ca_admin');
                 $this->set('page_name', 'Líderes de cuerpos académicos');
+                $this->set('page_description', 'Listado de líderes de cuerpos académicos');  
+                $this->set('page_keywords', 'Ver información,Usuario,Observatorio de Investigación');
                 $users = $this->Paginator->paginate('User');
                 break;
             case 'members':
                 $this->Paginator->settings['conditions'] = array('User.role' => 'member');
                 $this->set('page_name', 'Investigadores');
+                $this->set('page_description', 'Listado de investigadores');  
+                $this->set('page_keywords', 'Ver información,Usuario,Observatorio de Investigación');
                 $users = $this->Paginator->paginate('User');
                 break;
             default:

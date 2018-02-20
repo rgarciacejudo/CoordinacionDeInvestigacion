@@ -156,11 +156,11 @@ class PublicationController extends AppController {
 				$this->request->data['Publication']['member_id'] = $this->Session->read('User.member_id');
 				if (is_uploaded_file($this->request->data['Publication']['file_path']['tmp_name'])) {
 					$filename = basename($this->request->data['Publication']['file_path']['name']);
-					$path = WWW_ROOT . DS . 'files' . DS . 'publications' . DS . 'member_' . $this->Session->read('User.member_id') . DS;
-					if (!is_dir($path)) {
-						mkdir($path);
+					$path = 'files' . DS . 'publications' . DS . 'member_' . $this->Session->read('User.member_id') . DS;
+					if (!is_dir(WWW_ROOT . $path)) {
+						mkdir(WWW_ROOT . $path);
 					}
-					move_uploaded_file($this->data['Publication']['file_path']['tmp_name'], $path . $filename);
+					move_uploaded_file($this->data['Publication']['file_path']['tmp_name'], WWW_ROOT . $path . $filename);
 					$this->request->data['Publication']['file_path'] = $path . $filename;
 				}
 				else {
@@ -259,7 +259,7 @@ class PublicationController extends AppController {
 			throw new NotFoundException(__('Invalid publication'));
 		}
 		
-		$download = $publication['Publication']['file_path'];
+		$download = WWW_ROOT . $publication['Publication']['file_path'];
 		$this->response->file($download);
 		return $this->response;
 	}

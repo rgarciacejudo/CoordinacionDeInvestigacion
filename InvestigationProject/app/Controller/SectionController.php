@@ -74,8 +74,6 @@ class SectionController extends AppController {
                     'fields' => array('Section.*')
                 ));
                 break;
-            default:
-                break;
         }
         $this->set('sections', $sections);
     }

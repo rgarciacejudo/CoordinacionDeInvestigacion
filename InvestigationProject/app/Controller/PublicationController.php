@@ -175,6 +175,15 @@ class PublicationController extends AppController {
 						$field_id = null;
 
                         // Get members email
+
+						if(!isset($this->request->data['Members'])) {
+							$this->request->data['Members'] = array();
+						}
+
+						if(!isset($this->request->data['Authors'])) {
+							$this->request->data['Authors'] = array();
+						}
+
                         $user_db = new User();
                         $members_emails = $user_db->find('all', array(
                             'conditions' => array('OR' => array(

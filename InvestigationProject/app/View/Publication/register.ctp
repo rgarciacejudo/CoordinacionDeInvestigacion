@@ -227,8 +227,9 @@ echo $this->Html->link('Cancelar', $this->request->referer(), array(
         var modelId = 0;
 
         function me() {
-            var $author = $('[data-author="' + authorData + '"]');
-            $author.find('input').val('<?php echo $this->Session->read('User.name') . ' ' . $this->Session->read('User.last_name') ?>');
+            var $author = $('[data-author="' + authorData + '"]');            
+            $author.find('input:text').val('<?php echo $this->Session->read('User.name') . ' ' . $this->Session->read('User.last_name') ?>');            
+            $author.find('input:hidden').val('<?php echo $this->Session->read('User.member_id') ?>');        
         }
 
         function setAuthor() {         
